@@ -1,0 +1,14 @@
+[Unit]
+Description=Tasks to be run before deepin Session starts
+OnFailure=dde-session-shutdown.target
+OnFailureJobMode=replace-irreversibly
+DefaultDependencies=no
+RefuseManualStart=yes
+RefuseManualStop=yes
+
+Requires=graphical-session-pre.target
+After=graphical-session-pre.target
+
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target

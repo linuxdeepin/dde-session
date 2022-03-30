@@ -1,0 +1,19 @@
+Source: dde-session
+Section: devel
+Priority: optional
+Maintainer: Deepin Packages Builder <packages@deepin.com>
+Build-Depends:
+ cmake,
+ debhelper-compat (= 11),
+ pkg-config,
+ qtbase5-dev,
+Standards-Version: 4.1.3
+Homepage: https://www.deepin.org
+
+Package: dde-session
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: dde session module
+  dde-session is used for launching DDE components systemd service project.

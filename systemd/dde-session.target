@@ -1,0 +1,16 @@
+[Unit]
+Description=deepin Session
+OnFailure=dde-session-shutdown.target
+OnFailureJobMode=replace
+DefaultDependencies=no
+RefuseManualStart=yes
+RefuseManualStop=yes
+
+Requires=dde-session-initialized.target
+After=dde-session-initialized.target
+
+Requisite=dde-session.target
+PartOf=dde-session.target
+Before=dde-session.target
+
+Requires=dde-session-manager.service
