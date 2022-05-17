@@ -1,0 +1,24 @@
+[Unit]
+Description=dde dock service
+RefuseManualStart=no
+RefuseManualStop=no
+#OnFailure=dde-session-shutdown.target
+OnFailureJobMode=replace-irreversibly
+CollectMode=inactive-or-failed
+StartLimitIntervalSec=10s
+StartLimitBurst=30
+
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+After=dde-session-initialized.target
+
+Requires=dde-session-daemon.target
+After=dde-session-daemon.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dde-dock -r
+TimeoutStartSec=infinity
+Slice=components.slice
+Restart=on-failure
+RestartSec=300ms

@@ -1,17 +1,15 @@
 [Unit]
-Description=dde X11 Session
+Description=dde wayland Session
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace
 DefaultDependencies=no
 # Start happens explicitly
 RefuseManualStart=no
 # Stop happens by starting dde-session-shutdown.target
-#RefuseManualStop=no
+RefuseManualStop=yes
 
 Conflicts=shutdown.target dde-session-shutdown.target
 PartOf=graphical-session.target
 
-BindsTo=dde-session.target
+Requires=dde-session.target
 After=dde-session.target
-
-Requires=dde-session-x11-services.target

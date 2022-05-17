@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=deepin
+Comment=Deepin Desktop Environment
+Exec=/usr/bin/dde-session
+TryExec=/usr/bin/dde-session

@@ -9,8 +9,7 @@ RefuseManualStop=yes
 Requires=dde-session-initialized.target
 After=dde-session-initialized.target
 
-Requisite=dde-session.target
-PartOf=dde-session.target
-Before=dde-session.target
-
 Requires=dde-session-manager.service
+
+BindsTo=graphical-session.target
+Before=graphical-session.target

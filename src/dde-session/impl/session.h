@@ -11,6 +11,15 @@ public:
 
 public Q_SLOTS:
     void Logout();
+    int GetSessionPid();
+    QString GetSessionPath();
+
+    void setSessionPid(int pid);
+    void setSessionPath();
+
+private:
+    int m_sessionPid;
+    QString m_selfSessionPath;
 };
 
 #endif // SESSION_H

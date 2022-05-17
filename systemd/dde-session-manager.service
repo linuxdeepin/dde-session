@@ -14,7 +14,7 @@ PartOf=dde-session-manager.target
 Before=dde-session-manager.target
 
 [Service]
-Type=simple
-ExecStart=/usr/bin/startdde
+Type=notify
+NotifyAccess=main
+ExecStart=/usr/bin/dde-session --systemd-service
 ExecStopPost=/usr/lib/libexec/dde-session-ctl --logout
-TimeoutStartSec=infinity

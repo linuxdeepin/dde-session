@@ -1,0 +1,32 @@
+[Unit]
+Description=dde session daemon service
+RefuseManualStart=no
+RefuseManualStop=no
+#OnFailure=dde-session-shutdown.target
+OnFailureJobMode=replace-irreversibly
+CollectMode=inactive-or-failed
+StartLimitIntervalSec=60s
+StartLimitBurst=30
+
+PartOf=dde-session-manager.target
+After=dde-session-manager.target
+Before=dde-session-initialized.target
+
+# equal Service Type is dbus
+Requires=dbus.socket
+After=dbus.socket
+
+Requires=dde-session-daemon.target
+PartOf=dde-session-daemon.target
+Before=dde-session-daemon.target
+
+[Service]
+# TODO,换为notify
+Type=simple
+#Type=notify
+#NotifyAccess=all
+ExecStart=/usr/lib/deepin-daemon/dde-session-daemon
+TimeoutStartSec=infinity
+Slice=services.slice
+Restart=on-failure
+RestartSec=1s

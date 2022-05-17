@@ -1,0 +1,27 @@
+[Unit]
+Description=Startdde session bind service
+RefuseManualStart=no
+RefuseManualStop=no
+OnFailure=dde-session-shutdown.target
+OnFailureJobMode=replace-irreversibly
+CollectMode=inactive-or-failed
+
+PartOf=dde-session-manager.target
+After=dde-session-manager.target
+Before=dde-session-initialized.target
+
+# equal Service Type is dbus
+Requires=dbus.socket
+After=dbus.socket
+
+Requires=dde-display.target
+PartOf=dde-display.target
+Before=dde-display.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/usr/bin/startdde
+ExecStopPost=/usr/lib/libexec/dde-session-ctl --shutdown
+TimeoutStartSec=infinity
+Slice=services.slice
