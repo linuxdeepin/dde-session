@@ -18,3 +18,4 @@ Type=notify
 NotifyAccess=main
 ExecStart=/usr/bin/dde-session --systemd-service
 ExecStopPost=/usr/lib/libexec/dde-session-ctl --logout
+Slice=services.slice

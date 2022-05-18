@@ -21,10 +21,8 @@ PartOf=dde-session-daemon.target
 Before=dde-session-daemon.target
 
 [Service]
-# TODO,换为notify
-Type=simple
-#Type=notify
-#NotifyAccess=all
+Type=notify
+NotifyAccess=all
 ExecStart=/usr/lib/deepin-daemon/dde-session-daemon
 TimeoutStartSec=infinity
 Slice=services.slice

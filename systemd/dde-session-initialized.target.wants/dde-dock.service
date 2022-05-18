@@ -17,7 +17,7 @@ After=dde-session-daemon.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/dde-dock -r
+ExecStart=/usr/bin/dde-dock
 TimeoutStartSec=infinity
 Slice=components.slice
 Restart=on-failure
