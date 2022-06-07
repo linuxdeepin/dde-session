@@ -29,21 +29,21 @@ int startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QStrin
     qInfo() << "success to start systemd unit:" << unitName << ", job path:" << reply.value().path();
 
     if (isWait) {
-        bool isDone = false;
-
+        QEventLoop eLoop;
+        QTimer timer;
+        QObject::connect(&timer, &QTimer::timeout, &eLoop, &QEventLoop::quit);
         qInfo() << "start systemd unit, wait begin.";
-        QMetaObject::Connection conn = QObject::connect(&systemd1, &org::freedesktop::systemd1::Manager::JobRemoved, [reply, &isDone](uint id, const QDBusObjectPath &job, const QString &unit, const QString &result) mutable {
+        QMetaObject::Connection conn = QObject::connect(&systemd1, &org::freedesktop::systemd1::Manager::JobRemoved, [reply, &eLoop](uint id, const QDBusObjectPath &job, const QString &unit, const QString &result) mutable {
             qInfo() << "JobRemoved, id:" << id << ", unit:" << unit << ", job:" <<  job.path() << ", result:" << result;
             if (job.path() == reply.value().path()) {
-                isDone = true;
+                eLoop.quit();
             }
         });
-        QElapsedTimer timer;
+        timer.setSingleShot(true);
+        timer.setInterval(1000 * 30);
         timer.start();
-        while (timer.elapsed() < 30000) {
-            QCoreApplication::processEvents();
-            if (isDone) break;
-        }
+        eLoop.exec();
+        timer.stop();
 
         qInfo() << "start systemd unit, wait end.";
         QObject::disconnect(conn);
