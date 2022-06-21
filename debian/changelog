@@ -1,4 +1,10 @@
-dde-session (1.0.0.1) UNRELEASED; urgency=medium
+dde-session (1.0.1) unstable; urgency=medium
+
+  * dde-flow-sprint1
+
+ -- Tan Feng <tanfeng@uniontech.com>  Tue, 21 Jun 2022 16:47:21 +0800
+
+dde-session (1.0.0.1) unstable; urgency=medium
 
   * 1.0.0.1 pre-release
 
