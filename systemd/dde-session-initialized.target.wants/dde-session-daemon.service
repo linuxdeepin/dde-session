@@ -26,5 +26,5 @@ NotifyAccess=all
 ExecStart=/usr/lib/deepin-daemon/dde-session-daemon
 TimeoutStartSec=infinity
 Slice=services.slice
-Restart=on-failure
+Restart=always
 RestartSec=1s

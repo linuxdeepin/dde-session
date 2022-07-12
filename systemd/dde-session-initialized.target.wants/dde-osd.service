@@ -20,5 +20,5 @@ Type=simple
 ExecStart=/usr/lib/deepin-daemon/dde-osd
 TimeoutStartSec=infinity
 Slice=components.slice
-Restart=on-failure
+Restart=always
 RestartSec=300ms

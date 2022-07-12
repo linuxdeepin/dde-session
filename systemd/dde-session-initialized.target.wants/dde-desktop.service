@@ -20,5 +20,5 @@ Type=simple
 ExecStart=/usr/bin/dde-desktop
 TimeoutStartSec=infinity
 Slice=components.slice
-Restart=on-failure
+Restart=always
 RestartSec=1s

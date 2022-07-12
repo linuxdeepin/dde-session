@@ -20,5 +20,5 @@ Type=simple
 ExecStart=/usr/lib/polkit-1-dde/dde-polkit-agent
 TimeoutStartSec=infinity
 Slice=components.slice
-Restart=on-failure
+Restart=always
 RestartSec=300ms

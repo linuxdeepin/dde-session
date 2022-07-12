@@ -20,5 +20,5 @@ Type=simple
 ExecStart=/usr/bin/dde-lock
 TimeoutStartSec=infinity
 Slice=components.slice
-Restart=on-failure
+Restart=always
 RestartSec=300ms

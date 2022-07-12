@@ -20,5 +20,5 @@ Type=simple
 ExecStart=/usr/lib/deepin-deepinid-daemon/deepin-deepinid-daemon
 TimeoutStartSec=infinity
 Slice=services.slice
-Restart=on-failure
+Restart=always
 RestartSec=300ms
