@@ -14,7 +14,7 @@ This project refers to a part of GNOME session documents and files.
 
 ### Runtime dependencies
 
-- startdde [https://github.com/linuxdeepin/startdde](https://github.com/linuxdeepin/startdde)
+- startdde [https://github.com/linuxdeepin/startdde] (https://github.com/linuxdeepin/startdde)
 - systemd
 
 ## Installation
