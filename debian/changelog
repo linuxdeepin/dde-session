@@ -1,3 +1,11 @@
+dde-session (1.0.2) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * fix: 修复任务栏被杀掉后没有自动重启的问题(Bug: 146737)(Influence: 任务栏正常重启)
+  * feat: recompile(Influence: recompile)
+
+ -- caixiangrong <caixiangrong@uniontech.com>  Mon, 25 Jul 2022 11:50:13 +0800
+
 dde-session (1.0.1) unstable; urgency=medium
 
   * dde-flow-sprint1
