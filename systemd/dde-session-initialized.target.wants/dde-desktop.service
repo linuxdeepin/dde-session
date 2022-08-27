@@ -1,23 +1,28 @@
 [Unit]
-Description=dde desktop service
+Description=dde-desktop service
 RefuseManualStart=no
 RefuseManualStop=no
-#OnFailure=dde-session-shutdown.target
-OnFailureJobMode=replace-irreversibly
-CollectMode=inactive-or-failed
 StartLimitIntervalSec=60s
 StartLimitBurst=30
 
 Requisite=dde-session-manager.target
-PartOf=dde-session-manager.target
 After=dde-session-manager.target
+
+Requisite=dde-display.target
+After=dde-display.target
+
+Requisite=dde-session-initialized.target
 Before=dde-session-initialized.target
 
+# equal Service Type is dbus
+Requires=dbus.socket
+After=dbus.socket
 
 
 [Service]
 Type=simple
 ExecStart=/usr/bin/dde-desktop
+ExecStopPost=/usr/lib/libexec/dde-session-ctl --shutdown
 TimeoutStartSec=infinity
 Slice=components.slice
 Restart=always

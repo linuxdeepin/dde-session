@@ -1,15 +1,16 @@
 [Unit]
-Description=dde session daemon service
+Description=dde-session-daemon service
 RefuseManualStart=no
 RefuseManualStop=no
-#OnFailure=dde-session-shutdown.target
-OnFailureJobMode=replace-irreversibly
-CollectMode=inactive-or-failed
-StartLimitIntervalSec=60s
-StartLimitBurst=30
+StartLimitIntervalSec=0
 
-PartOf=dde-session-manager.target
+Requisite=dde-session-manager.target
 After=dde-session-manager.target
+
+Requisite=dde-display.target
+After=dde-display.target
+
+Requisite=dde-session-initialized.target
 Before=dde-session-initialized.target
 
 # equal Service Type is dbus
@@ -17,7 +18,6 @@ Requires=dbus.socket
 After=dbus.socket
 
 Requires=dde-session-daemon.target
-PartOf=dde-session-daemon.target
 Before=dde-session-daemon.target
 
 [Service]

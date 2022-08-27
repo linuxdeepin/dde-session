@@ -1,13 +1,15 @@
 [Unit]
-Description=Startdde session bind service
+Description=dde-display service
 RefuseManualStart=no
 RefuseManualStop=no
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
 CollectMode=inactive-or-failed
 
-PartOf=dde-session-manager.target
+Requisite=dde-session-manager.target
 After=dde-session-manager.target
+
+Requisite=dde-session-initialized.target
 Before=dde-session-initialized.target
 
 # equal Service Type is dbus
@@ -15,7 +17,6 @@ Requires=dbus.socket
 After=dbus.socket
 
 Requires=dde-display.target
-PartOf=dde-display.target
 Before=dde-display.target
 
 [Service]

@@ -1,0 +1,8 @@
+[Unit]
+After=dde-session-daemon.target
+
+[Timer]
+OnActiveSec=5s
+AccuracySec=100ms
+RandomizedDelaySec=1s
+RemainAfterElapse=no

@@ -1,5 +1,5 @@
 [Unit]
-Description=Trigger shutdown of a deepin Session
+Description=dde-session-shutdown service, trigger shutdown of a deepin Session
 CollectMode=inactive-or-failed
 
 PartOf=dde-session.target

@@ -1,5 +1,5 @@
 [Unit]
-Description=dde wayland Session
+Description=dde-session-wayland target
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace
 DefaultDependencies=no
@@ -9,7 +9,6 @@ RefuseManualStart=no
 RefuseManualStop=yes
 
 Conflicts=shutdown.target dde-session-shutdown.target
-PartOf=graphical-session.target
 
 Requires=dde-session.target
 After=dde-session.target

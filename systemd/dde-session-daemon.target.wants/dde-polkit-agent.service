@@ -1,0 +1,16 @@
+[Unit]
+Description=dde-polkit-agent service
+RefuseManualStart=no
+RefuseManualStop=no
+StartLimitIntervalSec=0
+
+Wants=dde-session-daemon.target
+After=dde-session-daemon.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/polkit-1-dde/dde-polkit-agent
+TimeoutStartSec=infinity
+Slice=components.slice
+Restart=always
+RestartSec=500ms

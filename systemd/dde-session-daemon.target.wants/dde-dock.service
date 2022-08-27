@@ -1,0 +1,16 @@
+[Unit]
+Description=dde-dock service
+RefuseManualStart=no
+RefuseManualStop=no
+StartLimitIntervalSec=0
+
+Wants=dde-session-daemon.target
+After=dde-session-daemon.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dde-dock
+TimeoutStartSec=infinity
+Slice=components.slice
+Restart=always
+RestartSec=500ms

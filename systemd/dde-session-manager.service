@@ -1,21 +1,20 @@
 [Unit]
-Description=deepin Session Manager
+Description=dde-session-manager service
 RefuseManualStart=yes
 RefuseManualStop=yes
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
 CollectMode=inactive-or-failed
 
-Requisite=dde-session-pre.target
-After=dde-session-pre.target
+Requisite=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 Requires=dde-session-manager.target
-PartOf=dde-session-manager.target
 Before=dde-session-manager.target
 
 [Service]
 Type=notify
 NotifyAccess=main
 ExecStart=/usr/bin/dde-session --systemd-service
-ExecStopPost=/usr/lib/libexec/dde-session-ctl --logout
+ExecStopPost=/usr/lib/libexec/dde-session-ctl --shutdown
 Slice=services.slice

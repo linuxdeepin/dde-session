@@ -1,5 +1,5 @@
 [Unit]
-Description=deepin Session
+Description=dde-session target
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace
 DefaultDependencies=no
@@ -8,8 +8,6 @@ RefuseManualStop=yes
 
 Requires=dde-session-initialized.target
 After=dde-session-initialized.target
-
-Requires=dde-session-manager.service
 
 BindsTo=graphical-session.target
 Before=graphical-session.target

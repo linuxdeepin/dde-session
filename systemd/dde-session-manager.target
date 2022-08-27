@@ -1,12 +1,11 @@
 [Unit]
-Description=deepin Session Manager is ready
+Description=dde-session-manager target
 DefaultDependencies=no
 RefuseManualStart=yes
 RefuseManualStop=yes
 
-Requisite=dde-session-pre.target
-After=dde-session-pre.target
-
 Requisite=dde-session-initialized.target
-PartOf=dde-session-initialized.target
 Before=dde-session-initialized.target
+
+BindsTo=dde-session-manager.service
+After=dde-session-manager.service

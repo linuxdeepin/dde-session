@@ -1,0 +1,16 @@
+[Unit]
+Description=dde-osd service
+RefuseManualStart=no
+RefuseManualStop=no
+StartLimitIntervalSec=0
+
+Wants=dde-session-daemon.target
+After=dde-session-daemon.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/deepin-daemon/dde-osd
+TimeoutStartSec=infinity
+Slice=components.slice
+Restart=always
+RestartSec=500ms

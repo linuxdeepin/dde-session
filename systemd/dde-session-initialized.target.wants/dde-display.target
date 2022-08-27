@@ -1,9 +1,8 @@
 [Unit]
-Description=display session bind service
+Description=dde-display target
 
 BindsTo=dde-display.service
 After=dde-display.service
 
 Requisite=dde-session-initialized.target
-PartOf=dde-session-initialized.target
 Before=dde-session-initialized.target

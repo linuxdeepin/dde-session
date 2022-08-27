@@ -1,8 +1,0 @@
-[Unit]
-Description=deepin Session X11 services
-DefaultDependencies=no
-
-BindsTo=dde-session-x11-services.target
-After=dde-session-x11-services.target
-
-Before=dde-session.target

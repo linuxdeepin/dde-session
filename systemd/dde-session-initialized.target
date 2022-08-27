@@ -1,5 +1,5 @@
 [Unit]
-Description=deepin Session is initialized
+Description=dde-session-initialized target, task to initialize the desktop environment.
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
 DefaultDependencies=no
@@ -9,6 +9,7 @@ RefuseManualStop=yes
 Requires=dde-session-pre.target
 After=dde-session-pre.target
 
+Requires=dde-session-manager.target
+
 Requisite=dde-session.target
-PartOf=dde-session.target
 Before=dde-session.target

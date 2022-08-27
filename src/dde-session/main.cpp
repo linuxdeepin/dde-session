@@ -126,25 +126,5 @@ int main(int argc, char *argv[])
     });
     sd_notify(0, "READY=1");
 
-    org::freedesktop::systemd1::Manager sessionDBus("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
-    // startSystemdUnit(sessionDBus, "tests1.service", "replace", true);
-
-    startSystemdUnit(sessionDBus, "dde-display.service", "replace", true);
-
-    startSystemdUnit(sessionDBus, "dde-desktop.service", "replace");
-
-    startSystemdUnit(sessionDBus, "dde-session-daemon.service", "replace", true);
-    startSystemdUnit(sessionDBus, "dde-dock.service", "replace"); // TODO：改成带参方式,"/usr/bin/kwin_no_scale"
-    
-
-    QTimer::singleShot(10000, &app, [&sessionDBus](){
-        startSystemdUnit(sessionDBus, "dde-lock.service", "replace");
-        startSystemdUnit(sessionDBus, "dde-osd.service", "replace");
-        startSystemdUnit(sessionDBus, "dde-polkit-agent.service", "replace");
-        startSystemdUnit(sessionDBus, "deepin-deepinid-daemon.service", "replace");
-    });
-
-    
-    
     return app.exec();
 }

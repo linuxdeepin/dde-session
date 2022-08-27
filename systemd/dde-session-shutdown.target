@@ -1,5 +1,5 @@
 [Unit]
-Description=Shutdown running deepin Session
+Description=dde-session-shutdown target
 
 # Allow exit.target to start even if this unit is started with replace-irreversibly.
 # All (weak) dependencies need to do the same. Services also need to ensure they
@@ -15,11 +15,18 @@ After=dde-session.target dde-session-manager.target
 Conflicts=dde-session-initialized.target dde-session-pre.target
 After=dde-session-initialized.target dde-session-pre.target
 
+Conflicts=services.slice components.slice
+After=services.slice components.slice
+
+# can not stop dbus here, use dde-session-exit-task.service
+# Conflicts=dbus.service
+# After=dbus.service
+
 # We need to make sure this unit is stopped; primarily so that the tree of
 # units that we created is completely cleaned.
 # Note that this can also be improved by reversing the conflicts above and
 # not listing them in the shutdown unit.
 StopWhenUnneeded=true
 
-Wants=dde-session-restart-dbus.service
-Before=dde-session-restart-dbus.service
+Wants=dde-session-exit-task.service
+Before=dde-session-exit-task.service

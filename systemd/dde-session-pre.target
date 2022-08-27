@@ -1,5 +1,5 @@
 [Unit]
-Description=Tasks to be run before deepin Session starts
+Description=dde-session-pre target, tasks to be run before the deepin desktop environment is initialized.
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
 DefaultDependencies=no

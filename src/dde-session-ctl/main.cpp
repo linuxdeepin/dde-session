@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
     QCommandLineOption shutdown(QStringList{ "s", "shutdown", "shutdown dde"});
     parser.addOption(shutdown);
 
-    QCommandLineOption restartDBus(QStringList{"r", "restart-dbus", "restart dbus.service"});
-    parser.addOption(restartDBus);
+    QCommandLineOption sessionExit(QStringList{"S", "session-exit", "session exit task"});
+    parser.addOption(sessionExit);
 
     QCommandLineOption logout(QStringList{"l", "logout", "logout session"});
     parser.addOption(logout);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     parser.process(app);
 
     const bool isShutdown = parser.isSet(shutdown);
-    const bool isRestartDBus = parser.isSet(restartDBus);
+    const bool isSessionExit = parser.isSet(sessionExit);
 
     if (parser.isSet(logout)) {
         org::deepin::Session session("org.deepin.Session", "/org/deepin/Session", QDBusConnection::sessionBus());
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    if (isRestartDBus) {
+    if (isSessionExit) {
         QDBusInterface systemd("org.freedesktop.systemd1", "/org/freedesktop/systemd1", "org.freedesktop.systemd1.Manager");
         qInfo() << systemd.call("StopUnit", "dbus.service", "replace-irreversibly");
         return 0;
