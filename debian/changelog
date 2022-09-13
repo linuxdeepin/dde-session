@@ -1,3 +1,9 @@
+dde-session (1.0.3) unstable; urgency=medium
+
+  * dde-session启停、异常恢复优化
+
+ -- Tan Feng <tanfeng@uniontech.com>  Tue, 13 Sep 2022 11:47:23 +0800
+
 dde-session (1.0.2) unstable; urgency=medium
 
   [ TagBuilder ]
