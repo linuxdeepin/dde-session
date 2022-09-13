@@ -1,3 +1,9 @@
+dde-session (1.0.3.1) unstable; urgency=medium
+
+  * u
+
+ -- Tan Feng <tanfeng@uniontech.com>  Tue, 13 Sep 2022 14:48:02 +0800
+
 dde-session (1.0.3) unstable; urgency=medium
 
   * dde-session启停、异常恢复优化
