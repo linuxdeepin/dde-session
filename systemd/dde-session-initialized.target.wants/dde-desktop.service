@@ -22,7 +22,6 @@ After=dbus.socket
 [Service]
 Type=simple
 ExecStart=/usr/bin/dde-desktop
-ExecStopPost=/usr/lib/libexec/dde-session-ctl --shutdown
 TimeoutStartSec=infinity
 Slice=components.slice
 Restart=always
