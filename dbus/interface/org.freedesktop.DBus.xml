@@ -16,9 +16,10 @@
         <arg direction="in" type="u"/>
         <arg direction="out" type="u"/>
     </method>
-    <!-- <method name="UpdateActivationEnvironment">
+    <method name="UpdateActivationEnvironment">
         <arg direction="in" type="a{ss}"/>
-    </method> -->
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="EnvInfoList"/>
+    </method>
     <method name="NameHasOwner">
         <arg direction="in" type="s"/>
         <arg direction="out" type="b"/>

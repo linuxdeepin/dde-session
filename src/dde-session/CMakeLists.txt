@@ -31,6 +31,8 @@ message("ADAPTER_SOURCES", ${ADAPTER_SOURCES})
 
 add_executable(dde-session
   main.cpp
+  envhandler.cpp
+  envhandler.h
   impl/session.h
   impl/session.cpp
   impl/sessionmanager.h
@@ -39,6 +41,8 @@ add_executable(dde-session
   ../utils/dconf.cpp
   ../utils/fifo.h
   ../utils/fifo.cpp
+  types/envinfolist.h
+  types/envinfolist.cpp
   ${ADAPTER_SOURCES}
   ${INTERFACE_SOURCES}
   ${DBUSEXTENDED_SOURCE}

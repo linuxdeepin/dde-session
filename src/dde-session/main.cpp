@@ -14,6 +14,7 @@
 #include "sessionadaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
+#include "envhandler.h"
 
 // #include "org_freedesktop_systemd1_Job.h" // TODO
 DCORE_USE_NAMESPACE
@@ -74,11 +75,13 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
 
+        EnvHandler::EnvInit(QString(sessionType));
+
         QString dmService = "dde-session-%1.target";
         qInfo() << "start dm service:" << dmService.arg(sessionType.data());
         org::freedesktop::systemd1::Manager systemdDBus("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
         startSystemdUnit(systemdDBus, dmService.arg(sessionType.data()), "replace");
-        
+
         QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.Session", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
         watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [=] {
                 qInfo() << "dde session exit";
