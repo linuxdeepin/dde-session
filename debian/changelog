@@ -1,3 +1,11 @@
+dde-session (1.0.4) unstable; urgency=medium
+
+  [ Deepin Packages Builder ]
+  * feat: dde-desktop异常时不会再导致session退出(Task: 202021)(Influence: session启动流程)
+  * fix: wayland登陆后切换到x11登陆窗管异常修复(Task: 202929)(Influence: wayland登陆后切换到x11登陆)
+
+ -- baodi <baodi@uniontech.com>  Wed, 19 Oct 2022 12:18:14 +0800
+
 dde-session (1.0.3.1) unstable; urgency=medium
 
   * u
