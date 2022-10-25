@@ -45,6 +45,8 @@ add_executable(dde-session
     keyringchecker.cpp
     xsettingschecker.h
     xsettingschecker.cpp
+    othersmanager.h
+    othersmanager.cpp
     impl/session.h
     impl/session.cpp
     impl/sessionmanager.h

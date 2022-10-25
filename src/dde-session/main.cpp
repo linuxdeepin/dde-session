@@ -18,12 +18,12 @@
 #include "sessionmanageradaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
-
 #include "impl/sessionmanager.h"
 #include "environmentsmanager.h"
 #include "deepinversionchecker.h"
 #include "keyringchecker.h"
 #include "xsettingschecker.h"
+#include "othersmanager.h"
 
 DCORE_USE_NAMESPACE
 
@@ -121,6 +121,7 @@ int main(int argc, char *argv[])
         DeepinVersionChecker().init();
         KeyringChecker().init();
         XSettingsChecker().init();
+        OthersManager().init();
     });
             
     QtConcurrent::run([&session](){
