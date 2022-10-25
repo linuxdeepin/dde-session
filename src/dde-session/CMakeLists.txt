@@ -43,6 +43,8 @@ add_executable(dde-session
     deepinversionchecker.cpp
     keyringchecker.h
     keyringchecker.cpp
+    xsettingschecker.h
+    xsettingschecker.cpp
     impl/session.h
     impl/session.cpp
     impl/sessionmanager.h
