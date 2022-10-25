@@ -15,7 +15,7 @@ qt5_add_dbus_adaptor(ADAPTER_SOURCES
     Session)
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
     ../../dbus/adaptor/com.deepin.SessionManager.xml
-    impl/session_manager.h
+    impl/sessionmanager.h
     SessionManager)
 
 # dbus interface
@@ -37,12 +37,14 @@ file(GLOB_RECURSE DBUS_TYPES ${PROJECT_SOURCE_DIR}/dbus/types/*)
 
 add_executable(dde-session
     main.cpp
-    environments_manager.h
-    environments_manager.cpp
+    environmentsmanager.h
+    environmentsmanager.cpp
+    deepinversionchecker.h
+    deepinversionchecker.cpp
     impl/session.h
     impl/session.cpp
-    impl/session_manager.h
-    impl/session_manager.cpp
+    impl/sessionmanager.h
+    impl/sessionmanager.cpp
     ../utils/dconf.h
     ../utils/dconf.cpp
     ../utils/fifo.h

@@ -1,4 +1,4 @@
-#include "session_manager.h"
+#include "sessionmanager.h"
 #include "utils/dconf.h"
 #include "utils/utils.h"
 #include "org_deepin_daemon_Audio1_Sink.h"

@@ -18,8 +18,9 @@
 #include "sessionmanageradaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
-#include "impl/session_manager.h"
-#include "environments_manager.h"
+#include "impl/sessionmanager.h"
+#include "environmentsmanager.h"
+#include "deepinversionchecker.h"
 
 DCORE_USE_NAMESPACE
 
@@ -112,6 +113,11 @@ int main(int argc, char *argv[])
     QDBusConnection::sessionBus().registerService("com.deepin.SessionManager");
     QDBusConnection::sessionBus().registerObject("/com/deepin/SessionManager", "com.deepin.SessionManager", SessionManager::instance());
 
+    // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
+    QtConcurrent::run([ = ] {
+        DeepinVersionChecker().init();
+    });
+            
     QtConcurrent::run([&session](){
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
         Fifo *fifo = new Fifo;
