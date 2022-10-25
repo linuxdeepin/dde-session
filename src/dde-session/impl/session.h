@@ -11,14 +11,14 @@ public:
 
 public Q_SLOTS:
     void Logout();
-    int GetSessionPid();
+    uint GetSessionPid();
     QString GetSessionPath();
 
-    void setSessionPid(int pid);
+    void setSessionPid(uint pid);
     void setSessionPath();
 
 private:
-    int m_sessionPid;
+    uint m_sessionPid;
     QString m_selfSessionPath;
 };
 

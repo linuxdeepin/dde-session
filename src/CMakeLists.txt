@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS "-W -Wall -fPIC -fstack-protector-all -z relro -z noexecstac
 # qdbusxml2cpp-fix
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/dbusinterface/)
 set(QT_DBUS_INTERFACE_INCLUDE ${PROJECT_BINARY_DIR}/dbusinterface/)
+
 macro(qt5_add_dbus_interface_fix srcs xml class file)
   execute_process(COMMAND qdbusxml2cpp-fix -c ${class} -p ${PROJECT_BINARY_DIR}/dbusinterface/${file} ${PROJECT_SOURCE_DIR}/dbus/interface/${xml})
   list(APPEND ${srcs}
@@ -13,8 +14,10 @@ macro(qt5_add_dbus_interface_fix srcs xml class file)
     ${PROJECT_BINARY_DIR}/dbusinterface/${file}.cpp
   )
 endmacro(qt5_add_dbus_interface_fix)
+
 # qtdbusextended
 set(DBUSEXTENDED_INCLUDE ${PROJECT_SOURCE_DIR}/src/qtdbusextended/)
+set(DBUS_INCLUDE ${PROJECT_SOURCE_DIR}/dbus/)
 list(APPEND DBUSEXTENDED_SOURCE
   ${PROJECT_SOURCE_DIR}/src/qtdbusextended/DBusExtended
   ${PROJECT_SOURCE_DIR}/src/qtdbusextended/dbusextended.h

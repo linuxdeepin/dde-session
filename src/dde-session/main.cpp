@@ -6,17 +6,21 @@
 #include <QTimer>
 #include <QDebug>
 #include <QtConcurrent>
+
 #include <DLog>
 
 #include <systemd/sd-daemon.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/prctl.h>
 
 #include "sessionadaptor.h"
+#include "sessionmanageradaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
-#include "envhandler.h"
+#include "impl/session_manager.h"
+#include "environments_manager.h"
 
-// #include "org_freedesktop_systemd1_Job.h" // TODO
 DCORE_USE_NAMESPACE
 
 int startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QString &unitName, const QString &unitType, bool isWait = false)
@@ -49,7 +53,6 @@ int startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QStrin
         qInfo() << "start systemd unit, wait end.";
         QObject::disconnect(conn);
     }
-    
 
     return 0;
 }
@@ -61,13 +64,12 @@ int main(int argc, char *argv[])
     app.setApplicationName("dde-session");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("dde-session-ctl");
+    parser.setApplicationDescription("dde-session");
     parser.addHelpOption();
     parser.addVersionOption();
 
     QCommandLineOption systemd(QStringList{"d", "systemd-service", "wait for systemd services"});
     parser.addOption(systemd);
-
     parser.process(app);
 
     QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
@@ -75,7 +77,7 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
 
-        EnvHandler::EnvInit(QString(sessionType));
+        EnvironmentsManager().init();
 
         QString dmService = "dde-session-%1.target";
         qInfo() << "start dm service:" << dmService.arg(sessionType.data());
@@ -84,12 +86,12 @@ int main(int argc, char *argv[])
 
         QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.Session", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
         watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [=] {
-                qInfo() << "dde session exit";
-                qApp->quit();
-            });
+            qInfo() << "dde session exit";
+            qApp->quit();
+        });
         pid_t curPid = getpid();
         QtConcurrent::run([curPid](){
-            qInfo()<<"leader pipe thread id:" << QThread::currentThreadId() << ", pid:" << curPid;
+            qInfo()<<"leader pipe thread id: " << QThread::currentThreadId() << ", pid: " << curPid;
             Fifo *fifo = new Fifo;
             fifo->OpenWrite();
             fifo->Write(QString::number(curPid));
@@ -100,16 +102,18 @@ int main(int argc, char *argv[])
     }
 
     // systemd-service
-
     auto* session = new Session;
     new SessionAdaptor(session);
-
     QDBusConnection::sessionBus().registerService("org.deepin.Session");
     QDBusConnection::sessionBus().registerObject("/org/deepin/Session", "org.deepin.Session", session);
 
-    
+    SessionManager::instance()->init();
+    new SessionManagerAdaptor(SessionManager::instance());
+    QDBusConnection::sessionBus().registerService("com.deepin.SessionManager");
+    QDBusConnection::sessionBus().registerObject("/com/deepin/SessionManager", "com.deepin.SessionManager", SessionManager::instance());
+
     QtConcurrent::run([&session](){
-        qInfo()<<"systemd service pipe thread id:" << QThread::currentThreadId();
+        qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
         Fifo *fifo = new Fifo;
         fifo->OpenRead();
         qInfo() << "pipe open read finish";
@@ -118,8 +122,9 @@ int main(int argc, char *argv[])
         while ((len = fifo->Read(CurSessionPid)) > 0) {
             bool ok;
             int pid = CurSessionPid.toInt(&ok);
-            qInfo() << "dde-session pid:" << CurSessionPid;
+            qInfo() << "dde-session pid: " << CurSessionPid;
             if (ok && pid > 0) {
+                // TODO session在主线程中创建，在这里直接使用是有问题的
                 session->setSessionPid(pid); // TODO: session别直接调用
                 session->setSessionPath();
             }

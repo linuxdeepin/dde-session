@@ -508,6 +508,19 @@
         <arg type="s" direction="in"/>
         <arg type="s" direction="out"/>
     </method>
+    <method name="MaskUnitFiles">
+        <arg type="as" direction="in"/>
+        <arg type="b" direction="in"/>
+        <arg type="b" direction="in"/>
+        <arg type="a(sss)" direction="out"/>
+	 <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="StringStructList"/>
+    </method>
+    <method name="UnmaskUnitFiles">
+        <arg type="as" direction="in"/>
+        <arg type="b" direction="in"/>
+        <arg type="a(sss)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="StringStructList"/>
+    </method>
     <!-- <method name="EnableUnitFiles">
         <arg type="as" direction="in"/>
         <arg type="b" direction="in"/>
@@ -546,17 +559,6 @@
         <arg type="b" direction="in"/>
         <arg type="b" direction="in"/>
         <arg type="b" direction="out"/>
-        <arg type="a(sss)" direction="out"/>
-    </method>
-    <method name="MaskUnitFiles">
-        <arg type="as" direction="in"/>
-        <arg type="b" direction="in"/>
-        <arg type="b" direction="in"/>
-        <arg type="a(sss)" direction="out"/>
-    </method>
-    <method name="UnmaskUnitFiles">
-        <arg type="as" direction="in"/>
-        <arg type="b" direction="in"/>
         <arg type="a(sss)" direction="out"/>
     </method>
     <method name="RevertUnitFiles">

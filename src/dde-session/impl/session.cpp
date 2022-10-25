@@ -5,7 +5,7 @@
 
 Session::Session(QObject *parent)
     : QObject(parent)
-    , m_sessionPid(-1)
+    , m_sessionPid(0)
 {
 
 }
@@ -15,12 +15,12 @@ void Session::Logout()
     qApp->quit();
 }
 
-int Session::GetSessionPid()
+uint Session::GetSessionPid()
 {
     return m_sessionPid;
 }
 
-void Session::setSessionPid(int pid)
+void Session::setSessionPid(uint pid)
 {
     m_sessionPid = pid;
 }
