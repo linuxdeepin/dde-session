@@ -176,12 +176,12 @@ void SessionManager::setCurrentUid(QString uid)
     m_currentUid = uid;
 }
 
-int SessionManager::stage()
+Q_DECL_DEPRECATED int SessionManager::stage()
 {
     return m_stage;
 }
 
-void SessionManager::setStage(int value)
+Q_DECL_DEPRECATED void SessionManager::setStage(int value)
 {
     // TODO 待确定此属性的用途
     m_stage = value;
@@ -528,7 +528,26 @@ void SessionManager::disconnectAudioDevices()
 // 准备好关机时的音频文件
 void SessionManager::preparePlayShutdownSound()
 {
-    // TODO
+    const QString &soundFile = "/tmp/deepin-shutdown-sound.json";
+
+    const QString &soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
+    const QString &event = "system-shutdown";
+    bool canPlay = canPlayEvent(event);
+    QString device; // TODO
+
+    QJsonObject obj;
+    obj["Event"] = event;
+    obj["CanPlay"] = canPlay;
+    obj["Theme"] = soundTheme;
+    obj["Device"] = device;
+
+    QFile file(soundFile);
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(QJsonDocument(obj).toJson());
+        file.close();
+    } else {
+        qWarning() << "failed to save shutdown sound config";
+    }
 }
 
 bool SessionManager::canPlayEvent(const QString &event)

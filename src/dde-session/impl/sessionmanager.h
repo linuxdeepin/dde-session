@@ -29,8 +29,8 @@ public:
     bool locked();
     QString currentUid();
     void setCurrentUid(QString uid);
-    int stage();
-    void setStage(int value);
+    Q_DECL_DEPRECATED int stage();
+    Q_DECL_DEPRECATED void setStage(int value);
     QDBusObjectPath currentSessionPath();
     void setCurrentSessionPath(QDBusObjectPath value);
 
