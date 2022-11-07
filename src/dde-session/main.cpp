@@ -16,9 +16,11 @@
 
 #include "sessionadaptor.h"
 #include "sessionmanageradaptor.h"
+#include "wmswitcheradaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
 #include "impl/sessionmanager.h"
+#include "impl/wmswitcher.h"
 #include "environmentsmanager.h"
 #include "deepinversionchecker.h"
 #include "keyringchecker.h"
@@ -116,6 +118,11 @@ int main(int argc, char *argv[])
     QDBusConnection::sessionBus().registerService("com.deepin.SessionManager");
     QDBusConnection::sessionBus().registerObject("/com/deepin/SessionManager", "com.deepin.SessionManager", SessionManager::instance());
 
+    auto *wmSwitcher = new WMSwitcher();
+    new WMSwitcherAdaptor(wmSwitcher);
+    QDBusConnection::sessionBus().registerService("com.deepin.WMSwitcher");
+    QDBusConnection::sessionBus().registerObject("/com/deepin/WMSwitcher", wmSwitcher);
+
     // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
     QtConcurrent::run([ = ] {
         DeepinVersionChecker().init();
@@ -123,7 +130,7 @@ int main(int argc, char *argv[])
         XSettingsChecker().init();
         OthersManager().init();
     });
-            
+
     QtConcurrent::run([&session](){
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
         Fifo *fifo = new Fifo;

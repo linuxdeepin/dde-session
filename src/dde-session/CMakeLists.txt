@@ -17,6 +17,10 @@ qt5_add_dbus_adaptor(ADAPTER_SOURCES
     ../../dbus/adaptor/com.deepin.SessionManager.xml
     impl/sessionmanager.h
     SessionManager)
+qt5_add_dbus_adaptor(ADAPTER_SOURCES
+    ../../dbus/adaptor/org.deepin.WMSwitcher.xml
+    impl/wmswitcher.h
+    WMSwitcher)
 
 # dbus interface
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.PowerManager1.xml PowerManager org_deepin_PowerManager1)
@@ -32,7 +36,7 @@ qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.xml Audio1
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.Sink.xml Sink org_deepin_daemon_Audio1_Sink)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.XSettings.xml XSettings com_deepin_XSettings)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.api.SoundThemePlayer.xml SoundThemePlayer com_deepin_api_SoundThemePlayer)
-
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.wm.xml DeepinWm com_deepin_Wm)
 file(GLOB_RECURSE DBUS_TYPES ${PROJECT_SOURCE_DIR}/dbus/types/*)
 
 add_executable(dde-session
@@ -51,6 +55,8 @@ add_executable(dde-session
     impl/session.cpp
     impl/sessionmanager.h
     impl/sessionmanager.cpp
+    impl/wmswitcher.h
+    impl/wmswitcher.cpp
     ../utils/dconf.h
     ../utils/dconf.cpp
     ../utils/fifo.h
