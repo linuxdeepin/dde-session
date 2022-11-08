@@ -37,6 +37,7 @@ qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.Sink.xml S
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.XSettings.xml XSettings com_deepin_XSettings)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.api.SoundThemePlayer.xml SoundThemePlayer com_deepin_api_SoundThemePlayer)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.wm.xml DeepinWm com_deepin_Wm)
+
 file(GLOB_RECURSE DBUS_TYPES ${PROJECT_SOURCE_DIR}/dbus/types/*)
 
 add_executable(dde-session

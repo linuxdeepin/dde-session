@@ -79,7 +79,7 @@ void EnvironmentsManager::createGenernalEnvironments()
     // 浮点数相等
     if (qAbs(scaleFactor - 1.0) < (1e-6)) {
         // set scale factor for deepin wine apps
-        // TODO 原先golang中的实现使用的是strconv.FormatFloat(scaleFactor, 'f', 2, 64)，和现在的计算结果是有差别的
+        // 原先golang中的实现使用的是strconv.FormatFloat(scaleFactor, 'f', 2, 64)，和现在的计算结果是有差别的
         m_envMap.insert("DEEPIN_WINE_SCALE", QString::asprintf("%.2f", scaleFactor));
     }
 }

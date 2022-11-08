@@ -1,0 +1,10 @@
+[Unit]
+Description=dde-login-reminder service
+
+Wants=dde-osd.target
+After=dde-osd.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/dde-login-reminder

@@ -50,6 +50,7 @@ public Q_SLOTS:
     Q_DECL_DEPRECATED void Logout();
     Q_DECL_DEPRECATED void PowerOffChoose();
     Q_DECL_DEPRECATED void Reboot();
+    Q_DECL_DEPRECATED void Shutdown();
     bool Register(const QString &id);
     void RequestHibernate();
     void RequestLock();
@@ -58,7 +59,6 @@ public Q_SLOTS:
     void RequestShutdown();
     void RequestSuspend();
     void SetLocked(bool lock);
-    Q_DECL_DEPRECATED void Shutdown();
     void ToggleDebug();
 
 private:
