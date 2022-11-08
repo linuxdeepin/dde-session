@@ -33,7 +33,6 @@ qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.systemd1.Manager.xm
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.systemd1.Job.xml Systemd1Job org_freedesktop_systemd1_Job)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.xml Audio1 org_deepin_daemon_Audio1)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.Sink.xml Sink org_deepin_daemon_Audio1_Sink)
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.XSettings.xml XSettings com_deepin_XSettings)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.api.SoundThemePlayer.xml SoundThemePlayer com_deepin_api_SoundThemePlayer)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.wm.xml DeepinWm com_deepin_Wm)
 
@@ -43,8 +42,6 @@ add_executable(dde-session
     main.cpp
     environmentsmanager.h
     environmentsmanager.cpp
-    xsettingschecker.h
-    xsettingschecker.cpp
     othersmanager.h
     othersmanager.cpp
     impl/session.h

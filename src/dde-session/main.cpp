@@ -22,7 +22,6 @@
 #include "impl/sessionmanager.h"
 #include "impl/wmswitcher.h"
 #include "environmentsmanager.h"
-#include "xsettingschecker.h"
 #include "othersmanager.h"
 
 DCORE_USE_NAMESPACE
@@ -123,7 +122,6 @@ int main(int argc, char *argv[])
 
     // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
     QtConcurrent::run([ = ] {
-        XSettingsChecker().init();
         OthersManager().init();
     });
 

@@ -1,8 +1,9 @@
 #ifndef XSETTINGS_CHECKER_H
 #define XSETTINGS_CHECKER_H
-#include "com_deepin_XSettings.h"
 
 #include <QObject>
+#include <QDBusPendingReply>
+#include <QDBusInterface>
 
 /**
  * @brief The XSettingsChecker class
@@ -22,8 +23,11 @@ private:
 
     void loadDefaultFontConfig(QString &defaultFont, QString &defaultMonoFont);
 
+    QDBusPendingReply<QString> GetXSettingsString(const QString &prop);
+    QDBusPendingReply<> SetXSettingsString(const QString &prop, const QString &value);
+
 private:
-    com::deepin::XSettings *m_xSettingsInter;
+    QDBusInterface *m_xSettingsInter;
 };
 
 #endif // XSETTINGS_CHECKER_H

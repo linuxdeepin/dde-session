@@ -1,25 +1,31 @@
 #include "xsettingschecker.h"
-#include "utils/utils.h"
+#include "utils.h"
 
 #include <QDBusConnection>
 #include <QSettings>
+#include <QFile>
+#include <QDebug>
+#include <QStandardPaths>
+#include <QDir>
+#include <QJsonParseError>
+#include <QJsonObject>
 
 XSettingsChecker::XSettingsChecker(QObject *parent)
     : QObject(parent)
-    , m_xSettingsInter(new com::deepin::XSettings("com.deepin.SessionManager", "/com/deepin/XSettings", QDBusConnection::sessionBus(), this))
+    , m_xSettingsInter(new QDBusInterface("com.deepin.SessionManager", "/com/deepin/XSettings", "com.deepin.XSettings", QDBusConnection::sessionBus(), this))
 {
 
 }
 
 void XSettingsChecker::init()
 {
-    qInfo() << "xsettings checker";
+    qDebug() << "xsettings checker";
 
     initXSettingsFont();
     initQtTheme();
     initLeftPtrCursor();
 
-    qInfo() << "xsettings checker finished";
+    qDebug() << "xsettings checker finished";
 }
 
 void XSettingsChecker::initXSettingsFont()
@@ -30,13 +36,13 @@ void XSettingsChecker::initXSettingsFont()
 
     // check xs font name
     {
-        QDBusPendingReply<QString> reply = m_xSettingsInter->GetString("Qt/FontName");
+        QDBusPendingReply<QString> reply = GetXSettingsString("Qt/FontName");
         if (reply.isError()) {
             qWarning() << "failed to get font name from xsettings service, error: " << reply.error().name();
         } else {
             const QString &xSettingsFontName = reply.value();
             if (xSettingsFontName.isEmpty()) {
-                reply = m_xSettingsInter->SetString("Qt/FontName", defaultFont);
+                reply = SetXSettingsString("Qt/FontName", defaultFont);
                 if (reply.isError()) {
                     qWarning() << "failed to set font name to xsettings service, error: " << reply.error().name();
                 }
@@ -47,13 +53,13 @@ void XSettingsChecker::initXSettingsFont()
 
     // check xs mono font name
     {
-        QDBusPendingReply<QString> reply = m_xSettingsInter->GetString("Qt/MonoFontName");
+        QDBusPendingReply<QString> reply = GetXSettingsString("Qt/MonoFontName");
         if (reply.isError()) {
             qWarning() << "failed to get mono font name from xsettings service, error: " << reply.error().name();
         } else {
             const QString &xSettingsMonoFontName = reply.value();
             if (xSettingsMonoFontName.isEmpty()) {
-                reply = m_xSettingsInter->SetString("Qt/MonoFontName", defaultMonoFont);
+                reply = SetXSettingsString("Qt/MonoFontName", defaultMonoFont);
                 if (reply.isError()) {
                     qWarning() << "failed to set mono font name to xsettings service, error: " << reply.error().name();
                 } else {
@@ -148,4 +154,18 @@ void XSettingsChecker::loadDefaultFontConfig(QString &defaultFont, QString &defa
 
     qDebug() << "default font: " << defaultFont
              << ", default mono font: " << defaultMonoFont;
+}
+
+QDBusPendingReply<QString> XSettingsChecker::GetXSettingsString(const QString &prop)
+{
+    QList<QVariant> argumentList;
+    argumentList << QVariant::fromValue(prop);
+    return m_xSettingsInter->asyncCallWithArgumentList(QStringLiteral("GetString"), argumentList);
+}
+
+QDBusPendingReply<> XSettingsChecker::SetXSettingsString(const QString &prop, const QString &value)
+{
+    QList<QVariant> argumentList;
+    argumentList << QVariant::fromValue(prop) << QVariant::fromValue(value);
+    return m_xSettingsInter->asyncCallWithArgumentList(QStringLiteral("SetString"), argumentList);
 }

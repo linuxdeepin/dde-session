@@ -1,0 +1,10 @@
+[Unit]
+Description=dde-xsettings-checker service
+
+Wants=dde-session-daemon.target
+After=dde-session-daemon.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/dde-xsettings-checker
