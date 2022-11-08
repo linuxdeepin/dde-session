@@ -6,7 +6,6 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(Systemd REQUIRED IMPORTED_TARGET libsystemd)
 pkg_check_modules(QGSettings REQUIRED IMPORTED_TARGET gsettings-qt)
 pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
-pkg_check_modules(SECRET1 REQUIRED IMPORTED_TARGET libsecret-1)
 
 # dbus adaptor
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
@@ -46,8 +45,6 @@ add_executable(dde-session
     environmentsmanager.cpp
     deepinversionchecker.h
     deepinversionchecker.cpp
-    keyringchecker.h
-    keyringchecker.cpp
     xsettingschecker.h
     xsettingschecker.cpp
     othersmanager.h
@@ -76,7 +73,6 @@ target_link_libraries(dde-session
     PkgConfig::Systemd
     ${DtkCore_LIBRARIES}
     PkgConfig::GLIB2
-    PkgConfig::SECRET1
     PkgConfig::QGSettings
     )
 

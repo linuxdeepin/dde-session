@@ -1,12 +1,8 @@
-#include "keyringchecker.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <gio/gio.h>
 #define SECRET_WITH_UNSTABLE
 #include <libsecret/secret.h>
-
-#include <QDebug>
 
 #define KEYRING_LOGIN "login"
 #define PASSWORD_SECRET_VALUE_CONTENT_TYPE "text/plain"
@@ -103,11 +99,14 @@ int check_login() {
     return res;
 }
 
-void KeyringChecker::init()
+/**
+ * @brief 当无法从 PAM 拿到用户密码时（免密码登录、自动登录）， pam_gnome_keyring.so 不会自动创建「登录」钥匙环。
+ * 若无默认钥匙环，则自动创建一个无密码的钥匙环。
+ */
+int main(int argc, char *argv[])
 {
-    qInfo() << "keyring checker init";
-
+    printf("keyring checker init\n");
     check_login();
-
-    qInfo() << "keyring checker init finished";
+    printf("keyring checker init finished\n");
+    return 0;
 }

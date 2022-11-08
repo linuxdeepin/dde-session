@@ -23,7 +23,6 @@
 #include "impl/wmswitcher.h"
 #include "environmentsmanager.h"
 #include "deepinversionchecker.h"
-#include "keyringchecker.h"
 #include "xsettingschecker.h"
 #include "othersmanager.h"
 
@@ -126,7 +125,6 @@ int main(int argc, char *argv[])
     // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
     QtConcurrent::run([ = ] {
         DeepinVersionChecker().init();
-        KeyringChecker().init();
         XSettingsChecker().init();
         OthersManager().init();
     });
