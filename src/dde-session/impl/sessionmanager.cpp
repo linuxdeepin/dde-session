@@ -107,9 +107,11 @@ void SessionManager::initConnections()
         }
     });
 
-    // TODO qt不支持signal和method同名，可以采用直接关联的方式完成目的
-    connect(m_login1SessionInter, SIGNAL(Lock()), this, SLOT(handleLoginSessionLocked()));
-    connect(m_login1SessionInter, SIGNAL(Unlock()), this, SLOT(handleLoginSessionUnlocked()));
+    // signal和method同名，可以采用直接关联的方式完成目的
+    QDBusConnection::systemBus().connect("org.freedesktop.login1", m_login1UserInter->display().path.path(), "org.freedesktop.login1.Session"
+                                         , "Lock", this, SLOT(handleLoginSessionLocked()));
+    QDBusConnection::systemBus().connect("org.freedesktop.login1", m_login1UserInter->display().path.path(), "org.freedesktop.login1.Session"
+                                         , "Unlock", this, SLOT(handleLoginSessionUnlocked()));
 }
 
 void SessionManager::initSwapSched()
