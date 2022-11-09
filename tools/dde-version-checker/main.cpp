@@ -28,7 +28,7 @@ bool isDeepinVersionChanged()
     qDebug() << "os version: " << osVersion
              << ", welcome version: " << welcomeVersion
              << ", version changed: " << changed;
-    if (welcomeSettings.isWritable()) {
+    if (!welcomeSettings.isWritable()) {
         qWarning() << "fail to update welcome config";
         return changed;
     }
