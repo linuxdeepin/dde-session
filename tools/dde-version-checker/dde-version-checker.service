@@ -1,0 +1,10 @@
+[Unit]
+Description=dde-version-checker service
+
+Wants=dde-session-daemon.target
+After=dde-session-daemon.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/dde-version-checker

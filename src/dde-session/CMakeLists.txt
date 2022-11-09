@@ -43,8 +43,6 @@ add_executable(dde-session
     main.cpp
     environmentsmanager.h
     environmentsmanager.cpp
-    deepinversionchecker.h
-    deepinversionchecker.cpp
     xsettingschecker.h
     xsettingschecker.cpp
     othersmanager.h
