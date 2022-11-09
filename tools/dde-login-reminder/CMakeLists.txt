@@ -12,8 +12,6 @@ add_executable(${BIN_NAME}
     main.cpp
     loginreminderinfo.h
     loginreminderinfo.cpp
-    loginremindermanager.h
-    loginremindermanager.cpp
     ${PROJECT_SOURCE_DIR}/src/utils/utils.h
     )
 
