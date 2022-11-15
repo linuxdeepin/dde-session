@@ -24,7 +24,8 @@ bool isDeepinVersionChanged()
     // 比较系统版本和配置文件中记录的是否一致
     QSettings welcomeSettings(welcomePath + welcomeConf, QSettings::IniFormat);
     const QString &welcomeVersion = welcomeSettings.value("Version").toString();
-    bool changed = (osVersion != welcomeVersion);
+    // dde-welcome.conf中不存在version时，为第一次进入系统或进入当前用户，不显示此界面
+    bool changed = (welcomeVersion.isEmpty() ? false : osVersion != welcomeVersion);
     qDebug() << "os version: " << osVersion
              << ", welcome version: " << welcomeVersion
              << ", version changed: " << changed;
