@@ -91,6 +91,16 @@ int start()
         qWarning() << "failed to call notification, error: " << notifyIdReply.error().message();
         return -1;
     }
+    uint notifyId = notifyIdReply.value();
+
+    // 5秒后自动关闭通知，避免在通知中心中显示
+    sleep(5);
+
+    QDBusPendingReply<> closeReply = notifyInter->call("CloseNotification", notifyId);
+    if (closeReply.isError()) {
+        qWarning() << "failed to close notification, error: " << closeReply.error().message();
+        return -1;
+    }
 
     qDebug() << "login reminder init finished";
     return 0;
