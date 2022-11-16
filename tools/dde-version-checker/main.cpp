@@ -10,9 +10,9 @@
 bool isDeepinVersionChanged()
 {
     // 查看系统当前版本
-    QSettings osSettings("/etc/deepin-version", QSettings::IniFormat);
-    osSettings.beginGroup("Release");
-    const QString &osVersion = osSettings.value("Version").toString();
+    QSettings osSettings("/etc/os-version", QSettings::IniFormat);
+    osSettings.beginGroup("Version");
+    const QString &minorVersion = osSettings.value("MinorVersion").toString();
     const QString &welcomePath = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first()
             + QDir::separator()
             + "deepin"
@@ -23,10 +23,10 @@ bool isDeepinVersionChanged()
 
     // 比较系统版本和配置文件中记录的是否一致
     QSettings welcomeSettings(welcomePath + welcomeConf, QSettings::IniFormat);
-    const QString &welcomeVersion = welcomeSettings.value("Version").toString();
+    const QString &welcomeVersion = welcomeSettings.value("MinorVersion").toString();
     // dde-welcome.conf中不存在version时，为第一次进入系统或进入当前用户，不显示此界面
-    bool changed = (welcomeVersion.isEmpty() ? false : osVersion != welcomeVersion);
-    qDebug() << "os version: " << osVersion
+    bool changed = (welcomeVersion.isEmpty() ? false : minorVersion != welcomeVersion);
+    qDebug() << "os version: " << minorVersion
              << ", welcome version: " << welcomeVersion
              << ", version changed: " << changed;
     if (!welcomeSettings.isWritable()) {
@@ -35,7 +35,7 @@ bool isDeepinVersionChanged()
     }
 
     if (changed)
-        welcomeSettings.setValue("Version", osVersion);
+        welcomeSettings.setValue("MinorVersion", minorVersion);
 
     return changed;
 }
