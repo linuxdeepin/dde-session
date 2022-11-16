@@ -28,5 +28,5 @@ add_subdirectory("systemd")
 add_subdirectory("misc")
 add_subdirectory("tools")
 
-install(FILES dbus/org.deepin.Session.service
+install(FILES dbus/org.deepin.dde.Session1.service
     DESTINATION share/dbus-1/services/)

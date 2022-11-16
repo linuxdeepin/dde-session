@@ -2,14 +2,14 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core DBus REQUIRED)
 
 qt5_add_dbus_interface(DBUS_SOURCES
-    ../../dbus/adaptor/org.deepin.Session.xml
+    ../../dbus/adaptor/org.deepin.dde.Session1.xml
     Session
 )
 
 add_executable(dde-session-ctl
   main.cpp
   ${DBUS_SOURCES}
-  ../../dbus/adaptor/org.deepin.Session.xml
+  ../../dbus/adaptor/org.deepin.dde.Session1.xml
 )
 target_link_libraries(dde-session-ctl
     Qt${QT_VERSION_MAJOR}::Core

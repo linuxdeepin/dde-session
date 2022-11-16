@@ -55,9 +55,9 @@ void WMSwitcher::onCompositingEnabledChanged(bool enable)
 void WMSwitcher::showOSD(const QString &osd) const
 {
     DDBusSender()
-            .service("com.deepin.dde.osd")
+            .service("org.deepin.dde.Osd1")
             .path("/")
-            .interface("com.deepin.dde.osd")
+            .interface("org.deepin.dde.Osd1")
             .method("ShowOSD")
             .arg(osd)
             .call();

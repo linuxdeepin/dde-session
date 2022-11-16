@@ -1,4 +1,4 @@
-<interface name="com.deepin.api.SoundThemePlayer">
+<interface name="org.deepin.dde.SoundThemePlayer1">
     <method name="EnableSound">
         <arg name="name" type="s" direction="in"/>
         <arg name="enabled" type="b" direction="in"/>

@@ -1,4 +1,4 @@
-<interface name="org.deepin.daemon.Daemon1">
+<interface name="org.deepin.dde.Daemon1">
     <method name="CallTrace">
         <arg name="times" type="u" direction="in"></arg>
         <arg name="seconds" type="u" direction="in"></arg>

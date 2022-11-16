@@ -1,5 +1,5 @@
 <interface
- name="com.deepin.WMSwitcher">
+ name="org.deepin.dde.WMSwitcher1">
     <method name="AllowSwitch">
         <arg name="outArg0" type="b" direction="out"></arg>
     </method>

@@ -1,8 +1,8 @@
 #include "sessionmanager.h"
 #include "utils/dconf.h"
 #include "utils/utils.h"
-#include "org_deepin_daemon_Audio1_Sink.h"
-#include "com_deepin_api_SoundThemePlayer.h"
+#include "org_deepin_dde_Audio1_Sink.h"
+#include "org_deepin_dde_SoundThemePlayer1.h"
 
 #include <QCoreApplication>
 #include <QDBusReply>
@@ -66,8 +66,8 @@ SessionManager::SessionManager(QObject *parent)
     , m_currentUid(QString::number(getuid()))
     , m_stage(0)
     , m_currentSessionPath("/")
-    , m_powerInter(new org::deepin::daemon::PowerManager1("org.deepin.daemon.PowerManager", "/org/deepin/daemon/PowerManager", QDBusConnection::systemBus(), this))
-    , m_audioInter(new org::deepin::daemon::Audio1("org.deepin.daemon.Audio1", "/org/deepin/daemon/Audio1", QDBusConnection::sessionBus(), this))
+    , m_powerInter(new org::deepin::dde::PowerManager1("org.deepin.dde.PowerManager1", "/org/deepin/dde/PowerManager1", QDBusConnection::systemBus(), this))
+    , m_audioInter(new org::deepin::dde::Audio1("org.deepin.dde.Audio1", "/org/deepin/dde/Audio1", QDBusConnection::sessionBus(), this))
     , m_login1ManagerInter(new org::freedesktop::login1::Manager("org.freedesktop.login1", "/org/freedesktop/login1", QDBusConnection::systemBus(), this))
     , m_login1UserInter(new org::freedesktop::login1::User("org.freedesktop.login1", m_login1ManagerInter->GetUser(getuid()).value().path(), QDBusConnection::systemBus(), this))
     , m_login1SessionInter(new org::freedesktop::login1::Session("org.freedesktop.login1", m_login1UserInter->display().path.path(), QDBusConnection::systemBus(), this))
@@ -207,7 +207,7 @@ void SessionManager::setCurrentSessionPath(QDBusObjectPath value)
 
 bool SessionManager::AllowSessionDaemonRun()
 {
-    // TODO: run com.deepin.daemon.Daemon.StartPart2
+    // TODO: run org.deepin.dde.Daemon1.StartPart2
     return true;
 }
 
@@ -314,7 +314,7 @@ void SessionManager::RequestHibernate()
 
 void SessionManager::RequestLock()
 {
-    QDBusInterface inter("com.deepin.dde.lockFront", "/com/deepin/dde/lockFront", "com.deepin.dde.lockFront", QDBusConnection::sessionBus(), this);
+    QDBusInterface inter("org.deepin.dde.LockFront1", "/org/deepin/dde/LockFront1", "org.deepin.dde.LockFront1", QDBusConnection::sessionBus(), this);
     const QDBusMessage &msg = inter.call("Show");
     if (!msg.errorName().isEmpty()) {
         qWarning() << "failed to lock, error: " << msg.errorMessage();
@@ -569,7 +569,7 @@ void SessionManager::playLogoutSound()
             break;
         }
 
-        auto sinkInter = new org::deepin::daemon::audio1::Sink(
+        auto sinkInter = new org::deepin::dde::audio1::Sink(
                     "org.deepin.daemon.Audio1"
                     , sink.path()
                     , QDBusConnection::sessionBus()
@@ -583,7 +583,7 @@ void SessionManager::playLogoutSound()
     stopPulseAudioService();
 
     auto soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
-    com::deepin::api::SoundThemePlayer inter("com.deepin.api.SoundThemePlayer", "/com/deepin/api/SoundThemePlayer", QDBusConnection::systemBus(), this);
+    org::deepin::dde::SoundThemePlayer1 inter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1", QDBusConnection::systemBus(), this);
     // TODO device?
     QDBusPendingReply<> reply = inter.Play(soundTheme, "desktop-logout", "");
     if (reply.isError()) {
@@ -690,7 +690,7 @@ void SessionManager::handleLoginSessionUnlocked()
         // 会使用系统通知报告锁屏失败。 而在此种特殊情况下 kill 掉它，并不会造成明显问题。
         do {
             org::freedesktop::DBus dbusInter("org.freedesktop.DBus", "/org/freedesktop/DBus", QDBusConnection::sessionBus());
-            QDBusPendingReply<QString> ownerReply = dbusInter.GetNameOwner("com.deepin.dde.lockFront");
+            QDBusPendingReply<QString> ownerReply = dbusInter.GetNameOwner("org.deepin.dde.LockFront1");
             if (ownerReply.isError()) {
                 qWarning() << "failed to get lockFront service owner";
                 return;

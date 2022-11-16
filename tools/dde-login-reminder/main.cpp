@@ -18,9 +18,9 @@ int start()
 
     // 登录后展示横幅通知信息
 #ifdef QT_DEBUG // V20 验证
-    QDBusInterface userInter("com.deepin.daemon.Accounts", QString("/com/deepin/daemon/Accounts/User%1").arg(getuid()), "com.deepin.daemon.Accounts.User", QDBusConnection::systemBus());
+    QDBusInterface userInter("org.deepin.dde.Accounts1", QString("/org/deepin/dde/Accounts1/User%1").arg(getuid()), "org.deepin.dde.Accounts1.User", QDBusConnection::systemBus());
 #else
-    QDBusInterface userInter("org.deepin.daemon.Accounts1", QString("/org/deepin/daemon/Accounts1/User%1").arg(getuid()), "org.deepin.daemon.Accounts1.User", QDBusConnection::systemBus());
+    QDBusInterface userInter("org.deepin.dde.Accounts1", QString("/org/deepin/dde/Accounts1/User%1").arg(getuid()), "org.deepin.dde.Accounts1.User", QDBusConnection::systemBus());
 #endif
     QDBusPendingReply<LoginReminderInfo> reply = userInter.call("GetReminderInfo");
     if (reply.isError()) {

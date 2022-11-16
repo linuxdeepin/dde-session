@@ -9,31 +9,31 @@ pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
 
 # dbus adaptor
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
-    ../../dbus/adaptor/org.deepin.Session.xml
+    ../../dbus/adaptor/org.deepin.dde.Session1.xml
     impl/session.h
     Session)
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
-    ../../dbus/adaptor/com.deepin.SessionManager.xml
+    ../../dbus/adaptor/org.deepin.dde.SessionManager1.xml
     impl/sessionmanager.h
     SessionManager)
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
-    ../../dbus/adaptor/org.deepin.WMSwitcher.xml
+    ../../dbus/adaptor/org.deepin.dde.WMSwitcher1.xml
     impl/wmswitcher.h
     WMSwitcher)
 
 # dbus interface
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.PowerManager1.xml PowerManager org_deepin_PowerManager1)
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.system.Bluetooth1.xml Bluetooth org_deepin_system_Bluetooth1)
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Daemon1.xml SessionDaemon org_deepin_daemon_Daemon1)
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.PowerManager1.xml PowerManager org_deepin_dde_PowerManager1)
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.Bluetooth1.xml Bluetooth org_deepin_dde_Bluetooth1)
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.Daemon1.xml SessionDaemon org_deepin_dde_Daemon1)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.login1.Manager.xml Login1Manager org_freedesktop_login1_Manager)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.login1.Session.xml Login1Session org_freedesktop_login1_Session)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.login1.User.xml Login1User org_freedesktop_login1_User)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.DBus.xml DBus org_freedesktop_DBus)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.systemd1.Manager.xml Systemd1Manager org_freedesktop_systemd1_Manager)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.systemd1.Job.xml Systemd1Job org_freedesktop_systemd1_Job)
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.xml Audio1 org_deepin_daemon_Audio1)
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.daemon.Audio1.Sink.xml Sink org_deepin_daemon_Audio1_Sink)
-qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.api.SoundThemePlayer.xml SoundThemePlayer com_deepin_api_SoundThemePlayer)
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.Audio1.xml Audio1 org_deepin_dde_Audio1)
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.Audio1.Sink.xml Sink org_deepin_dde_Audio1_Sink)
+qt5_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.SoundThemePlayer1.xml SoundThemePlayer org_deepin_dde_SoundThemePlayer1)
 qt5_add_dbus_interface_fix(INTERFACE_SOURCES com.deepin.wm.xml DeepinWm com_deepin_Wm)
 
 file(GLOB_RECURSE DBUS_TYPES ${PROJECT_SOURCE_DIR}/dbus/types/*)

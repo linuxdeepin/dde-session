@@ -14,9 +14,9 @@
 #include <sys/wait.h>
 #include <sys/prctl.h>
 
-#include "sessionadaptor.h"
-#include "sessionmanageradaptor.h"
-#include "wmswitcheradaptor.h"
+#include "session1adaptor.h"
+#include "sessionmanager1adaptor.h"
+#include "wmswitcher1adaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
 #include "impl/sessionmanager.h"
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
         org::freedesktop::systemd1::Manager systemdDBus("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
         startSystemdUnit(systemdDBus, dmService.arg(sessionType.data()), "replace");
 
-        QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.Session", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
+        QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Session1", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
         watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [=] {
             qInfo() << "dde session exit";
             qApp->quit();
@@ -106,19 +106,19 @@ int main(int argc, char *argv[])
 
     // systemd-service
     auto* session = new Session;
-    new SessionAdaptor(session);
-    QDBusConnection::sessionBus().registerService("org.deepin.Session");
-    QDBusConnection::sessionBus().registerObject("/org/deepin/Session", "org.deepin.Session", session);
+    new Session1Adaptor(session);
+    QDBusConnection::sessionBus().registerService("org.deepin.dde.Session1");
+    QDBusConnection::sessionBus().registerObject("/org/deepin/dde/Session1", "org.deepin.dde.Session1", session);
 
     SessionManager::instance()->init();
-    new SessionManagerAdaptor(SessionManager::instance());
-    QDBusConnection::sessionBus().registerService("com.deepin.SessionManager");
-    QDBusConnection::sessionBus().registerObject("/com/deepin/SessionManager", "com.deepin.SessionManager", SessionManager::instance());
+    new SessionManager1Adaptor(SessionManager::instance());
+    QDBusConnection::sessionBus().registerService("org.deepin.dde.SessionManager1");
+    QDBusConnection::sessionBus().registerObject("/org/deepin/dde/SessionManager1", "org.deepin.dde.SessionManager1", SessionManager::instance());
 
     auto *wmSwitcher = new WMSwitcher();
-    new WMSwitcherAdaptor(wmSwitcher);
-    QDBusConnection::sessionBus().registerService("com.deepin.WMSwitcher");
-    QDBusConnection::sessionBus().registerObject("/com/deepin/WMSwitcher", wmSwitcher);
+    new WMSwitcher1Adaptor(wmSwitcher);
+    QDBusConnection::sessionBus().registerService("org.deepin.dde.WMSwitcher1");
+    QDBusConnection::sessionBus().registerObject("/org/deepin/dde/WMSwitcher1", wmSwitcher);
 
     // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
     QtConcurrent::run([ = ] {

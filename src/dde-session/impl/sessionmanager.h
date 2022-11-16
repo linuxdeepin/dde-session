@@ -6,8 +6,8 @@
 #include <QDBusInterface>
 #include <QDBusContext>
 
-#include "org_deepin_PowerManager1.h"
-#include "org_deepin_daemon_Audio1.h"
+#include "org_deepin_dde_PowerManager1.h"
+#include "org_deepin_dde_Audio1.h"
 
 #include "org_freedesktop_login1_Manager.h"
 #include "org_freedesktop_login1_Session.h"
@@ -113,8 +113,8 @@ private:
     QDBusObjectPath m_currentSessionPath;
 
     // dbus client
-    org::deepin::daemon::PowerManager1 *m_powerInter;
-    org::deepin::daemon::Audio1 *m_audioInter;
+    org::deepin::dde::PowerManager1 *m_powerInter;
+    org::deepin::dde::Audio1 *m_audioInter;
     org::freedesktop::login1::Manager *m_login1ManagerInter;
     org::freedesktop::login1::User *m_login1UserInter;
     org::freedesktop::login1::Session *m_login1SessionInter;

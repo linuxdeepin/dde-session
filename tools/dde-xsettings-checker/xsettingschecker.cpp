@@ -11,8 +11,8 @@
 #include <QJsonObject>
 
 XSettingsChecker::XSettingsChecker(QObject *parent)
-    : QObject(parent)
-    , m_xSettingsInter(new QDBusInterface("com.deepin.SessionManager", "/com/deepin/XSettings", "com.deepin.XSettings", QDBusConnection::sessionBus(), this))
+    : QObject(parent) // TODO org.deepin.dde.SessionManager1 -> org.deepin.dde.XSettings1
+    , m_xSettingsInter(new QDBusInterface("org.deepin.dde.SessionManager1", "/org/deepin/dde/XSettings1", "org.deepin.dde.XSettings1", QDBusConnection::sessionBus(), this))
 {
 
 }

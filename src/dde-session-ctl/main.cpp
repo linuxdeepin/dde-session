@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     const bool isSessionExit = parser.isSet(sessionExit);
 
     if (parser.isSet(logout)) {
-        org::deepin::Session session("org.deepin.Session", "/org/deepin/Session", QDBusConnection::sessionBus());
+        org::deepin::dde::Session1 session("org.deepin.dde.Session1", "/org/deepin/dde/Session1", QDBusConnection::sessionBus());
         session.Logout();
 
         return 0;

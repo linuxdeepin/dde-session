@@ -1,4 +1,4 @@
-<interface name='org.deepin.Session'>
+<interface name='org.deepin.dde.Session1'>
     <method name='Logout'></method>
     <method name='GetSessionPid'>
         <arg type="i" direction="out" name="pid"></arg>
