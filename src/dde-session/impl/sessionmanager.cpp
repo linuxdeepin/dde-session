@@ -554,10 +554,19 @@ void SessionManager::preparePlayShutdownSound()
 
 bool SessionManager::canPlayEvent(const QString &event)
 {
-    if (event == SOUND_EFFECT_ENABLED_KEY || event == SOUND_EFFECT_PLAYER_KEY)
+    if (event == SOUND_EFFECT_ENABLED_KEY || event == SOUND_EFFECT_PLAYER_KEY) {
         return false;
+    }
 
-    return Utils::SettingValue(SOUND_EFFECT_SCHEMA, QByteArray(), SOUND_EFFECT_ENABLED_KEY, false).toBool();
+    if (!Utils::SettingValue(SOUND_EFFECT_SCHEMA, QByteArray(), SOUND_EFFECT_ENABLED_KEY, false).toBool()) {
+        return false;
+    }
+
+    if (!Utils::SettingValue(SOUND_EFFECT_SCHEMA, QByteArray(), event, false).toBool()) {
+        return false;
+    }
+
+    return true;
 }
 
 void SessionManager::playLogoutSound()
