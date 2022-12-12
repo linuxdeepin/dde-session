@@ -17,6 +17,10 @@ qt5_add_dbus_adaptor(ADAPTER_SOURCES
     impl/sessionmanager.h
     SessionManager)
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
+    ../../dbus/adaptor/org.deepin.dde.Inhibitor1.xml
+    impl/inhibitor.h
+    Inhibitor)
+qt5_add_dbus_adaptor(ADAPTER_SOURCES
     ../../dbus/adaptor/org.deepin.dde.WMSwitcher1.xml
     impl/wmswitcher.h
     WMSwitcher)
@@ -48,6 +52,8 @@ add_executable(dde-session
     impl/session.cpp
     impl/sessionmanager.h
     impl/sessionmanager.cpp
+    impl/inhibitor.h
+    impl/inhibitor.cpp
     impl/wmswitcher.h
     impl/wmswitcher.cpp
     ../utils/dconf.h

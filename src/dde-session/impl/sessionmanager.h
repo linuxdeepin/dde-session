@@ -15,6 +15,7 @@
 #include "org_freedesktop_systemd1_Manager.h"
 #include "org_freedesktop_DBus.h"
 
+class Inhibitor;
 class SessionManager : public QObject, public QDBusContext
 {
     Q_OBJECT
@@ -47,6 +48,10 @@ public Q_SLOTS:
     void ForceLogout();
     void ForceReboot();
     void ForceShutdown();
+    QList<QDBusObjectPath> GetInhibitors();
+    uint Inhibit(const QString &appId, uint topLevelXid, const QString &reason, uint flags);
+    bool IsInhibited (uint flags);
+    void Uninhibit (uint inhibitCookie);
     Q_DECL_DEPRECATED void Logout();
     Q_DECL_DEPRECATED void PowerOffChoose();
     Q_DECL_DEPRECATED void Reboot();
@@ -63,6 +68,7 @@ public Q_SLOTS:
 
 private:
     explicit SessionManager(QObject *parent = nullptr);
+    ~SessionManager();
 
     void initConnections();
     void initSwapSched();
@@ -100,6 +106,8 @@ private Q_SLOTS:
 signals:
     // signals on dbus
     void Unlock();
+    void InhibitorAdded(const QDBusObjectPath &);
+    void InhibitorRemoved(const QDBusObjectPath &);
 
     void lockedChanged(bool);
     void currentUidChanged(QString);
@@ -120,6 +128,7 @@ private:
     org::freedesktop::login1::Session *m_login1SessionInter;
     org::freedesktop::systemd1::Manager *m_systemd1ManagerInter;
     org::freedesktop::DBus *m_DBusInter;
-};
 
+    QMap<uint, Inhibitor *> m_inhibitorMap;
+};
 #endif // SESSIONMANAGER_H

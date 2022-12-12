@@ -1,4 +1,6 @@
 #include "sessionmanager.h"
+#include "inhibitor.h"
+#include "inhibitor1adaptor.h"
 #include "utils/dconf.h"
 #include "utils/utils.h"
 #include "org_deepin_dde_Audio1_Sink.h"
@@ -78,6 +80,17 @@ SessionManager::SessionManager(QObject *parent)
 
     // 处理异常退出的情况
     handleOSSignal();
+}
+
+SessionManager::~SessionManager()
+{
+    for (auto cookie : m_inhibitorMap.keys()) {
+        auto ih = m_inhibitorMap.value(cookie);
+        QDBusConnection::sessionBus().unregisterObject(ih->GetClientId().path());
+        ih->deleteLater();
+        ih = nullptr;
+        m_inhibitorMap.remove(cookie);
+    }
 }
 
 void SessionManager::initConnections()
@@ -277,6 +290,92 @@ void SessionManager::ForceReboot()
 void SessionManager::ForceShutdown()
 {
     shutdown(true);
+}
+/**
+ * @brief SessionManager::GetInhibitors 遍历得到 Inhibitor 的路径列表，Inhibitor 是操作拦截器的意思，可以阻止一些由 flags 指定的操作。
+ * @return ArrayofObjectPath: 返回一个包含 Inhibitors 路径名的数组
+ */
+QList<QDBusObjectPath> SessionManager::GetInhibitors()
+{
+    QList<QDBusObjectPath> list;
+    for (auto ih : m_inhibitorMap.values()) {
+        list << ih->GetClientId();
+    }
+    return list;
+}
+
+/**
+ * @brief SessionManager::Inhibit 添加一个Inhibitor
+ * @param appId: 发起操作的应用名
+ * @param topLevelXid: 应用的上层ID
+ * @param reason: 为什么添加Inhibit
+ * @param flags: 标识符, 1 logout, 2 用户切换, 4 会话或系统休眠, 8 会话闲置
+ * @return cookie: 返回inhibitor 的ID
+ */
+uint SessionManager::Inhibit(const QString &appId, uint topLevelXid, const QString &reason, uint flags)
+{
+    //  The flags parameter must include at least one of the following:
+    //
+    //    1: Inhibit logging out
+    //    2: Inhibit user switching
+    //    4: Inhibit suspending the session or computer
+    //    8: Inhibit the session being marked as idle
+    if (!(flags & 1 << 0)
+            && !(flags & 1 << 1)
+            && !(flags & 1 << 2)
+            && !(flags & 1 << 3)){
+        if (calledFromDBus())
+            sendErrorReply(QDBusError::NotSupported, "flags not supported");
+        return 0;
+    }
+
+    static uint index = 0;
+    uint cookie = index;
+    Inhibitor *ih = new Inhibitor(appId, topLevelXid, reason, flags, index++);
+    new Inhibitor1Adaptor(ih);
+
+    bool registered = QDBusConnection::sessionBus().registerObject(ih->GetClientId().path(), ih);
+    if (!registered) {
+        if (calledFromDBus())
+            sendErrorReply(QDBusError::InvalidArgs, "export inhibit object failed");
+        return cookie;
+    }
+
+    m_inhibitorMap.insert(cookie, ih);
+    Q_EMIT InhibitorAdded(ih->GetClientId());
+    return cookie;
+}
+
+/**
+ * @brief SessionManager::IsInhibited 获取此 flag 代表的操作是否被拦截了。
+ * @param flags: 传入的标识符
+ * @return: flag 与Inhibitor中的交集存在true则返回,否则为false
+ */
+bool SessionManager::IsInhibited(uint flags)
+{
+    for (auto ih : m_inhibitorMap.values()) {
+        if (ih->GetFlags() == flags)
+            return true;
+    }
+
+    return false;
+}
+
+/**
+ * @brief SessionManager::Uninhibit 根据id删除 Inhibitor,并取消在Dbus Session 上的注册,向Session Manager 发送信号
+ * @param inhibitCookie: 待删除Inhibitor的id
+ */
+void SessionManager::Uninhibit(uint inhibitCookie)
+{
+    for (auto cookie : m_inhibitorMap.keys()) {
+        if (cookie == inhibitCookie) {
+            auto path = m_inhibitorMap.value(cookie)->GetClientId();
+            QDBusConnection::sessionBus().unregisterObject(path.path());
+            m_inhibitorMap.value(cookie)->deleteLater();
+            m_inhibitorMap.remove(cookie);
+            Q_EMIT InhibitorRemoved(path);
+        }
+    }
 }
 
 Q_DECL_DEPRECATED void SessionManager::Logout()
@@ -723,4 +822,3 @@ void SessionManager::handleLoginSessionUnlocked()
         Q_EMIT lockedChanged(false);
     }
 }
-
