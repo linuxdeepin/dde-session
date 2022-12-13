@@ -1,3 +1,30 @@
+dde-session (1.0.5) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * feat: 迁移sessionManager服务接口(Task: 203055)
+  * feat: 增加系统版本更新检测机制(Task: 203055)(Influence: 系统版本更新后，自动打开欢迎界面)
+  * feat: 启动后检检查keyring配置文件(Task: 203055)(Influence: login.keyring不存在时自动创建默认的配置文件)
+  * feat: 启动后检检查xsettings配置(Task: 203055)(Influence: 用户默认字体显示正常)
+  * feat: 进入桌面后启动kwin和特效选择界面(Task: 203055)(Influence: 进入桌面后启动kwin和特效选择界面)
+  * fix: 关机时生成音频配置文件，用于音频的播放(Task: 203055)(Influence: 关机音频播放)
+  * feat: 迁移WMSwitcher服务到此项目中(Task: 203055)(Influence: 特效开启和关闭)
+  * chore: 将loginReminder功能独立出来(Task: 203055)(Influence: 无)
+  * chore: 将keyring-checker功能独立出来(Task: 203055)(Influence: 无)
+  * chore: 将开机版本检测功能独立出来(Task: 203055)(Influence: 无)
+  * chore: 将开机检测XSettings配置功能独立出来(Task: 203055)(Influence: 无)
+  * fix: 修复无法关联session的解锁和锁定信号的问题(Task: 203055)(Influence: Lock被触发后自动锁屏)
+  * chore: 减少loginreminder进程驻留时长(Task: 203055)(Influence: 后台进程只会一闪而过，不存在长时间驻留的情况)
+  * fix: 修复开机版本检查功能异常的问题(Task: 203055)(Influence: 每次开机都提示欢迎界面)
+  * fix: 修复每次进入新用户均提示升级成功的界面(Bug: 171571)(Influence: 系统升级成功界面显示时机)
+  * fix: 修复登录提醒的通知5秒后仍然继续显示的问题(Task: 203055)(Influence: 登录提醒通知弹窗)
+  * fix: 修复每次进入新用户均提示升级成功的界面(Bug: 171571)(Influence: 系统升级成功界面显示时机)
+  * fix: 修复注销重启后后部分一次性服务不会重新启动的问题(Task: 203055)(Influence: 登录横幅提醒注销后不会再显示)
+  * feat: 接口更变，增加V23接口(Task: 207483)(Influence: 接口更变)
+  * fix: 没有开启关机音效，关机过程中有关机音效效果问题解决(Task: 225417)(Influence: 关机音效)
+  * chore: 迁移Inhibitor相关接口(Task: 226105)(Influence: 迁移Inhibitor相关接口)
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Tue, 13 Dec 2022 19:15:47 +0800
+
 dde-session (1.0.4) unstable; urgency=medium
 
   [ Deepin Packages Builder ]
