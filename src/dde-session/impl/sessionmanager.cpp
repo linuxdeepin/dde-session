@@ -506,7 +506,7 @@ void SessionManager::prepareShutdown(bool force)
 
 void SessionManager::clearCurrentTty()
 {
-    QDBusInterface inter("org.deepin.daemon.Daemon1", "/org/deepin/daemon/Daemon1", "org.deepin.daemon.Daemon1", QDBusConnection::systemBus(), this);
+    QDBusInterface inter("org.deepin.dde.Daemon1", "/org/deepin/dde/Daemon1", "org.deepin.dde.Daemon1", QDBusConnection::systemBus(), this);
     const QDBusMessage &msg = inter.call("ClearTty", m_login1SessionInter->vTNr());
     if (!msg.errorMessage().isEmpty())
         qWarning() << "failed to clear tty, error: " << msg.errorMessage();
@@ -588,9 +588,9 @@ void SessionManager::stopObexService()
 
 void SessionManager::stopPulseAudioService()
 {
-    auto msg = QDBusInterface("org.deepin.daemon.Audio1"
-                              , "/org/deepin/daemon/Audio1"
-                              , "org.deepin.daemon.Audio1"
+    auto msg = QDBusInterface("org.deepin.dde.Audio1"
+                              , "/org/deepin/dde/Audio1"
+                              , "org.deepin.dde.Audio1"
                               , QDBusConnection::sessionBus(), this)
             .call("NoRestartPulseAudio");
     if (!msg.errorMessage().isEmpty())
@@ -614,9 +614,9 @@ void SessionManager::stopRedshift()
 
 void SessionManager::disconnectAudioDevices()
 {
-    auto msg = QDBusInterface("org.deepin.system.Bluetooth1"
-                              , "/org/deepin/system/Bluetooth1"
-                              , "org.deepin.system.Bluetooth1"
+    auto msg = QDBusInterface("org.deepin.dde.Bluetooth1"
+                              , "/org/deepin/dde/Bluetooth1"
+                              , "org.deepin.dde.Bluetooth1"
                               , QDBusConnection::systemBus(), this)
             .call("DisconnectAudioDevices");
     if (!msg.errorMessage().isEmpty()) {
@@ -678,7 +678,7 @@ void SessionManager::playLogoutSound()
         }
 
         auto sinkInter = new org::deepin::dde::audio1::Sink(
-                    "org.deepin.daemon.Audio1"
+                    "org.deepin.dde.Audio1"
                     , sink.path()
                     , QDBusConnection::sessionBus()
                     , this);
