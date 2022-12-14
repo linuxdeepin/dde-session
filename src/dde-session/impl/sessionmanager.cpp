@@ -693,8 +693,8 @@ void SessionManager::playLogoutSound()
     auto soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
     org::deepin::dde::SoundThemePlayer1 inter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1", QDBusConnection::systemBus(), this);
     // TODO device?
-    QDBusPendingReply<> reply = inter.Play(soundTheme, "desktop-logout", "");
-    if (reply.isError()) {
+    QDBusReply<void> reply = inter.Play(soundTheme, "desktop-logout", "");
+    if (!reply.isValid()) {
         qWarning() << "failed to play logout sound, error: " << reply.error().name();
     }
 }
