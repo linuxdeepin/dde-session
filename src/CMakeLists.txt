@@ -16,7 +16,6 @@ macro(qt5_add_dbus_interface_fix srcs xml class file)
 endmacro(qt5_add_dbus_interface_fix)
 
 # qtdbusextended
-set(DBUSEXTENDED_INCLUDE ${PROJECT_SOURCE_DIR}/src/qtdbusextended/)
 set(DBUS_INCLUDE ${PROJECT_SOURCE_DIR}/dbus/)
 list(APPEND DBUSEXTENDED_SOURCE
   ${PROJECT_SOURCE_DIR}/src/qtdbusextended/DBusExtended

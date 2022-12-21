@@ -64,7 +64,6 @@ add_executable(dde-session
     ${ADAPTER_SOURCES}
     ${INTERFACE_SOURCES}
     ${DBUS_TYPES}
-    ${DBUSEXTENDED_SOURCE}
     )
 
 target_link_libraries(dde-session
@@ -80,7 +79,6 @@ target_link_libraries(dde-session
 target_include_directories(dde-session PUBLIC
     ../
     ${QT_DBUS_INTERFACE_INCLUDE}
-    ${DBUSEXTENDED_INCLUDE}
     ${DBUS_INCLUDE}
     )
 
