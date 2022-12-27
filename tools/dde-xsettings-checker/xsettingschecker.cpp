@@ -1,6 +1,14 @@
 #include "xsettingschecker.h"
 #include "utils.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "xcursor_remap.h"
+#ifdef __cplusplus
+}
+#endif
+
 #include <QDBusConnection>
 #include <QSettings>
 #include <QFile>
@@ -114,10 +122,13 @@ void XSettingsChecker::initQtTheme()
     }
 }
 
+/**
+ * @brief XSettingsChecker::initLeftPtrCursor
+ * @note 进入桌面后，需要将鼠标光标初始化为默认样式
+ */
 void XSettingsChecker::initLeftPtrCursor()
 {
-    // TODO 这部分原有逻辑和greeter中部分操作重合了，应该不需要设置
-    // 如果登录成功后光标显示异常，这里再处理，或者把greeter的处理看流程迁移过来
+    xc_left_ptr_to_watch(0);
 }
 
 void XSettingsChecker::loadDefaultFontConfig(QString &defaultFont, QString &defaultMonoFont)
