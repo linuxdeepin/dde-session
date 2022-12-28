@@ -19,8 +19,10 @@
 #include "wmswitcher1adaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
+#include "utils/utils.h"
 #include "impl/sessionmanager.h"
 #include "impl/wmswitcher.h"
+#include "impl/iowait/iowaitwatcher.h"
 #include "environmentsmanager.h"
 #include "othersmanager.h"
 
@@ -121,9 +123,19 @@ int main(int argc, char *argv[])
     QDBusConnection::sessionBus().registerObject("/org/deepin/dde/WMSwitcher1", wmSwitcher);
 
     // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
-    QtConcurrent::run([ = ] {
+    QtConcurrent::run([] {
         OthersManager().init();
     });
+
+    // cpu iowait状态检测
+    if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "iowait-enabled", false).toBool()) {
+        QtConcurrent::run([] {
+            auto watcher = new IOWaitWatcher;
+            watcher->start();
+        });
+    } else {
+        qInfo() << "iowait watcher diabled";
+    }
 
     QtConcurrent::run([&session](){
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();

@@ -6,6 +6,10 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(Systemd REQUIRED IMPORTED_TARGET libsystemd)
 pkg_check_modules(QGSettings REQUIRED IMPORTED_TARGET gsettings-qt)
 pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
+pkg_check_modules(GIO2 REQUIRED IMPORTED_TARGET gio-2.0)
+pkg_check_modules(XCURSOR REQUIRED IMPORTED_TARGET xcursor)
+pkg_check_modules(XFIXES REQUIRED IMPORTED_TARGET xfixes)
+pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
 
 # dbus adaptor
 qt5_add_dbus_adaptor(ADAPTER_SOURCES
@@ -56,6 +60,10 @@ add_executable(dde-session
     impl/inhibitor.cpp
     impl/wmswitcher.h
     impl/wmswitcher.cpp
+    impl/iowait/iowaitwatcher.h
+    impl/iowait/iowaitwatcher.cpp
+    impl/iowait/xcursor_remap.h
+    impl/iowait/xcursor_remap.c
     ../utils/dconf.h
     ../utils/dconf.cpp
     ../utils/fifo.h
@@ -73,7 +81,11 @@ target_link_libraries(dde-session
     PkgConfig::Systemd
     ${DtkCore_LIBRARIES}
     PkgConfig::GLIB2
+    PkgConfig::GIO2
     PkgConfig::QGSettings
+    PkgConfig::XCURSOR
+    PkgConfig::XFIXES
+    PkgConfig::X11
     )
 
 target_include_directories(dde-session PUBLIC
