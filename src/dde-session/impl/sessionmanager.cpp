@@ -80,6 +80,11 @@ SessionManager::SessionManager(QObject *parent)
 
     // 处理异常退出的情况
     handleOSSignal();
+
+    // 播放登录提示音
+    if (canPlayEvent("desktop-login")) {
+        playLoginSound();
+    }
 }
 
 SessionManager::~SessionManager()
@@ -668,26 +673,75 @@ bool SessionManager::canPlayEvent(const QString &event)
     return true;
 }
 
+void SessionManager::playLoginSound()
+{
+    UNMASK_SERVICE(PULSEAUDIO_SERVICE);
+    START_SERVICE(PULSEAUDIO_SERVICE);
+
+    const QString &tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    if (tempDir.isEmpty())
+        return;
+
+    // 存在此文件说明已经播放过
+    const QString &markFile = tempDir + QDir::separator() + "startdde-login-sound-mark";
+    if (QFile(markFile).exists())
+        return;
+
+    // 获取自动登录的账户
+    auto getLightdmAutoLoginUser = [ = ] {
+        QSettings settings("/etc/lightdm/lightdm.conf", QSettings::IniFormat);
+        settings.beginGroup("Seat:*");
+        if (!settings.allKeys().contains("autologin-user"))
+            return QString();
+
+        return settings.value("autologin-user").toString();
+    };
+
+    // 当前用户不是自动登录用户时，不需要播放
+    const QString &autoLoginUser = getLightdmAutoLoginUser();
+    if (autoLoginUser.isEmpty() || m_login1UserInter->name() != autoLoginUser)
+        return;
+
+    qInfo() << "play system sound: desktop-login";
+    auto soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
+    org::deepin::dde::SoundThemePlayer1 inter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1", QDBusConnection::systemBus(), this);
+    QDBusPendingReply<> reply = inter.Play(soundTheme, "desktop-login", QString());
+    if (reply.isError()) {
+        qWarning() << "failed to play login sound, error: " << reply.error().name();
+    } else {
+        qDebug() << "success to play system sound: desktop-login";
+    }
+
+    // 播放后创建文件
+    QFile file(markFile);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "failed to create mark file";
+        return;
+    }
+    file.close();
+}
+
 void SessionManager::playLogoutSound()
 {
-    do {
-        auto sink = m_audioInter->defaultSink();
-        if (sink.path().isEmpty()) {
-            qDebug() << "no default sink";
-            break;
-        }
+    auto sink = m_audioInter->defaultSink();
+    if (sink.path().isEmpty()) {
+        qDebug() << "no default sink";
+        stopPulseAudioService();
+        return;
+    }
 
-        auto sinkInter = new org::deepin::dde::audio1::Sink(
-                    "org.deepin.dde.Audio1"
-                    , sink.path()
-                    , QDBusConnection::sessionBus()
-                    , this);
-        if (sinkInter->mute()) {
-            qDebug() << "default sink is mute";
-            break;
-        }
-    } while(0);
+    auto sinkInter = new org::deepin::dde::audio1::Sink(
+                "org.deepin.dde.Audio1"
+                , sink.path()
+                , QDBusConnection::sessionBus()
+                , this);
+    if (sinkInter->mute()) {
+        qDebug() << "default sink is mute";
+        stopPulseAudioService();
+        return;
+    }
 
+    // 始终在注销前退出pulseaudio服务
     stopPulseAudioService();
 
     auto soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();

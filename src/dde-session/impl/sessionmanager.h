@@ -39,6 +39,7 @@ public:
     void doLogout();
 
 public Q_SLOTS:
+    // DBus Methods
     bool AllowSessionDaemonRun();
     bool CanHibernate();
     bool CanLogout();
@@ -91,6 +92,7 @@ private:
 
     void preparePlayShutdownSound();
     bool canPlayEvent(const QString &event);
+    void playLoginSound();
     void playLogoutSound();
     void setDPMSMode(bool on);
 
