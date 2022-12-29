@@ -1,3 +1,13 @@
+dde-session (1.0.6) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * fix: 修复注销时声音特效不生效问题(Task: 160613)(Influence: 声音特效-注销)
+  * feat: 迁移iowait功能(Task: 230459)(Influence: cpu处于iowait状态时，鼠标光标会改变样式)
+  * feat: 进入桌面后，初始化鼠标光标样式(Task: 230459)(Influence: 进入桌面后，初始化鼠标光标样式)
+  * feat: 进入桌面后播放自动登录声音(Task: 230459)(Influence: 进入桌面后播放自动登录声音)
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Thu, 29 Dec 2022 15:14:39 +0800
+
 dde-session (1.0.5) unstable; urgency=medium
 
   [ TagBuilder ]
