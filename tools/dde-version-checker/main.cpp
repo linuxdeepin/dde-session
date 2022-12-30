@@ -5,8 +5,6 @@
 #include <QDir>
 #include <QProcess>
 
-#include "deepinversionchecker.h"
-
 bool isDeepinVersionChanged()
 {
     // 查看系统当前版本

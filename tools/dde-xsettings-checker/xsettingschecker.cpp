@@ -19,8 +19,8 @@ extern "C" {
 #include <QJsonObject>
 
 XSettingsChecker::XSettingsChecker(QObject *parent)
-    : QObject(parent) // TODO org.deepin.dde.SessionManager1 -> org.deepin.dde.XSettings1
-    , m_xSettingsInter(new QDBusInterface("org.deepin.dde.SessionManager1", "/org/deepin/dde/XSettings1", "org.deepin.dde.XSettings1", QDBusConnection::sessionBus(), this))
+    : QObject(parent) // TODO XSettings1服务当前仍处于startdde中，后期可能会独立出来
+    , m_xSettingsInter(new QDBusInterface("org.deepin.dde.XSettings1", "/org/deepin/dde/XSettings1", "org.deepin.dde.XSettings1", QDBusConnection::sessionBus(), this))
 {
 
 }

@@ -17,11 +17,7 @@ int start()
         return 0;
 
     // 登录后展示横幅通知信息
-#ifdef QT_DEBUG // V20 验证
     QDBusInterface userInter("org.deepin.dde.Accounts1", QString("/org/deepin/dde/Accounts1/User%1").arg(getuid()), "org.deepin.dde.Accounts1.User", QDBusConnection::systemBus());
-#else
-    QDBusInterface userInter("org.deepin.dde.Accounts1", QString("/org/deepin/dde/Accounts1/User%1").arg(getuid()), "org.deepin.dde.Accounts1.User", QDBusConnection::systemBus());
-#endif
     QDBusPendingReply<LoginReminderInfo> reply = userInter.call("GetReminderInfo");
     if (reply.isError()) {
         qWarning() << "failed to retrieve login reminder info, error: " << reply.error().message();
