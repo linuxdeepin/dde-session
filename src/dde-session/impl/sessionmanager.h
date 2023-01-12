@@ -19,10 +19,10 @@ class Inhibitor;
 class SessionManager : public QObject, public QDBusContext
 {
     Q_OBJECT
-    Q_PROPERTY(bool Locked READ locked NOTIFY lockedChanged)
-    Q_PROPERTY(int Stage READ stage NOTIFY stageChanged)
-    Q_PROPERTY(QDBusObjectPath CurrentSessionPath READ currentSessionPath NOTIFY currentSessionPathChanged)
-    Q_PROPERTY(QString CurrentUid READ currentUid NOTIFY currentUidChanged)
+    Q_PROPERTY(bool Locked READ locked /*NOTIFY lockedChanged*/)
+    Q_PROPERTY(int Stage READ stage /*NOTIFY stageChanged*/)
+    Q_PROPERTY(QDBusObjectPath CurrentSessionPath READ currentSessionPath /*NOTIFY currentSessionPathChanged*/)
+    Q_PROPERTY(QString CurrentUid READ currentUid /*NOTIFY currentUidChanged*/)
 
 public:
     static SessionManager *instance();
@@ -101,6 +101,12 @@ private:
     void shutdown(bool force);
     void reboot(bool force);
 
+    // 主动触发DBus的PropertiesChanged信息，否则调用方无法监听属性变化
+    void emitLockChanged(bool);
+    void emitStageChanged(int);
+    void emitCurrentSessionPathChanged(QDBusObjectPath);
+    void emitCurrentUidChanged(QString);
+
 private Q_SLOTS:
     void handleLoginSessionLocked();
     void handleLoginSessionUnlocked();
@@ -110,11 +116,6 @@ signals:
     void Unlock();
     void InhibitorAdded(const QDBusObjectPath &);
     void InhibitorRemoved(const QDBusObjectPath &);
-
-    void lockedChanged(bool);
-    void currentUidChanged(QString);
-    void stageChanged(int);
-    void currentSessionPathChanged(QDBusObjectPath);
 
 private:
     bool m_locked;

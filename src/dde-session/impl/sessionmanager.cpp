@@ -479,7 +479,7 @@ void SessionManager::SetLocked(bool lock)
     }
 
     m_locked = lock;
-    Q_EMIT lockedChanged(m_locked);
+    emitLockChanged(m_locked);
 }
 
 Q_DECL_DEPRECATED void SessionManager::Shutdown()
@@ -825,6 +825,36 @@ void SessionManager::reboot(bool force)
     qApp->quit();
 }
 
+void SessionManager::emitLockChanged(bool locked)
+{
+   QDBusMessage msg = QDBusMessage::createSignal("/org/deepin/dde/SessionManager1", "org.freedesktop.DBus.Properties", "PropertiesChanged");
+   QList<QVariant> arguments;
+   arguments.push_back("org.deepin.dde.SessionManager1");
+   QVariantMap changedProps;
+   changedProps.insert("Locked", locked);
+   arguments.push_back(changedProps);
+   msg.setArguments(arguments);
+   QDBusConnection::connectToBus(QDBusConnection::SessionBus, "org.deepin.dde.SessionManager1").send(msg);
+}
+
+void SessionManager::emitStageChanged(int state)
+{
+    Q_UNUSED(state);
+    // TODO 可能这个属性已经没用了，确认一下就可以删了
+}
+
+void SessionManager::emitCurrentSessionPathChanged(QDBusObjectPath path)
+{
+    Q_UNUSED(path);
+    // 这个属性不会变化
+}
+
+void SessionManager::emitCurrentUidChanged(QString uid)
+{
+    Q_UNUSED(uid);
+     // 这个属性不会变化
+}
+
 void SessionManager::handleLoginSessionLocked()
 {
     qDebug() << "login session locked.";
@@ -873,6 +903,6 @@ void SessionManager::handleLoginSessionUnlocked()
         } while (false);
 
         m_locked = false;
-        Q_EMIT lockedChanged(false);
+        emitLockChanged(false);
     }
 }
