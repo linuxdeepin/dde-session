@@ -1,3 +1,11 @@
+dde-session (1.0.7) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * fix: 修复SessionManager属性变化无法监听的问题(Task: 230459)(Influence: 暂无)
+  * fix: 修复高分屏下企业微信无法跟随系统缩放显示问题(Bug: 182737)(Influence: wine应用缩放)
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Fri, 13 Jan 2023 11:46:29 +0800
+
 dde-session (1.0.6) unstable; urgency=medium
 
   [ TagBuilder ]
