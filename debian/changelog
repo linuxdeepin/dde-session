@@ -1,3 +1,10 @@
+dde-session (1.0.7.1) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * feat: dde-session大版本升级冲突(Task: 237865)
+
+ -- lvpeilong <lvpeilong@uniontech.com>  Tue, 17 Jan 2023 09:14:28 +0800
+
 dde-session (1.0.7) unstable; urgency=medium
 
   [ TagBuilder ]
