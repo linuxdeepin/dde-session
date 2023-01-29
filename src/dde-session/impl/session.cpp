@@ -30,7 +30,6 @@ QString Session::GetSessionPath()
     return m_selfSessionPath;
 }
 
-// TODO:sessionManager迁移
 void Session::setSessionPath()
 {
     if (m_sessionPid <= 0) {
