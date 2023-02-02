@@ -1,3 +1,11 @@
+dde-session (1.0.8) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * chore: update doc(Task: 108555)(Influence: null)
+  * fix: 大版本升级异常退出登录问题修复(Bug: 183785)(Influence: 升级)
+
+ -- lvpeilong <lvpeilong@uniontech.com>  Thu, 02 Feb 2023 09:47:30 +0800
+
 dde-session (1.0.7.1) unstable; urgency=medium
 
   [ TagBuilder ]
