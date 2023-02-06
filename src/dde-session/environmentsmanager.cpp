@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "environmentsmanager.h"
 #include "utils/utils.h"
 #include "org_freedesktop_systemd1_Manager.h"
@@ -77,7 +81,7 @@ void EnvironmentsManager::createGenernalEnvironments()
     };
 
     // 浮点数相等
-    if (qAbs(scaleFactor - 1.0) > (1e-6)) {
+    if (qFuzzyIsNull(scaleFactor - 1.0)) {
         // set scale factor for deepin wine apps
         // 原先golang中的实现使用的是strconv.FormatFloat(scaleFactor, 'f', 2, 64)，和现在的计算结果是有差别的
         m_envMap.insert("DEEPIN_WINE_SCALE", QString::asprintf("%.2f", scaleFactor));

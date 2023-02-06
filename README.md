@@ -1,17 +1,12 @@
-# dde-session
-
-**Description**:
+## dde-session
 dde-session is used for launching DDE components systemd service project.
-
 This project refers to a part of GNOME session documents and files.
 
 ## Dependencies
+You can also check the "Depends" provided in the debian/control file.
 
 ### Build dependencies
-
-- cmake
-- qt
-
+You can also check the "Build-Depends" provided in the debian/control file.
 ### Runtime dependencies
 
 - startdde [https://github.com/linuxdeepin/startdde] (https://github.com/linuxdeepin/startdde)
@@ -33,7 +28,7 @@ Build
 mkdir build && cd build && cmake ../ -DCMAKE_INSTALL_PREFIX=/usr && make
 ```
 
-If you have isolated testing build environment (say a docker container), you can install it directly
+If you have isolated testing build environment (say a docker container), you can install it directly.
 
 ```shell
 sudo make install
@@ -62,10 +57,10 @@ Exec=/usr/bin/dde-session
 
 Any usage issues can ask for help via
 
-- [Developer center](https://github.com/linuxdeepin/developer-center/issues)
-- [IRC channel](https://web.libera.chat/?channels=#deepin)
-- [Forum](https://bbs.deepin.org)
-- [WiKi](https://wiki.deepin.org/)
+* [Matrix](https://matrix.to/#/#deepin-community:matrix.org)
+* [Official Forum](https://bbs.deepin.org/)
+* [Wiki](https://wiki.deepin.org/)
+* [Developer Center](https://github.com/linuxdeepin/developer-center/issues)
 
 ## Getting involved
 
