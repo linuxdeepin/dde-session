@@ -23,8 +23,6 @@ void OthersManager::init()
 
 #ifndef QT_DEBUG
     launchWmChooser();
-    launchKwin();
-    launchSessionDaemon();
 #endif
 
     qInfo() << "others manager init finished";
@@ -73,24 +71,6 @@ void OthersManager::launchWmChooser()
 
         qDebug() << "update compositing enabled: " << compositingEnabled;
     }
-}
-
-/**
- * @brief OthersManager::launchKwin
- * @note 运行kwin进程
- */
-void OthersManager::launchKwin()
-{
-    qDebug() << "launch kwin";
-    // TODO 后续可优化成systemd service
-    QProcess::startDetached("/bin/bash", QStringList() << "/usr/bin/kwin_no_scale");
-}
-
-void OthersManager::launchSessionDaemon()
-{
-    // qDebug() << "launcher session daemon";
-
-    // TODO
 }
 
 /**

@@ -18,8 +18,6 @@ public:
 
 private:
     void launchWmChooser();
-    void launchKwin();
-    void launchSessionDaemon();
 
     bool inVM();
 };

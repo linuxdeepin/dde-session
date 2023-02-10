@@ -12,8 +12,8 @@ After=graphical-session.target graphical-session-pre.target
 Conflicts=dde-session.target dde-session-manager.target
 After=dde-session.target dde-session-manager.target
 
-Conflicts=dde-session-initialized.target dde-session-pre.target
-After=dde-session-initialized.target dde-session-pre.target
+Conflicts=dde-session-pre.target
+After=dde-session-pre.target
 
 Conflicts=services.slice components.slice
 After=services.slice components.slice

@@ -1,5 +1,6 @@
 [Desktop Entry]
-Name=deepin
+Name=DDE (Wayland)
 Comment=Deepin Desktop Environment
 Exec=/usr/bin/dde-session
 TryExec=/usr/bin/dde-session
+X-LightDM-Session-Type=wayland

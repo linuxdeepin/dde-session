@@ -4,8 +4,5 @@ DefaultDependencies=no
 RefuseManualStart=yes
 RefuseManualStop=yes
 
-Requisite=dde-session-initialized.target
-Before=dde-session-initialized.target
-
 BindsTo=dde-session-manager.service
 After=dde-session-manager.service

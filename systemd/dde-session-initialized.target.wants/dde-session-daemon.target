@@ -3,6 +3,3 @@ Description=dde-session-daemon target
 
 BindsTo=dde-session-daemon.service
 After=dde-session-daemon.service
-
-Requisite=dde-session-initialized.target
-Before=dde-session-initialized.target

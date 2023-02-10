@@ -81,17 +81,16 @@ int main(int argc, char *argv[])
     parser.addOption(systemd);
     parser.process(app);
 
-    QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
     if (!parser.isSet(systemd)) {
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
 
         EnvironmentsManager().init();
 
-        QString dmService = "dde-session-%1.target";
-        qInfo() << "start dm service:" << dmService.arg(sessionType.data());
+        QString dmService = "dde-session.target";
+        qInfo() << "start dm service:" << dmService;
         org::freedesktop::systemd1::Manager systemdDBus("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
-        startSystemdUnit(systemdDBus, dmService.arg(sessionType.data()), "replace");
+        startSystemdUnit(systemdDBus, dmService, "replace");
 
         QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Session1", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
         watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [=] {

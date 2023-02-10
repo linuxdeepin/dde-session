@@ -4,21 +4,17 @@ RefuseManualStart=no
 RefuseManualStop=no
 StartLimitIntervalSec=0
 
-Requisite=dde-session-manager.target
-After=dde-session-manager.target
-
 Requisite=dde-display.target
 After=dde-display.target
 
-Requisite=dde-session-initialized.target
-Before=dde-session-initialized.target
-
-# equal Service Type is dbus
 Requires=dbus.socket
 After=dbus.socket
 
 Requires=dde-session-daemon.target
 Before=dde-session-daemon.target
+
+Requisite=dde-session-initialized.target
+After=dde-session-initialized.target
 
 [Service]
 Type=notify

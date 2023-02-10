@@ -1,0 +1,8 @@
+[Unit]
+Description=dde pre init service
+RefuseManualStart=yes
+RefuseManualStop=yes
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dde_update_dbus_env

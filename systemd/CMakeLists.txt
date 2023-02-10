@@ -3,12 +3,13 @@ set(SERVICES
     dde-session-manager.service
     dde-session-manager.target
     dde-session-pre.target
+    dde-session-pre.service
     dde-session-exit-task.service
     dde-session-shutdown.service
     dde-session-shutdown.target
     dde-session.target
-    dde-session-x11.target
-    dde-session-wayland.target
+    dde-session@x11.service
+    dde-session@wayland.service
     services.slice
 )
 install(FILES ${SERVICES} DESTINATION lib/systemd/user/)

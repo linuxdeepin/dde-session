@@ -6,18 +6,17 @@ OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
 CollectMode=inactive-or-failed
 
-Requisite=dde-session-manager.target
-After=dde-session-manager.target
+Requires=dde-display.target
+Before=dde-display.target
 
-Requisite=dde-session-initialized.target
-Before=dde-session-initialized.target
-
-# equal Service Type is dbus
 Requires=dbus.socket
 After=dbus.socket
 
-Requires=dde-display.target
-Before=dde-display.target
+Requires=dde-session-daemon.target
+Before=dde-session-daemon.target
+
+Requisite=dde-session-initialized.target
+After=dde-session-initialized.target
 
 [Service]
 Type=notify
