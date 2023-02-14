@@ -861,8 +861,9 @@ void SessionManager::emitCurrentUidChanged(QString uid)
 
 void SessionManager::handleLoginSessionLocked()
 {
-    qDebug() << "login session locked.";
-    // 在特殊情况下，比如用 dde-switchtogreeter 命令切换到 greeter, 即切换到其他 tty, RequestLock 方法不能立即返回。
+    qDebug() << "login session locked." << locked();
+    // 在特殊情况下，比如用 dde-switchtogreeter 命令切换到 greeter, 即切换到其他 tty
+    // 前端(登录界面和锁屏界面)已绑定锁定信号进行了处理，此处只需更新Locked属性。
 
     // 如果已经锁定，则立即返回
     if (locked()) {
@@ -870,7 +871,8 @@ void SessionManager::handleLoginSessionLocked()
         return;
     }
 
-    RequestLock();
+    m_locked = true;
+    emitLockChanged(true);
 }
 
 void SessionManager::handleLoginSessionUnlocked()
