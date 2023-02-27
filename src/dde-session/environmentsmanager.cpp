@@ -75,7 +75,7 @@ void EnvironmentsManager::createGenernalEnvironments()
     double scaleFactor = Utils::SettingValue("com.deepin.xsettings", QByteArray(), "scale-factor", 1.0).toDouble();
     m_envMap = {
         {"GNOME_DESKTOP_SESSION_ID", "this-is-deprecated"},
-        {"XDG_CURRENT_DESKTOP", "Deepin"},
+        {"XDG_CURRENT_DESKTOP", "DDE"},
         {"QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor)},
         {"QT_LINUX_ACCESSIBILITY_ALWAYS_ON", "1"},
     };
