@@ -3,7 +3,6 @@ set(SERVICES
     dde-session-manager.service
     dde-session-manager.target
     dde-session-pre.target
-    dde-session-pre.service
     dde-session-exit-task.service
     dde-session-shutdown.service
     dde-session-shutdown.target
