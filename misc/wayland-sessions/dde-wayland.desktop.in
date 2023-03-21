@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=DDE (Wayland)
 Comment=Deepin Desktop Environment
-Exec=/usr/bin/dde-session
-TryExec=/usr/bin/dde-session
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/dde-session
+TryExec=@CMAKE_INSTALL_FULL_BINDIR@/dde-session
 X-LightDM-Session-Type=wayland
