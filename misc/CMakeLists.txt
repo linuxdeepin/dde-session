@@ -1,1 +1,1 @@
-install(DIRECTORY xsessions wayland-sessions DESTINATION share)
+install(DIRECTORY xsessions wayland-sessions DESTINATION ${CMAKE_INSTALL_DATADIR})

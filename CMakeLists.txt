@@ -9,6 +9,8 @@ endif ()
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(GNUInstallDirs)
+
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX /usr)
 endif ()
@@ -25,4 +27,4 @@ add_subdirectory("misc")
 add_subdirectory("tools")
 
 install(FILES dbus/org.deepin.dde.Session1.service
-    DESTINATION share/dbus-1/services/)
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/services/)
