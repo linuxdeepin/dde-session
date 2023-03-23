@@ -1,7 +1,10 @@
 set(BIN_NAME dde-login-reminder)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Network REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Network DBus REQUIRED)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+#find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Network REQUIRED)
+find_package(Qt5 COMPONENTS Core Network DBus REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(QGSettings REQUIRED IMPORTED_TARGET gsettings-qt)

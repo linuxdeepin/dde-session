@@ -1,6 +1,8 @@
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core DBus REQUIRED)
-
+#find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Core DBus REQUIRED)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 qt5_add_dbus_interface(DBUS_SOURCES
     ../../dbus/adaptor/org.deepin.dde.Session1.xml
     Session
