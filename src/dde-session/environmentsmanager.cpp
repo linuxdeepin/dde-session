@@ -115,15 +115,6 @@ void EnvironmentsManager::createDBusEnvironments()
 
 bool EnvironmentsManager::unsetEnv(QString env)
 {
-    // systemd1
-    org::freedesktop::systemd1::Manager systemd1("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
-    QDBusPendingReply<void> replySystemd1 = systemd1.UnsetEnvironment(QStringList(env));
-    replySystemd1.waitForFinished();
-    if (replySystemd1.isError()) {
-        qWarning() << "unset systemd1 env failed:" << env;
-        return false;
-    }
-
     // dbus
     org::freedesktop::DBus dbus("org.freedesktop.DBus", "/org/freedesktop/DBus", QDBusConnection::sessionBus());
     EnvInfoList envs;
@@ -134,5 +125,15 @@ bool EnvironmentsManager::unsetEnv(QString env)
         qWarning() << "unset dbus env failed:" << env;
         return false;
     }
+
+    // systemd1
+    org::freedesktop::systemd1::Manager systemd1("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
+    QDBusPendingReply<void> replySystemd1 = systemd1.UnsetEnvironment(QStringList(env));
+    replySystemd1.waitForFinished();
+    if (replySystemd1.isError()) {
+        qWarning() << "unset systemd1 env failed:" << env;
+        return false;
+    }
+
     return true;
 }
