@@ -1,7 +1,9 @@
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Concurrent DBus REQUIRED)
+#find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Core Concurrent DBus REQUIRED)
 find_package(DtkCore REQUIRED)
-
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(Systemd REQUIRED IMPORTED_TARGET libsystemd)
 pkg_check_modules(QGSettings REQUIRED IMPORTED_TARGET gsettings-qt)
