@@ -22,6 +22,5 @@ After=dde-session-initialized.target
 Type=notify
 NotifyAccess=all
 ExecStart=/usr/bin/startdde
-ExecStopPost=/usr/lib/libexec/dde-session-ctl --shutdown
 TimeoutStartSec=infinity
 Slice=services.slice
