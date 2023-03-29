@@ -1,3 +1,13 @@
+dde-session (1.0.9) unstable; urgency=medium
+
+  [ TagBuilder ]
+  * fix: wrong environment variable cleanup
+  * feat: add wayland session entry
+  * chore!: use DDE for current desktop name
+  * fix: 切换用户后打开关机界面异常 (#6)
+
+ -- dengbo <dengbo@uniontech.com>  Wed, 29 Mar 2023 14:15:01 +0800
+
 dde-session (1.0.8) unstable; urgency=medium
 
   [ TagBuilder ]
