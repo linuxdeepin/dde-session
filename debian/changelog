@@ -1,3 +1,9 @@
+dde-session (1.1.0) unstable; urgency=medium
+
+  * fix: dde-display doesn't start logout steps when stopped
+
+ -- dengbo <dengbo@uniontech.com>  Fri, 7 Apr 2023 15:21:40 +0800
+
 dde-session (1.0.9) unstable; urgency=medium
 
   [ TagBuilder ]
