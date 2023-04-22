@@ -27,6 +27,3 @@ After=services.slice components.slice
 # Note that this can also be improved by reversing the conflicts above and
 # not listing them in the shutdown unit.
 StopWhenUnneeded=true
-
-Wants=dde-session-exit-task.service
-Before=dde-session-exit-task.service

@@ -93,8 +93,9 @@ int main(int argc, char *argv[])
         startSystemdUnit(systemdDBus, dmService, "replace");
 
         QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Session1", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
-        watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [=] {
+        watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [&] {
             qInfo() << "dde session exit";
+            startSystemdUnit(systemdDBus, "dde-session-exit-task.service", "replace");
             qApp->quit();
         });
         pid_t curPid = getpid();

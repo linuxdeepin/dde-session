@@ -168,12 +168,8 @@ void SessionManager::prepareLogout(bool force)
 void SessionManager::doLogout()
 {
 #ifndef QT_DEBUG
-    QDBusPendingReply<> reply = m_login1SessionInter->Terminate();
-    if (reply.isError()) {
-        qWarning() << "failed to terminate session self";
-    }
-
-    qApp->quit();
+    QDBusInterface systemd("org.freedesktop.systemd1", "/org/freedesktop/systemd1", "org.freedesktop.systemd1.Manager");
+    qInfo() << systemd.call("StartUnit", "dde-session-shutdown.target", "replace-irreversibly");
 #else
     qInfo() << "logout completed, bug not now";
 #endif

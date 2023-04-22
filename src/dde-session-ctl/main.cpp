@@ -6,58 +6,10 @@
 #include <QCommandLineParser>
 #include <QDebug>
 #include <QDBusInterface>
-#include <QProcess>
-#include <QVector>
 #include <QDBusObjectPath>
 #include <QDBusVariant>
 
 #include "Session.h"
-
-QVector<uint> getStartddePID() 
-{
-    QProcess process;
-    process.setProgram("pidof");
-    QStringList argument("startdde");
-    process.setArguments(argument);
-    process.start();
-    process.waitForFinished();
-    QStringList pids = QString::fromLocal8Bit(process.readAllStandardOutput()).simplified().split(" ");
-    QVector<uint> ret;
-    for (auto pid : pids) {
-        if (!pid.isEmpty()) {
-            ret.append(pid.toUInt());
-        }
-    }
-    qDebug() << "Startdde Pids:" << ret;
-    return ret;
-}
-
-bool checkStartddeSession()
-{
-    QVector<uint> pids = getStartddePID();
-    for (uint pid : pids) {
-        QDBusInterface systemd("org.freedesktop.systemd1", "/org/freedesktop/systemd1", "org.freedesktop.systemd1.Manager", QDBusConnection::systemBus());
-        QDBusReply<QDBusObjectPath> reply = systemd.call("GetUnitByPID", pid);
-        if (!reply.isValid()) {
-            continue;
-        }
-        qInfo() << "startdde unit:" << reply.value().path();
-        if (reply.value().path().isEmpty()) {
-            continue;
-        }
-        QDBusInterface unit("org.freedesktop.systemd1", reply.value().path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
-        QDBusReply<QDBusVariant> replyId = unit.call("Get", "org.freedesktop.systemd1.Unit", "Id");
-        if (!replyId.isValid()) {
-            continue;
-        }
-        QString id = replyId.value().variant().toString();
-        if (!id.endsWith("service")) {
-            qWarning() << "check startdde error: is not a service.";
-            return false;
-        }
-    }
-    return true;
-}
 
 int main(int argc, char *argv[])
 {
@@ -97,12 +49,14 @@ int main(int argc, char *argv[])
     }
 
     if (isSessionExit) {
-        qInfo() << "session exit...";
-        if (checkStartddeSession()) {
+        // FIXME: Waiting for one second is for the session to exit normally, otherwise the process will crash because the dbus service exits.
+        QTimer::singleShot(1000, [=] {
+            qInfo() << "session exit...";
             QDBusInterface systemd("org.freedesktop.systemd1", "/org/freedesktop/systemd1", "org.freedesktop.systemd1.Manager");
             qInfo() << systemd.call("StopUnit", "dbus.service", "replace-irreversibly");
-        }
-        return 0;
+            return qApp->quit();
+        });
+        return app.exec();
     }
 
     return 0;
