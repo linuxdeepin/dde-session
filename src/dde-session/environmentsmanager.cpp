@@ -29,6 +29,8 @@ void EnvironmentsManager::init()
         // 从wayland切换到x11后，此环境变量还存在
         // 部分应用以此环境变量是否存在来判断当前是否是wayland环境, 为避免导致的一系列问题，启动后清除它
         ret = unsetEnv("WAYLAND_DISPLAY");
+        ret = unsetEnv("QT_WAYLAND_SHELL_INTEGRATION");
+
     } else if (sessionType == "wayland") {
         ret = true;
     }
