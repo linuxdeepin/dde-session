@@ -1,3 +1,13 @@
+dde-session (1.1.1) unstable; urgency=medium
+
+  * chore: sync changes in deepin-kwin
+  * chore: install dde-session-ctl to CMAKE_INSTALL_LIBEXECDIR
+  * fix: not in the correct exit order
+  * fix: dapplication cannot load icon
+  * fix: wine window shadows not following
+
+ -- dengbo <dengbo@uniontech.com>  Sun, 23 Apr 2023 17:35:15 +0800
+
 dde-session (1.1.0) unstable; urgency=medium
 
   * fix: dde-display doesn't start logout steps when stopped
