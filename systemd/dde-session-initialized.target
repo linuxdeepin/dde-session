@@ -6,8 +6,9 @@ DefaultDependencies=no
 RefuseManualStart=yes
 RefuseManualStop=yes
 
-BindsTo=dde-session-pre.target
+Requires=dde-session-pre.target
 After=dde-session-pre.target
 
-BindsTo=dde-session.target
-After=dde-session.target
+Requisite=dde-session.target
+PartOf=dde-session.target
+Before=dde-session.target

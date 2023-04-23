@@ -7,11 +7,14 @@ CollectMode=inactive-or-failed
 RefuseManualStart=on
 RefuseManualStop=on
 
-BindsTo=dde-session-pre.target
-After=dde-session-pre.target
+Conflicts=shutdown.target dde-session-shutdown.target
+PartOf=graphical-session.target
 
-Requisite=dde-session-initialized.target
-Before=dde-session-initialized.target
+Requires=dde-session-wayland.target
+After=dde-session-wayland.target
+
+Requires=dde-session.target
+After=dde-session.target
 
 PartOf=graphical-session.target
 
@@ -39,3 +42,4 @@ Restart=always
 RestartSec=0ms
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
+

@@ -2,8 +2,13 @@
 Description=dde-session target
 DefaultDependencies=no
 
-BindsTo=dde-session-manager.target
-After=dde-session-manager.target
+BindsTo=graphical-session.target
+Before=graphical-session.target
+
+Requires=dde-session-initialized.target
+After=dde-session-initialized.target
+
+Requires=dde-session-manager.service
 
 Wants=dde-session@wayland.service
 Wants=dde-session@x11.service

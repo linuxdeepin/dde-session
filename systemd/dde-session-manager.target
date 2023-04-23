@@ -1,8 +1,13 @@
 [Unit]
-Description=dde-session-manager target
+Description=DDE Session Manager is ready
 DefaultDependencies=no
 RefuseManualStart=yes
 RefuseManualStop=yes
 
-BindsTo=dde-session-manager.service
-After=dde-session-manager.service
+Requisite=dde-session-pre.target
+After=dde-session-pre.target
+
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
+

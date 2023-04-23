@@ -2,21 +2,17 @@
 Description=dde-display service
 RefuseManualStart=no
 RefuseManualStop=no
+StartLimitBurst=3
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
 CollectMode=inactive-or-failed
 
-Requires=dde-display.target
-Before=dde-display.target
-
 Requires=dbus.socket
 After=dbus.socket
 
-Requires=dde-session-daemon.target
-Before=dde-session-daemon.target
-
 Requisite=dde-session-initialized.target
-After=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 [Service]
 Type=notify
@@ -24,3 +20,6 @@ NotifyAccess=all
 ExecStart=/usr/bin/startdde
 TimeoutStartSec=infinity
 Slice=services.slice
+Restart=always
+RestartSec=1s
+

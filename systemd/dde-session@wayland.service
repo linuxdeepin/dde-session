@@ -7,13 +7,11 @@ CollectMode=inactive-or-failed
 RefuseManualStart=on
 RefuseManualStop=on
 
-BindsTo=dde-session-pre.target
-After=dde-session-pre.target
+After=dde-session-manager.target
 
 Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
 Before=dde-session-initialized.target
-
-PartOf=graphical-session.target
 
 [Service]
 Slice=session.slice
@@ -35,3 +33,4 @@ ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemct
 Restart=no
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
+

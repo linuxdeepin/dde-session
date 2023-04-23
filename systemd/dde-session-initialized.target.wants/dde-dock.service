@@ -2,10 +2,14 @@
 Description=dde-dock service
 RefuseManualStart=no
 RefuseManualStop=no
-StartLimitIntervalSec=0
+StartLimitBurst=3
 
-Wants=dde-session-daemon.target
-After=dde-session-daemon.target
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
+
+Requires=dbus.socket
+After=dbus.socket
 
 [Service]
 Type=simple
@@ -13,4 +17,4 @@ ExecStart=/usr/bin/dde-dock
 TimeoutStartSec=infinity
 Slice=components.slice
 Restart=always
-RestartSec=500ms
+RestartSec=1s

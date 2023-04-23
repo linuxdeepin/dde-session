@@ -31,6 +31,7 @@ set(DDE_SESSION_INITIALIZED_WANTS
     dde-session-initialized.target.wants/dde-desktop.service
     dde-session-initialized.target.wants/dde-session-daemon.service
     dde-session-initialized.target.wants/dde-session-daemon.target
+    dde-session-initialized.target.wants/dde-dock.service
 )
 install(FILES ${DDE_SESSION_INITIALIZED_WANTS} DESTINATION lib/systemd/user/)
 install_symlink(dde-display.service dde-session-initialized.target.wants)
@@ -40,7 +41,6 @@ install_symlink(dde-session-daemon.service dde-session-initialized.target.wants)
 # dde-session-daemon.target.wants - TODO: 暂时先放这里，后续应该转移到对应服务
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-daemon.target.wants/)
 set(DDE_SESSION_DAEMON_WANTS
-    dde-session-daemon.target.wants/dde-dock.service
     dde-session-daemon.target.wants/dde-lock.service
     dde-session-daemon.target.wants/dde-lock.timer
     dde-session-daemon.target.wants/dde-osd.service

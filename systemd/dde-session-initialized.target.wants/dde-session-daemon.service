@@ -2,7 +2,6 @@
 Description=dde-session-daemon service
 RefuseManualStart=no
 RefuseManualStop=no
-StartLimitIntervalSec=0
 
 Requisite=dde-display.target
 After=dde-display.target
@@ -22,5 +21,3 @@ NotifyAccess=all
 ExecStart=/usr/lib/deepin-daemon/dde-session-daemon
 TimeoutStartSec=infinity
 Slice=services.slice
-Restart=always
-RestartSec=1s

@@ -2,14 +2,11 @@
 Description=dde-desktop service
 RefuseManualStart=no
 RefuseManualStop=no
-StartLimitIntervalSec=60s
-StartLimitBurst=30
-
-Requisite=dde-display.target
-After=dde-display.target
+StartLimitBurst=3
 
 Requisite=dde-session-initialized.target
-After=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 Requires=dbus.socket
 After=dbus.socket
