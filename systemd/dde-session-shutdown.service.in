@@ -6,4 +6,4 @@ PartOf=dde-session.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/lib/libexec/dde-session-ctl --shutdown
+ExecStart=@CMAKE_INSTALL_FULL_LIBEXECDIR@/dde-session-ctl --shutdown

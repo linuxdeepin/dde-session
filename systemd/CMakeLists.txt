@@ -1,10 +1,20 @@
+configure_file(dde-session-manager.service.in
+               dde-session-manager.service
+               @ONLY)
+configure_file(dde-session-exit-task.service.in
+               dde-session-exit-task.service
+               @ONLY)
+configure_file(dde-session-shutdown.service.in
+               dde-session-shutdown.service
+               @ONLY)
+
 set(SERVICES
     dde-session-initialized.target
-    dde-session-manager.service
+    ${CMAKE_CURRENT_BINARY_DIR}/dde-session-manager.service
     dde-session-manager.target
     dde-session-pre.target
-    dde-session-exit-task.service
-    dde-session-shutdown.service
+    ${CMAKE_CURRENT_BINARY_DIR}/dde-session-exit-task.service
+    ${CMAKE_CURRENT_BINARY_DIR}/dde-session-shutdown.service
     dde-session-shutdown.target
     dde-session.target
     dde-session@x11.service

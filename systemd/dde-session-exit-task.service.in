@@ -7,5 +7,5 @@ DefaultDependencies=no
 
 [Service]
 Type=simple
-ExecStart=/usr/lib/libexec/dde-session-ctl --session-exit
+ExecStart=@CMAKE_INSTALL_FULL_LIBEXECDIR@/dde-session-ctl --session-exit
 Slice=-.slice
