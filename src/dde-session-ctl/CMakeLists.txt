@@ -18,4 +18,4 @@ target_link_libraries(dde-session-ctl
     Qt${QT_VERSION_MAJOR}::DBus
 )
 
-install(TARGETS dde-session-ctl DESTINATION lib/libexec/)
+install(TARGETS dde-session-ctl DESTINATION ${CMAKE_INSTALL_LIBEXECDIR})

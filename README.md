@@ -9,7 +9,7 @@ You can also check the "Depends" provided in the debian/control file.
 You can also check the "Build-Depends" provided in the debian/control file.
 ### Runtime dependencies
 
-- startdde [https://github.com/linuxdeepin/startdde] (https://github.com/linuxdeepin/startdde)
+- [startdde](https://github.com/linuxdeepin/startdde)
 - systemd
 
 ## Installation

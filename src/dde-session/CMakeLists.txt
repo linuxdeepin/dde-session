@@ -96,4 +96,4 @@ target_include_directories(dde-session PUBLIC
     ${DBUS_INCLUDE}
     )
 
-install(TARGETS dde-session DESTINATION bin)
+install(TARGETS dde-session DESTINATION ${CMAKE_INSTALL_BINDIR})

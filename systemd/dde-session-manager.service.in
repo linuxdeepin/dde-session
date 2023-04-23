@@ -12,6 +12,6 @@ Before=dde-session-manager.target
 [Service]
 Type=notify
 NotifyAccess=main
-ExecStart=/usr/bin/dde-session --systemd-service
-ExecStopPost=/usr/lib/libexec/dde-session-ctl --shutdown
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/dde-session --systemd-service
+ExecStopPost=@CMAKE_INSTALL_FULL_LIBEXECDIR@/dde-session-ctl --shutdown
 Slice=services.slice
