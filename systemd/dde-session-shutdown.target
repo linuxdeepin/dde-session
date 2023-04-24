@@ -12,11 +12,8 @@ After=graphical-session.target graphical-session-pre.target
 Conflicts=dde-session.target dde-session-manager.target
 After=dde-session.target dde-session-manager.target
 
-Conflicts=dde-session-pre.target
-After=dde-session-pre.target
-
-Conflicts=services.slice components.slice
-After=services.slice components.slice
+Conflicts=dde-session-pre.target dde-session-initialized.target
+After=dde-session-pre.target dde-session-initialized.target
 
 # can not stop dbus here, use dde-session-exit-task.service
 # Conflicts=dbus.service

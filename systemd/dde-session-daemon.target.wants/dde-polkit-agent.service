@@ -2,15 +2,20 @@
 Description=dde-polkit-agent service
 RefuseManualStart=no
 RefuseManualStop=no
-StartLimitIntervalSec=0
+StartLimitBurst=3
+CollectMode=inactive-or-failed
 
 Wants=dde-session-daemon.target
 After=dde-session-daemon.target
+
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+After=dde-session-initialized.target
 
 [Service]
 Type=simple
 ExecStart=/usr/lib/polkit-1-dde/dde-polkit-agent
 TimeoutStartSec=infinity
-Slice=components.slice
-Restart=always
+Slice=session.slice
+Restart=on-failure
 RestartSec=500ms

@@ -1,10 +1,10 @@
 [Unit]
 Description=dde-xsettings-checker service
+CollectMode=inactive-or-failed
 
 Wants=dde-session-daemon.target
 After=dde-session-daemon.target
 
 [Service]
 Type=simple
-RemainAfterExit=no
 ExecStart=/usr/bin/dde-xsettings-checker

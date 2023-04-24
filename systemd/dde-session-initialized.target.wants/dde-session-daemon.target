@@ -1,5 +1,2 @@
 [Unit]
 Description=dde-session-daemon target
-
-BindsTo=dde-session-daemon.service
-After=dde-session-daemon.service

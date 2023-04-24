@@ -33,4 +33,3 @@ ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemct
 Restart=no
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
-

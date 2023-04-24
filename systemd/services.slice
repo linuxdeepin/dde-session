@@ -1,6 +1,0 @@
-[Unit]
-Description=services slice, DDE user services slice
-Documentation=
-
-[Slice]
-# resource control

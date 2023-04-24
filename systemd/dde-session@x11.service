@@ -7,14 +7,12 @@ CollectMode=inactive-or-failed
 RefuseManualStart=on
 RefuseManualStop=on
 
-Conflicts=shutdown.target dde-session-shutdown.target
-PartOf=graphical-session.target
-
 Requires=dde-session-wayland.target
 After=dde-session-wayland.target
 
-Requires=dde-session.target
-After=dde-session.target
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 PartOf=graphical-session.target
 
@@ -24,7 +22,8 @@ StartLimitBurst=1
 
 [Service]
 Slice=session.slice
-Type=simple
+BusName=org.kde.KWin
+Type=dbus
 # NOTE: This can be replaced with ConditionEnvironment=XDG_SESSION_TYPE=%I in
 #       the [Unit] section with systemd >= 246. Also, the current solution is
 #       kind of painful as systemd had a bug where it retries the condition.
@@ -42,4 +41,3 @@ Restart=always
 RestartSec=0ms
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
-
