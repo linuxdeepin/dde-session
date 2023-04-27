@@ -46,3 +46,7 @@ set(DDE_SESSION_DAEMON_WANTS
 )
 install(FILES ${DDE_SESSION_DAEMON_WANTS} DESTINATION lib/systemd/user/)
 install(DIRECTORY dde-session-shutdown.target.d DESTINATION lib/systemd/user/)
+install_symlink(dde-lock.service dde-session-daemon.target.wants)
+install_symlink(dde-polkit-agent.service dde-session-daemon.target.wants)
+install_symlink(dde-osd.service dde-session-daemon.target.wants)
+
