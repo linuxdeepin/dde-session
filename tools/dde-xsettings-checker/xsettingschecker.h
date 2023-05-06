@@ -21,11 +21,8 @@ public:
     void init();
 
 private:
-    void initXSettingsFont();
     void initQtTheme();
     void initLeftPtrCursor();
-
-    void loadDefaultFontConfig(QString &defaultFont, QString &defaultMonoFont);
 
     QDBusPendingReply<QString> GetXSettingsString(const QString &prop);
     QDBusPendingReply<> SetXSettingsString(const QString &prop, const QString &value);
