@@ -7,11 +7,12 @@ CollectMode=inactive-or-failed
 RefuseManualStart=on
 RefuseManualStop=on
 
-After=dde-session-manager.target
+Requires=dde-session-manager.service
+After=dde-session-manager.service
 
-Requisite=dde-session-initialized.target
-PartOf=dde-session-initialized.target
-Before=dde-session-initialized.target
+Requisite=dde-session-pre.target
+PartOf=dde-session-pre.target
+Before=dde-session-pre.target
 
 [Service]
 Slice=session.slice

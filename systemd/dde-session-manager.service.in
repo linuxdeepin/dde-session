@@ -7,7 +7,7 @@ OnFailureJobMode=replace-irreversibly
 CollectMode=inactive-or-failed
 
 Requisite=dde-session-pre.target
-After=dde-session-pre.target
+Before=dde-session-pre.target
 
 Requires=dde-session-manager.target
 PartOf=dde-session-manager.target

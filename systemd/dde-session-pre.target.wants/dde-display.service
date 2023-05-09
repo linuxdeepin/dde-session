@@ -10,9 +10,11 @@ CollectMode=inactive-or-failed
 Requires=dbus.socket
 After=dbus.socket
 
-Requisite=dde-session-initialized.target
-PartOf=dde-session-initialized.target
-Before=dde-session-initialized.target
+Requisite=dde-session-pre.target
+Before=dde-session-pre.target
+
+After=dde-session@wayland.service
+After=dde-session@x11.service
 
 [Service]
 Type=notify
