@@ -1,8 +1,13 @@
-dde-session (1.1.2) unstable; urgency=medium
+dde-session (1.1.3) unstable; urgency=medium
+
+  * fix: no environment variable on wayland session
+  * chore: remove Qt font set through xsettings
+
+ -- dengbo <dengbo@uniontech.com>  Thu, 11 May 2023 17:56:30 +0800
 
   * refactor: Organize systemd services
   * refactor: remove unneeded dependencies
-  * chore: dde-session-daemon.target.wants some services is lost 
+  * chore: dde-session-daemon.target.wants some services is lost
 
  -- dengbo <dengbo@uniontech.com>  Sat, 6 May 2023 10:16:30 +0800
 
