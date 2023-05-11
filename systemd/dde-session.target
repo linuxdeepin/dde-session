@@ -9,6 +9,7 @@ Requires=dde-session-initialized.target
 After=dde-session-initialized.target
 
 Requires=dde-session-manager.service
+After=dde-session-manager.service
 
 Wants=dde-session@wayland.service
 Wants=dde-session@x11.service

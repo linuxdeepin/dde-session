@@ -1,5 +1,0 @@
-[Unit]
-Description=dde-display target
-
-BindsTo=dde-display.service
-After=dde-display.service
