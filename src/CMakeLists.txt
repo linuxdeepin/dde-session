@@ -1,3 +1,5 @@
+find_package(DtkTools REQUIRED)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -8,7 +10,7 @@ file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/dbusinterface/)
 set(QT_DBUS_INTERFACE_INCLUDE ${PROJECT_BINARY_DIR}/dbusinterface/)
 
 macro(qt5_add_dbus_interface_fix srcs xml class file)
-  execute_process(COMMAND qdbusxml2cpp-fix -c ${class} -p ${PROJECT_BINARY_DIR}/dbusinterface/${file} ${PROJECT_SOURCE_DIR}/dbus/interface/${xml})
+  execute_process(COMMAND ${DTK_XML2CPP} -c ${class} -p ${PROJECT_BINARY_DIR}/dbusinterface/${file} ${PROJECT_SOURCE_DIR}/dbus/interface/${xml})
   list(APPEND ${srcs}
     ${PROJECT_BINARY_DIR}/dbusinterface/${file}.h
     ${PROJECT_BINARY_DIR}/dbusinterface/${file}.cpp
