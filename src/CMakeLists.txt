@@ -7,8 +7,9 @@ set(CMAKE_CXX_FLAGS "-W -Wall -fPIC -fstack-protector-all -z relro -z noexecstac
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/dbusinterface/)
 set(QT_DBUS_INTERFACE_INCLUDE ${PROJECT_BINARY_DIR}/dbusinterface/)
 
+find_package(DtkTools REQUIRED)
 macro(qt5_add_dbus_interface_fix srcs xml class file)
-  execute_process(COMMAND qdbusxml2cpp-fix -c ${class} -p ${PROJECT_BINARY_DIR}/dbusinterface/${file} ${PROJECT_SOURCE_DIR}/dbus/interface/${xml})
+  execute_process(COMMAND ${DTK_XML2CPP} -c ${class} -p ${PROJECT_BINARY_DIR}/dbusinterface/${file} ${PROJECT_SOURCE_DIR}/dbus/interface/${xml})
   list(APPEND ${srcs}
     ${PROJECT_BINARY_DIR}/dbusinterface/${file}.h
     ${PROJECT_BINARY_DIR}/dbusinterface/${file}.cpp
