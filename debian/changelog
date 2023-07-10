@@ -1,3 +1,9 @@
+dde-session (1.1.5) unstable; urgency=medium
+
+  * fix: dde-desktop启动应依赖dde-appearance服务
+
+ -- dengbo <dengbo@uniontech.com>  Fri, 07 Jul 2023 10:24:50 +0800
+
 dde-session (1.1.4) unstable; urgency=medium
 
   * release dde-sesion
