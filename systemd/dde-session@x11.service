@@ -10,9 +10,6 @@ RefuseManualStop=on
 Requires=dde-session-manager.service
 After=dde-session-manager.service
 
-Requires=dde-session-wayland.target
-After=dde-session-wayland.target
-
 Requisite=dde-session-pre.target
 PartOf=dde-session-pre.target
 Before=dde-session-pre.target
