@@ -585,6 +585,22 @@ void SessionManager::startObexService()
     VIEW_SERVICE(OBEX_SERVICE);
 }
 
+QString SessionManager::getAudioServerBackend()
+{
+    QStringList audioServers = {PULSEAUDIO_SERVICE, PIPEWIRE_SOCKET};
+    QString currentAudioServer;
+
+    for (auto server : audioServers) {
+        QDBusPendingReply<QString> reply = m_systemd1ManagerInter->GetUnitFileState(server);
+        if (!reply.isError() && (reply.value() == QStringLiteral("enabled"))) {
+            currentAudioServer = server;
+            break;
+        }
+    }
+
+    return currentAudioServer;
+}
+
 void SessionManager::stopObexService()
 {
     MASK_SERVICE(OBEX_SERVICE);
@@ -601,8 +617,14 @@ void SessionManager::stopPulseAudioService()
     if (!msg.errorMessage().isEmpty())
         qWarning() << "error: " << msg.errorMessage();
 
-    STOP_SERVICE(PULSEAUDIO_SERVICE);
-    VIEW_SERVICE(PULSEAUDIO_SERVICE);
+    const QString audioServer = getAudioServerBackend();
+
+    STOP_SERVICE(audioServer);
+    // pipewire also need to stop pipwire-pulse socket
+    if (audioServer == PIPEWIRE_SOCKET) {
+        STOP_SERVICE(PIPEWIRE_PULSE_SOCKET);
+    }
+    VIEW_SERVICE(audioServer);
 }
 
 void SessionManager::stopBAMFDaemon()
@@ -675,8 +697,9 @@ bool SessionManager::canPlayEvent(const QString &event)
 
 void SessionManager::playLoginSound()
 {
-    UNMASK_SERVICE(PULSEAUDIO_SERVICE);
-    START_SERVICE(PULSEAUDIO_SERVICE);
+    const QString audioServer = getAudioServerBackend();
+    UNMASK_SERVICE(audioServer);
+    START_SERVICE(audioServer);
 
     const QString &tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     if (tempDir.isEmpty())
