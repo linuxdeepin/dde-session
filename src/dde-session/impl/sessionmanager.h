@@ -82,6 +82,7 @@ private:
     void clearCurrentTty();
 
     // tiny function
+    QString getAudioServerBackend();
     void stopSogouIme();
     void stopLangSelector();
     void launchAutostopScripts();

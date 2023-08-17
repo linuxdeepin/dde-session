@@ -12,6 +12,8 @@
 #define AT_SPI_SERVICE "at-spi-dbus-bus.service"
 #define OBEX_SERVICE "obex.service"
 #define PULSEAUDIO_SERVICE "pulseaudio.service"
+#define PIPEWIRE_SOCKET "pipewire.socket"
+#define PIPEWIRE_PULSE_SOCKET "pipewire-pulse.socket"
 #define BAMFDAEMON_SERVICE "bamfdaemon.service"
 #define REDSHIFT_SERVICE "redshift.service"
 
