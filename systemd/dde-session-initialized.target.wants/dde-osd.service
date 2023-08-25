@@ -1,20 +1,24 @@
 [Unit]
-Description=dde-polkit-agent service
+Description=dde-osd service
 RefuseManualStart=no
 RefuseManualStop=no
 StartLimitBurst=3
 CollectMode=inactive-or-failed
 
-Wants=dde-session-daemon.target
-After=dde-session-daemon.target
+Requires=dde-osd.target
+Before=dde-osd.target
+
+Requisite=dde-session-pre.target
+After=dde-session-pre.target
 
 Requisite=dde-session-initialized.target
 PartOf=dde-session-initialized.target
-After=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 [Service]
-Type=simple
-ExecStart=/usr/lib/polkit-1-dde/dde-polkit-agent
+Type=dbus
+BusName=org.freedesktop.Notifications
+ExecStart=/usr/lib/deepin-daemon/dde-osd
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=on-failure
