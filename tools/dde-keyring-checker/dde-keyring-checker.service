@@ -2,8 +2,12 @@
 Description=dde-keyring-checker service
 CollectMode=inactive-or-failed
 
-Wants=dde-session-daemon.target
-After=dde-session-daemon.target
+Requisite=dde-session-pre.target
+After=dde-session-pre.target
+
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 [Service]
 Type=simple
