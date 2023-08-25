@@ -21,5 +21,5 @@ set(SYSTEMD_FILES
     dde-keyring-checker.service
 )
 install(FILES ${SYSTEMD_FILES} DESTINATION lib/systemd/user/)
-install(DIRECTORY DESTINATION lib/systemd/user/dde-session-daemon.target.wants/)
-install_symlink(dde-keyring-checker.service dde-session-daemon.target.wants)
+install(DIRECTORY DESTINATION lib/systemd/user/dde-session-initialized.target.wants/)
+install_symlink(dde-keyring-checker.service dde-session-initialized.target.wants)
