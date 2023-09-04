@@ -12,6 +12,9 @@ Requisite=dde-session-initialized.target
 PartOf=dde-session-initialized.target
 Before=dde-session-initialized.target
 
+Wants=org.dde.session.Daemon1.service
+After=org.dde.session.Daemon1.service
+
 [Service]
 Type=simple
 ExecStart=/usr/bin/dde-lock
