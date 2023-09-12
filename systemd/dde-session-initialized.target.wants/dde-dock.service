@@ -23,6 +23,9 @@ After=org.deepin.dde.Application1.Manager.service
 Wants=org.desktopspec.ApplicationManager1.service
 After=org.desktopspec.ApplicationManager1.service
 
+Wants=org.dde.session.Daemon1.service
+After=org.dde.session.Daemon1.service
+
 [Service]
 Type=simple
 ExecStart=/usr/bin/dde-dock
