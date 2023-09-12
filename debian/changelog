@@ -1,3 +1,9 @@
+dde-session (1.1.9) unstable; urgency=medium
+
+  * fix: dock bluetooth module missing
+
+ -- dengbo <dengbo@uniontech.com>  Tue, 12 Sep 2023 16:04:50 +0800
+
 dde-session (1.1.8) unstable; urgency=medium
 
   * chore: update dde-dock depency
