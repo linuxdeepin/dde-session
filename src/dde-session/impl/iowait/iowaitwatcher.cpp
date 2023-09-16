@@ -74,7 +74,7 @@ void IOWaitWatcher::onTimeOut()
     }
 
     const QString &line = file.readLine();
-    const QStringList &list = line.split(" ", QString::SkipEmptyParts);
+    const QStringList &list = line.split(" ", Qt::SkipEmptyParts);
     if (list.size() < 6) {
         qWarning() << "invalid format: " << line;
         return;
