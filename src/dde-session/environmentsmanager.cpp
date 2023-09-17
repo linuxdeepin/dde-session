@@ -13,7 +13,7 @@
 
 EnvironmentsManager::EnvironmentsManager()
 {
-    createGenernalEnvironments();
+    createGeneralEnvironments();
     createKeyringEnvironments();
     createDBusEnvironments();
 }
@@ -36,7 +36,7 @@ void EnvironmentsManager::init()
     }
     qDebug() << "clear env, result: " << ret;
 
-    // setup genernal envs
+    // setup general envs
     for (auto it : m_envMap.keys()) {
         qputenv(it.toStdString().data(), m_envMap[it].toStdString().data());
     }
@@ -72,7 +72,7 @@ void EnvironmentsManager::init()
     qInfo() << "environments manager init finished";
 }
 
-void EnvironmentsManager::createGenernalEnvironments()
+void EnvironmentsManager::createGeneralEnvironments()
 {
     double scaleFactor = Utils::SettingValue("com.deepin.xsettings", QByteArray(), "scale-factor", 1.0).toDouble();
     auto envs = QProcessEnvironment::systemEnvironment();
