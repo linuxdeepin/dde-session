@@ -9,6 +9,7 @@
 #include <QElapsedTimer>
 #include <QTimer>
 #include <QDebug>
+#include <QProcess>
 #include <QtConcurrent>
 
 #include <DLog>
@@ -86,6 +87,10 @@ int main(int argc, char *argv[])
         DLogManager::registerFileAppender();
 
         EnvironmentsManager().init();
+
+        // sync environment variables. debian does this by default, but other distributions may not.
+        QProcess updater;
+        updater.execute("dbus-update-activation-environment --verbose --systemd --all");
 
         QString dmService = "dde-session.target";
         qInfo() << "start dm service:" << dmService;
