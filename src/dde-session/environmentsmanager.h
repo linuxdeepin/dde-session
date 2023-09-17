@@ -18,7 +18,7 @@ public:
     void init();
 
 private:
-    void createGenernalEnvironments();
+    void createGeneralEnvironments();
     void createKeyringEnvironments();
     void createDBusEnvironments();
 
