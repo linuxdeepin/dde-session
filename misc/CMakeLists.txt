@@ -7,4 +7,6 @@ install(
         ${CMAKE_CURRENT_BINARY_DIR}/wayland-sessions
     DESTINATION
         ${CMAKE_INSTALL_DATADIR}
+    PATTERN
+        "*.in" EXCLUDE
 )
