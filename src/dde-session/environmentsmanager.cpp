@@ -75,12 +75,17 @@ void EnvironmentsManager::init()
 void EnvironmentsManager::createGenernalEnvironments()
 {
     double scaleFactor = Utils::SettingValue("com.deepin.xsettings", QByteArray(), "scale-factor", 1.0).toDouble();
-    m_envMap = {
-        {"GNOME_DESKTOP_SESSION_ID", "this-is-deprecated"},
-        {"XDG_CURRENT_DESKTOP", "DDE"},
-        {"QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor)},
-        {"QT_LINUX_ACCESSIBILITY_ALWAYS_ON", "1"},
-    };
+    auto envs = QProcessEnvironment::systemEnvironment();
+    auto keys = envs.keys();
+
+    for (const auto& key : keys) {
+        m_envMap.insert(key, envs.value(key));
+    }
+
+    m_envMap.insert("GNOME_DESKTOP_SESSION_ID", "this-is-deprecated");
+    m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
+    m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
+    m_envMap.insert("QT_LINUX_ACCESSIBILITY_ALWAYS_ON", "1");
 
     // 浮点数相等
     if (qFuzzyIsNull(scaleFactor - 1.0)) {
