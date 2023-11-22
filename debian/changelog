@@ -1,3 +1,11 @@
+dde-session (1.2.0) unstable; urgency=medium
+
+  * fix: dde-session cannot shutdown
+  * fix: fix-linglong app is missing
+  * chore: env update script add
+
+ -- dengbo <dengbo@deepin.org>  Wed, 22 Nov 2023 16:04:20 +0800
+
 dde-session (1.1.9) unstable; urgency=medium
 
   * fix: dock bluetooth module missing
