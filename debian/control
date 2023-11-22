@@ -22,7 +22,7 @@ Homepage: https://www.deepin.org
 Package: dde-session
 Architecture: any
 Depends:
- startdde (>= 6.0.4),
+ startdde (>= 6.0.11),
  ${misc:Depends},
  ${shlibs:Depends},
 Description: dde session module
