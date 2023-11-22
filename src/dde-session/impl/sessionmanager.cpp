@@ -818,11 +818,6 @@ void SessionManager::shutdown(bool force)
         setDPMSMode(false);
     }
 
-    QDBusPendingReply<> reply2 = m_login1SessionInter->Terminate();
-    if (reply2.isError()) {
-        qWarning() << "self session failed to terminate, error: " << reply2.error().name();
-    }
-
     qApp->quit();
 }
 
