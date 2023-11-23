@@ -411,7 +411,8 @@ void SessionManager::RequestHibernate()
         qWarning() << "failed to hibernate, error: " << reply.error().name();
     }
 
-    if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "quick-black-screen", false).toBool()) {
+    // NOTE: do we need it anymore?
+    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", false)) {
         setDPMSMode(false);
     }
 }
@@ -453,7 +454,7 @@ void SessionManager::RequestSuspend()
     }
 
     // 使用窗管接口进行黑屏处理
-    if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "quick-black-screen", false).toBool()) {
+    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", QVariant(false))) {
         QDBusInterface inter("org.kde.KWin", "/BlackScreen", "org.kde.kwin.BlackScreen", QDBusConnection::sessionBus(), this);
         const QDBusMessage &msg = inter.call("setActive", true);
         if (!msg.errorName().isEmpty())
@@ -814,7 +815,8 @@ void SessionManager::shutdown(bool force)
         qWarning() << "failed to power off, error: " << reply.error().name();
     }
 
-    if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "quick-black-screen", false).toBool()) {
+    //NOTE: do we need it anymore?
+    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", false)) {
         setDPMSMode(false);
     }
 
@@ -831,13 +833,9 @@ void SessionManager::reboot(bool force)
         qWarning() << "failed to reboot, error: " << reply.error().name();
     }
 
-    if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "quick-black-screen", false).toBool()) {
+    // NOTE: do we need it anymore?
+    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", QVariant(false))) {
         setDPMSMode(false);
-    }
-
-    QDBusPendingReply<> reply2 = m_login1SessionInter->Terminate();
-    if (reply2.isError()) {
-        qWarning() << "self session failed to terminate, error: " << reply2.error().name();
     }
 
     qApp->quit();
