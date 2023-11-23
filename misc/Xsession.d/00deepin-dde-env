@@ -1,3 +1,20 @@
+#!/bin/sh
+
+# vim:set ft=sh sw=2 sts=2 et:
+
+# export systemd environment to avoid environment be replaced by dde-session
+# fix https://github.com/linuxdeepin/developer-center/issues/6225
+eval "$(
+	busctl --json=short --user get-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager Environment |
+		jq .data\[\] --raw-output |
+		grep -v "XDG_VTNR|XDG_SESSION_ID|XDG_SEAT" | # handle special character in environment
+		sed -r 's/\\/\\\\/' |
+		sed -r 's/'\''/\\'\''/' |
+		sed -r 's/"/\\"/' |
+		sed -r 's/\$/\\$/' |
+		sed -r 's/^([^=]+)=(.*)$/export \1="\2"/'
+)"
+
 if [ "$1" = "/usr/bin/dde-session" ]; then
     if [ -f "$HOME/.dde_env" ]; then
         . "$HOME/.dde_env"
