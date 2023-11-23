@@ -75,10 +75,13 @@ void EnvironmentsManager::init()
 void EnvironmentsManager::createGeneralEnvironments()
 {
     double scaleFactor = Utils::SettingValue("com.deepin.xsettings", QByteArray(), "scale-factor", 1.0).toDouble();
-    QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
+    auto envs = QProcessEnvironment::systemEnvironment();
+    auto keys = envs.keys();
 
-    // only insert partially needed env, do not set other environment
-    m_envMap.insert("XDG_SESSION_TYPE", sessionType);
+    for (const auto& key : keys) {
+        m_envMap.insert(key, envs.value(key));
+    }
+
     m_envMap.insert("GNOME_DESKTOP_SESSION_ID", "this-is-deprecated");
     m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
     m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
