@@ -19,7 +19,8 @@ Dconf::~Dconf()
 
 DConfig *Dconf::connectDconf(const QString &name, const QString &subpath, QObject *parent)
 {
-    DConfig *config = DConfig::create("dde-session", name, subpath, parent);
+    // TODO: move it to dde-session
+    DConfig *config = DConfig::create("dde-application-manager", name, subpath, parent);
     if (config == nullptr) {
         qDebug() << "Cannot find dconfigs, name:" << name;
         return nullptr;
