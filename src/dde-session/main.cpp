@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
             watcher->start();
         });
     } else {
-        qInfo() << "iowait watcher diabled";
+        qInfo() << "iowait watcher disabled";
     }
 
     QtConcurrent::run([&session](){
