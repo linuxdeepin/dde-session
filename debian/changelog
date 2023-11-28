@@ -1,3 +1,9 @@
+dde-session (1.2.1) unstable; urgency=medium
+
+  * fix: XDG_SESSION_TYPE is error when switch display manager environment
+
+ -- dengbo <dengbo@deepin.org>  Tue, 28 Nov 2023 14:20:20 +0800
+
 dde-session (1.2.0) unstable; urgency=medium
 
   * fix: dde-session cannot shutdown
