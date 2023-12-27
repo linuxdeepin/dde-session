@@ -1,3 +1,9 @@
+dde-session (1.2.2) unstable; urgency=medium
+
+  * fix: fcitx5 can not start
+
+ -- dengbo <dengbo@deepin.org>  Wed, 27 Dec 2023 11:20:15 +080
+
 dde-session (1.2.1) unstable; urgency=medium
 
   * fix: XDG_SESSION_TYPE is error when switch display manager environment
