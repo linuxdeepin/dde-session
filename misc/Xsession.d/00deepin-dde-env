@@ -36,7 +36,7 @@ if [ "$1" = "/usr/bin/dde-session" ]; then
     fi
     # control qt program infos level, set it only on uos
     if [ -f "/etc/os-version" ];then
-        if [ ! `grep Community /etc/os-version` ];then
+        if ! grep -q Community /etc/os-version;then
             export QT_LOGGING_RULES="*.debug=false"
         fi
     fi
