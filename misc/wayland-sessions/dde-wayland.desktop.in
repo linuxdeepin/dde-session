@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=deepin
-Comment=Deepin Desktop Environment
-Exec=@CMAKE_INSTALL_FULL_BINDIR@/dde-session
-TryExec=@CMAKE_INSTALL_FULL_BINDIR@/dde-session
-X-LightDM-Session-Type=wayland
