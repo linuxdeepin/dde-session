@@ -22,8 +22,7 @@ StartLimitBurst=1
 
 [Service]
 Slice=session.slice
-BusName=org.kde.KWin
-Type=dbus
+Type=simple
 # NOTE: This can be replaced with ConditionEnvironment=XDG_SESSION_TYPE=%I in
 #       the [Unit] section with systemd >= 246. Also, the current solution is
 #       kind of painful as systemd had a bug where it retries the condition.
@@ -41,3 +40,4 @@ Restart=always
 RestartSec=0ms
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
+TimeoutStartSec=infinity
