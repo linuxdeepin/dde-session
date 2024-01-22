@@ -23,7 +23,7 @@ Package: dde-session
 Architecture: any
 Depends:
  jq,
- sed,
+ sed (>= 4),
  startdde (>= 6.0.11),
  systemd,
  ${misc:Depends},
