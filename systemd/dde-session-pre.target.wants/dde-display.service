@@ -14,7 +14,7 @@ Requisite=dde-session-pre.target
 Before=dde-session-pre.target
 
 After=dde-session@wayland.service
-After=dde-session@x11.service
+Before=dde-session@x11.service
 
 [Service]
 Type=notify

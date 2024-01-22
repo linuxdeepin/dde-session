@@ -12,7 +12,7 @@ After=dde-session-manager.service
 
 Requisite=dde-session-pre.target
 PartOf=dde-session-pre.target
-Before=dde-session-pre.target
+After=dde-session-pre.target
 
 PartOf=graphical-session.target
 
