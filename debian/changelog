@@ -1,15 +1,21 @@
+dde-session (1.2.4) unstable; urgency=medium
+
+  * fix #5743
+
+ -- Mike Chen <chenke@deepin.org>  Mon, 22 Jan 2024 17:39:56 +0800
+
 dde-session (1.2.3) unstable; urgency=medium
 
   * chore: remove wayland entry
   * chore: QT_QPA_PLATFORM env add dxcb
 
- -- dengbo <dengbo@deepin.org>  Thu, 11 Jan 2024 10:18:09 +080
+ -- dengbo <dengbo@deepin.org>  Thu, 11 Jan 2024 10:18:09 +0800
 
 dde-session (1.2.2) unstable; urgency=medium
 
   * fix: fcitx5 can not start
 
- -- dengbo <dengbo@deepin.org>  Wed, 27 Dec 2023 11:20:15 +080
+ -- dengbo <dengbo@deepin.org>  Wed, 27 Dec 2023 11:20:15 +0800
 
 dde-session (1.2.1) unstable; urgency=medium
 
