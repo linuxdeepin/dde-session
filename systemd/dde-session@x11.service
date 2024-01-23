@@ -18,7 +18,7 @@ PartOf=graphical-session.target
 
 # Limit startup frequency more than the default
 StartLimitIntervalSec=15s
-StartLimitBurst=1
+StartLimitBurst=3
 
 [Service]
 Slice=session.slice
@@ -38,6 +38,6 @@ SuccessExitStatus=1
 # On X11 we want to restart on-success (Alt+F2 + r) and on-failure.
 Restart=always
 # Do not wait before restarting the shell
-RestartSec=0ms
+RestartSec=500ms
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
