@@ -849,8 +849,9 @@ void SessionManager::emitLockChanged(bool locked)
    QVariantMap changedProps;
    changedProps.insert("Locked", locked);
    arguments.push_back(changedProps);
+   arguments.push_back(QStringList());
    msg.setArguments(arguments);
-   QDBusConnection::connectToBus(QDBusConnection::SessionBus, "org.deepin.dde.SessionManager1").send(msg);
+   QDBusConnection::sessionBus().send(msg);
 }
 
 void SessionManager::emitStageChanged(int state)
