@@ -1,3 +1,10 @@
+dde-session (1.2.5) unstable; urgency=medium
+
+  * fix: deepin-authenticate load abnormal
+  * fix: kwin launch failed
+
+ -- dengbo <dengbo@deepin.org>  Thu, 25 Jan 2024 09:09:01 +0800
+
 dde-session (1.2.4) unstable; urgency=medium
 
   * fix #5743
