@@ -16,6 +16,8 @@
 #define PIPEWIRE_PULSE_SOCKET "pipewire-pulse.socket"
 #define BAMFDAEMON_SERVICE "bamfdaemon.service"
 #define REDSHIFT_SERVICE "redshift.service"
+#define DDE_DOCK_SERVICE "dde-dock.service"
+#define DDE_DESKTOP_SERVICE "dde-desktop.service"
 
 // sound
 #define SOUND_EFFECT_SCHEMA "com.deepin.dde.sound-effect"
