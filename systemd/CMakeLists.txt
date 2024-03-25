@@ -17,10 +17,13 @@ set(SERVICES
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-shutdown.service
     dde-session-shutdown.target
     dde-session.target
-    dde-session@x11.service
-    dde-session@wayland.service
 )
 install(FILES ${SERVICES} DESTINATION lib/systemd/user/)
+
+install(DIRECTORY DESTINATION lib/systemd/user/dde-session.target.wants/)
+set(DDE_SESSION_WANTS
+    dde-session.target.wants/dde-session@x11.service
+)
 
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-pre.target.wants/)
 set(DDE_SESSION_PRE_WANTS
@@ -31,18 +34,18 @@ set(DDE_SESSION_PRE_WANTS
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-initialized.target.wants/)
 set(DDE_SESSION_INITIALIZED_WANTS
     dde-session-initialized.target.wants/dde-desktop.service
-    dde-session-initialized.target.wants/dde-dock.service
     dde-session-initialized.target.wants/dde-lock.service
     dde-session-initialized.target.wants/dde-osd.service
     dde-session-initialized.target.wants/dde-osd.target
     dde-session-initialized.target.wants/dde-polkit-agent.service
 )
 
+install(FILES ${DDE_SESSION_WANTS} DESTINATION lib/systemd/user/)
 install(FILES ${DDE_SESSION_PRE_WANTS} DESTINATION lib/systemd/user/)
 install(FILES ${DDE_SESSION_INITIALIZED_WANTS} DESTINATION lib/systemd/user/)
+install_symlink(dde-session@x11.service dde-session.target.wants)
 install_symlink(dde-display.service dde-session-pre.target.wants)
 install_symlink(dde-desktop.service dde-session-initialized.target.wants)
-install_symlink(dde-dock.service dde-session-initialized.target.wants)
 install_symlink(dde-lock.service dde-session-initialized.target.wants)
 install_symlink(dde-polkit-agent.service dde-session-initialized.target.wants)
 install_symlink(dde-osd.service dde-session-initialized.target.wants)

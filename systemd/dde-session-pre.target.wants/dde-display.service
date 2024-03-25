@@ -13,12 +13,12 @@ After=dbus.socket
 Requisite=dde-session-pre.target
 Before=dde-session-pre.target
 
-After=dde-session@wayland.service
 Before=dde-session@x11.service
 
 [Service]
 Type=notify
 NotifyAccess=all
+ExecCondition=/bin/sh -c 'test "$DISPLAY" != "" || exit 2'
 ExecStart=/usr/bin/startdde
 TimeoutStartSec=infinity
 Slice=session.slice
