@@ -17,13 +17,12 @@ set(SERVICES
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-shutdown.service
     dde-session-shutdown.target
     dde-session.target
-    dde-session@x11.service
-    dde-session@wayland.service
 )
 install(FILES ${SERVICES} DESTINATION lib/systemd/user/)
 
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-pre.target.wants/)
 set(DDE_SESSION_PRE_WANTS
+    dde-session-pre.target.wants/dde-session@x11.service
     dde-session-pre.target.wants/dde-display.service
 )
 
@@ -40,6 +39,7 @@ set(DDE_SESSION_INITIALIZED_WANTS
 
 install(FILES ${DDE_SESSION_PRE_WANTS} DESTINATION lib/systemd/user/)
 install(FILES ${DDE_SESSION_INITIALIZED_WANTS} DESTINATION lib/systemd/user/)
+install_symlink(dde-session@x11.service dde-session-pre.target.wants)
 install_symlink(dde-display.service dde-session-pre.target.wants)
 install_symlink(dde-desktop.service dde-session-initialized.target.wants)
 install_symlink(dde-shell@DDE.service dde-session-initialized.target.wants)

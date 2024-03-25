@@ -4,17 +4,10 @@ Description=dde on X11
 OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace
 CollectMode=inactive-or-failed
-RefuseManualStart=on
-RefuseManualStop=on
-
-Requires=dde-session-manager.service
-After=dde-session-manager.service
 
 Requisite=dde-session-pre.target
 PartOf=dde-session-pre.target
-After=dde-session-pre.target
-
-PartOf=graphical-session.target
+Before=dde-session-pre.target
 
 # Limit startup frequency more than the default
 StartLimitIntervalSec=15s
@@ -22,8 +15,7 @@ StartLimitBurst=3
 
 [Service]
 Slice=session.slice
-BusName=org.kde.KWin
-Type=dbus
+Type=notify
 # NOTE: This can be replaced with ConditionEnvironment=XDG_SESSION_TYPE=%I in
 #       the [Unit] section with systemd >= 246. Also, the current solution is
 #       kind of painful as systemd had a bug where it retries the condition.
