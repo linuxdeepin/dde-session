@@ -1,3 +1,9 @@
+dde-session (1.2.7) unstable; urgency=medium
+
+  * chore: dde-shell replace dde-dock
+
+ -- tsic404 <liuhenga@deepin.org>  Fri, 29 Mar 2024 10:18:05 +0800
+
 dde-session (1.2.6) unstable; urgency=medium
 
   * fix: dock will flash when logout
