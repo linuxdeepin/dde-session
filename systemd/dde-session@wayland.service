@@ -18,8 +18,7 @@ PartOf=graphical-session.target
 
 [Service]
 Slice=session.slice
-BusName=org.kde.KWinWrapper
-Type=dbus
+Type=simple
 # NOTE: This can be replaced with ConditionEnvironment=XDG_SESSION_TYPE=%I in
 #       the [Unit] section with systemd >= 246. Also, the current solution is
 #       kind of painful as systemd had a bug where it retries the condition.
@@ -36,3 +35,4 @@ ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemct
 Restart=no
 # Kill any stubborn child processes after this long
 TimeoutStopSec=5
+TimeoutStartSec=infinity
