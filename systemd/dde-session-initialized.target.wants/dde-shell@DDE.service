@@ -1,5 +1,5 @@
 [Unit]
-Description=dde-dock service
+Description=dde-shell for DDE service
 RefuseManualStart=no
 RefuseManualStop=no
 StartLimitBurst=3
@@ -28,7 +28,7 @@ After=org.dde.session.Daemon1.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/dde-dock
+ExecStart=/usr/bin/dde-shell -C %I
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=on-failure
