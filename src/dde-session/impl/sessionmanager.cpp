@@ -612,11 +612,12 @@ void SessionManager::stopObexService()
 
 void SessionManager::stopPulseAudioService()
 {
-    auto msg = QDBusInterface("org.deepin.dde.Audio1"
+    QDBusInterface interface("org.deepin.dde.Audio1"
                               , "/org/deepin/dde/Audio1"
                               , "org.deepin.dde.Audio1"
-                              , QDBusConnection::sessionBus(), this)
-            .call("NoRestartPulseAudio");
+                              , QDBusConnection::sessionBus(), this);
+    interface.setTimeout(1000);
+    auto msg = interface.call("NoRestartPulseAudio");
     if (!msg.errorMessage().isEmpty())
         qWarning() << "error: " << msg.errorMessage();
 
