@@ -85,14 +85,6 @@ void EnvironmentsManager::createGeneralEnvironments()
     m_envMap.insert("GNOME_DESKTOP_SESSION_ID", "this-is-deprecated");
     m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
     m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
-    m_envMap.insert("QT_LINUX_ACCESSIBILITY_ALWAYS_ON", "1");
-
-    // 浮点数相等
-    if (qFuzzyIsNull(scaleFactor - 1.0)) {
-        // set scale factor for deepin wine apps
-        // 原先golang中的实现使用的是strconv.FormatFloat(scaleFactor, 'f', 2, 64)，和现在的计算结果是有差别的
-        m_envMap.insert("DEEPIN_WINE_SCALE", QString::asprintf("%.2f", scaleFactor));
-    }
 }
 
 void EnvironmentsManager::createKeyringEnvironments()
