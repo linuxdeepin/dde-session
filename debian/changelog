@@ -1,3 +1,9 @@
+dde-session (1.2.10) unstable; urgency=medium
+
+  * release 1.2.10
+
+ -- Mike Chen <chenke@deepin.org>  Thu, 16 May 2024 17:16:32 +0800
+
 dde-session (1.2.9) unstable; urgency=medium
 
   * chore: move dde-session@x11 to dde-session-pre.target
