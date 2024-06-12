@@ -31,6 +31,7 @@ install(DIRECTORY DESTINATION lib/systemd/user/dde-session-initialized.target.wa
 set(DDE_SESSION_INITIALIZED_WANTS
     dde-session-initialized.target.wants/dde-desktop.service
     dde-session-initialized.target.wants/dde-shell@DDE.service
+    dde-session-initialized.target.wants/dde-shell@TreeLand.service
     dde-session-initialized.target.wants/dde-lock.service
     dde-session-initialized.target.wants/dde-osd.service
     dde-session-initialized.target.wants/dde-osd.target
@@ -43,6 +44,7 @@ install_symlink(dde-session@x11.service dde-session-pre.target.wants)
 install_symlink(dde-display.service dde-session-pre.target.wants)
 install_symlink(dde-desktop.service dde-session-initialized.target.wants)
 install_symlink(dde-shell@DDE.service dde-session-initialized.target.wants)
+install_symlink(dde-shell@TreeLand.service dde-session-initialized.target.wants)
 install_symlink(dde-lock.service dde-session-initialized.target.wants)
 install_symlink(dde-polkit-agent.service dde-session-initialized.target.wants)
 install_symlink(dde-osd.service dde-session-initialized.target.wants)

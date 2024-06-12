@@ -1,11 +1,5 @@
 [Unit]
 Description=dde-display service
-RefuseManualStart=no
-RefuseManualStop=no
-StartLimitBurst=3
-OnFailure=dde-session-shutdown.target
-OnFailureJobMode=replace-irreversibly
-CollectMode=inactive-or-failed
 
 Requires=dbus.socket
 After=dbus.socket
@@ -19,7 +13,7 @@ Before=dde-session@x11.service
 [Service]
 Type=notify
 NotifyAccess=all
-ExecCondition=/bin/sh -c 'test "$DISPLAY" != "" || exit 2'
+ExecCondition=/bin/sh -c 'test "$XDG_SESSION_TYPE" = "x11" || exit 2'
 ExecStart=/usr/bin/startdde
 TimeoutStartSec=infinity
 Slice=session.slice
