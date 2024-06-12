@@ -1,5 +1,5 @@
 [Unit]
-Description=dde-shell for DDE service
+Description=dde-shell for DDE service on TreeLand
 RefuseManualStart=no
 RefuseManualStop=no
 StartLimitBurst=3
@@ -23,13 +23,10 @@ After=org.deepin.dde.Application1.Manager.service
 Wants=org.desktopspec.ApplicationManager1.service
 After=org.desktopspec.ApplicationManager1.service
 
-Wants=org.dde.session.Daemon1.service
-After=org.dde.session.Daemon1.service
-
 [Service]
 Type=simple
-ExecCondition=/bin/sh -c 'test "$XDG_SESSION_TYPE" = "x11" || exit 2'
-ExecStart=/usr/bin/dde-shell -C %I
+ExecCondition=/bin/sh -c 'test "$DDE_CURRENT_COMPOSITOR" = "%I" || exit 2'
+ExecStart=/usr/bin/dde-shell -C DDE -d org.deepin.ds.dock.tray
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=on-failure
