@@ -28,7 +28,6 @@ After=org.dde.session.Daemon1.service
 
 [Service]
 Type=simple
-ExecCondition=/bin/sh -c 'test "$XDG_SESSION_TYPE" = "x11" || exit 2'
 ExecStart=/usr/bin/dde-shell -C %I
 TimeoutStartSec=infinity
 Slice=session.slice
