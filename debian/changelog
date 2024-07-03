@@ -1,3 +1,9 @@
+dde-session (1.2.12) unstable; urgency=medium
+
+ * fix deepin-kwin shortcuts
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Wed, 3 Jul 2024 14:42:06 +0800
+
 dde-session (1.2.11) unstable; urgency=medium
 
  * release 1.2.11
