@@ -21,7 +21,7 @@ Type=notify
 #       kind of painful as systemd had a bug where it retries the condition.
 # Only start if the template instance matches the session type.
 ExecCondition=/bin/sh -c 'test "$XDG_SESSION_TYPE" = "%I" || exit 2'
-ExecStartPre=-/bin/sh -c 'cp /etc/xdg/kglobalshortcutsrc $HOME/.config/kglobalshortcutsrc'
+ExecStartPre=-/bin/sh -c 'cp -n /etc/xdg/kglobalshortcutsrc $HOME/.config/kglobalshortcutsrc'
 ExecStart=/usr/bin/deepin-kwin_x11 --replace
 # Exit code 1 means we are probably *not* dealing with an extension failure
 SuccessExitStatus=1
