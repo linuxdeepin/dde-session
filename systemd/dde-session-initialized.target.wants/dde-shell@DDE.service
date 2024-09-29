@@ -23,8 +23,9 @@ After=org.deepin.dde.Application1.Manager.service
 Wants=org.desktopspec.ApplicationManager1.service
 After=org.desktopspec.ApplicationManager1.service
 
-Wants=org.dde.session.Daemon1.service
-After=org.dde.session.Daemon1.service
+# No longer needed. Just a dependency of some of dde-shell's plugins.
+# Wants=org.dde.session.Daemon1.service
+# After=org.dde.session.Daemon1.service
 
 [Service]
 Type=simple
