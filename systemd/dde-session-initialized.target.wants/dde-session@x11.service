@@ -5,9 +5,9 @@ OnFailure=dde-session-shutdown.target
 OnFailureJobMode=replace
 CollectMode=inactive-or-failed
 
-Requisite=dde-session-pre.target
-PartOf=dde-session-pre.target
-Before=dde-session-pre.target
+Requisite=dde-session-initialized.target
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
 
 # Limit startup frequency more than the default
 StartLimitIntervalSec=15s

@@ -1,3 +1,10 @@
+dde-session (1.2.14) UNRELEASED; urgency=medium
+
+  * chore: Remove dde-shell@DDE.service's dependency on dde-session-daemon (#91)
+  * chore: Change user unit orders
+
+ -- Yutao Meng <mengyutao@deepin.org>  Sat, 12 Oct 2024 15:54:13 +0800
+
 dde-session (1.2.13) unstable; urgency=medium
 
   * chore: 解决修改快捷键配置重启后恢复的问题
