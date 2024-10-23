@@ -29,7 +29,7 @@ After=org.desktopspec.ApplicationManager1.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/dde-shell -C %I
+ExecStart=/usr/bin/dde-shell -C %I --serviceName=org.deepin.dde.shell
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=on-failure
