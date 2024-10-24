@@ -1,3 +1,9 @@
+dde-session (1.99.1) UNRELEASE; urgency=medium
+
+  * feat: disable dde-osd service in professional version(task: 365219)
+
+ -- YeShanShan <yeshanshan@deepin.org>  Thu, 24 Oct 2024 15:50:56 +0800
+
 dde-session (1.2.14) unstable; urgency=medium
 
   * release 1.2.14
