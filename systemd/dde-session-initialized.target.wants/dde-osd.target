@@ -1,8 +1,0 @@
-[Unit]
-Description=dde-osd target
-DefaultDependencies=no
-RefuseManualStart=no
-RefuseManualStop=no
-
-BindsTo=dde-osd.service
-After=dde-osd.service
