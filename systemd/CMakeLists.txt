@@ -32,8 +32,6 @@ set(DDE_SESSION_INITIALIZED_WANTS
     dde-session-initialized.target.wants/dde-desktop.service
     dde-session-initialized.target.wants/dde-shell@DDE.service
     dde-session-initialized.target.wants/dde-lock.service
-    dde-session-initialized.target.wants/dde-osd.service
-    dde-session-initialized.target.wants/dde-osd.target
     dde-session-initialized.target.wants/dde-polkit-agent.service
 )
 
@@ -45,7 +43,6 @@ install_symlink(dde-desktop.service dde-session-initialized.target.wants)
 install_symlink(dde-shell@DDE.service dde-session-initialized.target.wants)
 install_symlink(dde-lock.service dde-session-initialized.target.wants)
 install_symlink(dde-polkit-agent.service dde-session-initialized.target.wants)
-install_symlink(dde-osd.service dde-session-initialized.target.wants)
 
 install(FILES ${DDE_SESSION_DAEMON_WANTS} DESTINATION lib/systemd/user/)
 install(DIRECTORY dde-session-shutdown.target.d DESTINATION lib/systemd/user/)
