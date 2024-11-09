@@ -85,6 +85,7 @@ void EnvironmentsManager::createGeneralEnvironments()
     m_envMap.insert("GNOME_DESKTOP_SESSION_ID", "this-is-deprecated");
     m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
     m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
+    m_envMap.insert("QT_QPA_PLATFORM", "dxcb:xcb");
 }
 
 void EnvironmentsManager::createKeyringEnvironments()
