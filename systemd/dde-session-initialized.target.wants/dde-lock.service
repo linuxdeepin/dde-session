@@ -17,6 +17,7 @@ After=org.dde.session.Daemon1.service
 
 [Service]
 Type=simple
+ExecCondition=/bin/sh -c 'test "$XDG_SESSION_DESKTOP" != "treeland" || exit 2'
 ExecStart=/usr/bin/dde-lock
 TimeoutStartSec=infinity
 Slice=session.slice
