@@ -85,6 +85,15 @@ void EnvironmentsManager::createGeneralEnvironments()
     m_envMap.insert("GNOME_DESKTOP_SESSION_ID", "this-is-deprecated");
     m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
     m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
+
+    QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
+    if (sessionType == "x11") {
+        m_envMap.insert("QT_QPA_PLATFORM", "dxcb:xcb");
+    } else if (sessionType == "wayland") {
+        m_envMap.insert("QT_QPA_PLATFORM", "wayland");
+        m_envMap.insert("QT_WAYLAND_SHELL_INTEGRATION", "xdg-shell;wl-shell;ivi-shell;qt-shell;");
+    }
+
 }
 
 void EnvironmentsManager::createKeyringEnvironments()
