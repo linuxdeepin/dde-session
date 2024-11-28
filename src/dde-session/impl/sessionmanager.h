@@ -94,7 +94,6 @@ private:
     void stopBAMFDaemon();
     void stopRedshift();
     void stopDock();
-    void stopDesktop();
     void disconnectAudioDevices();
 
     void preparePlayShutdownSound();

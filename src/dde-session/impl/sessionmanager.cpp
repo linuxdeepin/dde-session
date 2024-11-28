@@ -154,7 +154,6 @@ void SessionManager::prepareLogout(bool force)
     stopRedshift();
     stopObexService();
     stopDock();
-    stopDesktop();
 
     // 防止注销时，蓝牙音频设置没有断开连接
     disconnectAudioDevices();
@@ -647,12 +646,6 @@ void SessionManager::stopDock()
 {
     STOP_SERVICE(DDE_DOCK_SERVICE);
     VIEW_SERVICE(DDE_DOCK_SERVICE);
-}
-
-void SessionManager::stopDesktop()
-{
-    STOP_SERVICE(DDE_DESKTOP_SERVICE);
-    VIEW_SERVICE(DDE_DESKTOP_SERVICE);
 }
 
 void SessionManager::disconnectAudioDevices()
