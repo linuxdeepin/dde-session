@@ -34,19 +34,7 @@ QString WMSwitcher::CurrentWM() const
 
 void WMSwitcher::RequestSwitchWM() const
 {
-    if (m_wmInter->compositingEnabled()) {
-        m_wmInter->setCompositingEnabled(false);
-        return;
-    }
-
-    // 开启特效前需要先判断是否支持开启
-    if (m_wmInter->compositingPossible()) {
-        m_wmInter->setCompositingEnabled(true);
-        return;
-    }
-
-    // 无法开启特效，发送osd通知
-    showOSD(OSD_Switch_WM_ERROR);
+    showOSD("SwitchWM");
 }
 
 void WMSwitcher::onCompositingEnabledChanged(bool enable)
