@@ -1,3 +1,11 @@
+dde-session (1.99.4) unstable; urgency=medium
+
+  * fix: 窗口特效支持三挡调节
+  * chore: remove 94qt_env
+  * fix: dtk6 theme is not deepin style on Non-Debian base distributions
+
+ -- fuleyi <fuleyi@uniontech.com>  Fri, 06 Dec 2024 14:37:46 +0800
+
 dde-session (1.99.3) unstable; urgency=medium
 
   * chore: remove dde-desktop
