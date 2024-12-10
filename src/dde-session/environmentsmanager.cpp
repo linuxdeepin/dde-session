@@ -92,6 +92,7 @@ void EnvironmentsManager::createGeneralEnvironments()
     } else if (sessionType == "wayland") {
         m_envMap.insert("QT_QPA_PLATFORM", "wayland");
         m_envMap.insert("QT_WAYLAND_SHELL_INTEGRATION", "xdg-shell;wl-shell;ivi-shell;qt-shell;");
+        m_envMap.insert("XCURSOR_SIZE", "24");
     }
 
 }
