@@ -1,3 +1,10 @@
+dde-session (1.99.5) unstable; urgency=medium
+
+  * move desktop in a separate process
+  * feat: set a fixed cursor size on Wayland
+
+ -- tsic404 <liuheng@depein.org>  Fri, 13 Dec 2024 10:31:27 +0800
+
 dde-session (1.99.4) unstable; urgency=medium
 
   * fix: 窗口特效支持三挡调节
