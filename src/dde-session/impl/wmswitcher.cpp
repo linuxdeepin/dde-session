@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "wmswitcher.h"
+#include "utils/utils.h"
 
 #include <QDBusConnection>
 #include <QDBusInterface>
@@ -24,16 +25,27 @@ WMSwitcher::WMSwitcher(QObject *parent)
 
 bool WMSwitcher::AllowSwitch() const
 {
-    return m_wmInter->compositingPossible();
+    if (Utils::IS_WAYLAND_DISPLAY) {
+        return false;
+    } else {
+        return m_wmInter->compositingPossible();
+    }
 }
 
 QString WMSwitcher::CurrentWM() const
 {
-    return m_wmInter->compositingEnabled() ? WM_NAME_3D : WM_NAME_2D;
+    if (Utils::IS_WAYLAND_DISPLAY) {
+        return QString();
+    } else {
+        return m_wmInter->compositingEnabled() ? WM_NAME_3D : WM_NAME_2D;
+    }
 }
 
 void WMSwitcher::RequestSwitchWM() const
 {
+    if (Utils::IS_WAYLAND_DISPLAY)
+        return;
+
     showOSD("SwitchWM");
 }
 
