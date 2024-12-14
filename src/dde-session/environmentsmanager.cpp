@@ -88,7 +88,7 @@ void EnvironmentsManager::createGeneralEnvironments()
 
     QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
     if (sessionType == "x11") {
-        m_envMap.insert("QT_QPA_PLATFORM", "dxcb:xcb");
+        m_envMap.insert("QT_QPA_PLATFORM", "dxcb;xcb");
     } else if (sessionType == "wayland") {
         m_envMap.insert("QT_QPA_PLATFORM", "wayland;xcb");
         m_envMap.insert("QT_WAYLAND_SHELL_INTEGRATION", "xdg-shell;wl-shell;ivi-shell;qt-shell;");
