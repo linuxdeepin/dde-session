@@ -10,6 +10,9 @@ Before=dde-session-pre.target
 
 Before=dde-session@x11.service
 
+Wants=treeland-xwayland.service
+After=treeland-xwayland.service
+
 [Service]
 Type=notify
 NotifyAccess=all
