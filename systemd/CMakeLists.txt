@@ -30,6 +30,7 @@ set(DDE_SESSION_PRE_WANTS
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-initialized.target.wants/)
 set(DDE_SESSION_INITIALIZED_WANTS
     dde-session-initialized.target.wants/dde-shell@DDE.service
+    dde-session-initialized.target.wants/dde-shell-plugin@org.deepin.ds.desktop.service
     dde-session-initialized.target.wants/dde-lock.service
     dde-session-initialized.target.wants/dde-polkit-agent.service
 )
