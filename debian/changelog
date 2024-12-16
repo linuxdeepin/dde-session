@@ -1,3 +1,9 @@
+dde-session (1.99.7) unstable; urgency=medium
+
+  * fix: dde-desktop unable to start
+
+ -- tsic404 <liuheng@depein.org>  Mon, 16 Dec 2024 15:27:03 +0800
+
 dde-session (1.99.6) unstable; urgency=medium
 
   * chore: add xcb to QT_QPA_PLATFORM fallback
