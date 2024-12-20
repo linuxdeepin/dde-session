@@ -120,6 +120,23 @@ void EnvironmentsManager::createDBusEnvironments()
     for (auto env : additionalEnvs) {
         m_envMap.insert(env, qgetenv(env));
     }
+
+    QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
+    if (sessionType == "wayland") {
+        QFile localeFile(QStandardPaths::locate(QStandardPaths::ConfigLocation, "locale.conf"));
+        if (localeFile.open(QIODevice::ReadOnly)) {
+            QTextStream in(&localeFile);
+
+            while (!in.atEnd()) {
+                QString line = in.readLine();
+                if (line.startsWith("LANG=")) {
+                    m_envMap.insert("LANG", line.mid(strlen("LANG=")));
+                } else if (line.startsWith("LANGUAGE=")) {
+                    m_envMap.insert("LANGUAGE", line.mid(strlen("LANGUAGE=")));
+                }
+            }
+        }
+    }
 }
 
 bool EnvironmentsManager::unsetEnv(QString env)
