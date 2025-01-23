@@ -16,10 +16,11 @@
 int start()
 {
     qDebug() << "login reminder init";
-
+#if 0
+    // TODO has no 'com.deepin.dde.startdde' gsetting
     if (!Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "login-reminder", false).toBool())
         return 0;
-
+#endif
     // 登录后展示横幅通知信息
     QDBusInterface userInter("org.deepin.dde.Accounts1", QString("/org/deepin/dde/Accounts1/User%1").arg(getuid()), "org.deepin.dde.Accounts1.User", QDBusConnection::systemBus());
     QDBusPendingReply<LoginReminderInfo> reply = userInter.call("GetReminderInfo");
@@ -67,7 +68,7 @@ int start()
     const QString &currentLoginTime = info.CurrentLogin.Time.left(QString("yyyy-MM-dd hh:mm:ss").length());
     const QString &address = (info.CurrentLogin.Address == "0.0.0.0") ? getFirstIpAddress() : info.CurrentLogin.Address;
     QString body = QString("%1 %2 %3").arg(info.Username).arg(address).arg(currentLoginTime);
-    int daysLeft = info.spent.LastChange + info.spent.Max - int(QDateTime::currentDateTime().toTime_t() / SECONDS_PER_DAY);
+    int daysLeft = info.spent.LastChange + info.spent.Max - int(QDateTime::currentSecsSinceEpoch() / SECONDS_PER_DAY);
     if ((info.spent.Max != -1) && (info.spent.Warn != -1) && (info.spent.Warn > daysLeft)) {
         body += " " + QString(QObject::tr("Your password will expire in %1 days")).arg(daysLeft);
     }
@@ -113,5 +114,6 @@ int main(int argc, char *argv[])
 
     registerLoginReminderInfoMetaType();
 
-    return start();
+    return 0;
+    // return start();
 }

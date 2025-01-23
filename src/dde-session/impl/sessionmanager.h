@@ -113,6 +113,8 @@ private:
     void emitCurrentSessionPathChanged(QDBusObjectPath);
     void emitCurrentUidChanged(QString);
 
+    void playSound(const QString &event);
+
 private Q_SLOTS:
     void handleLoginSessionLocked();
     void handleLoginSessionUnlocked();
@@ -126,6 +128,7 @@ signals:
 private:
     bool m_locked;
     QString m_currentUid;
+    QString m_soundTheme;
     int m_stage;
     QDBusObjectPath m_currentSessionPath;
 

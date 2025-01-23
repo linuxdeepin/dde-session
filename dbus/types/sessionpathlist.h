@@ -13,6 +13,11 @@
 
 typedef QList<SessionPath> SessionPathList;
 
+inline bool operator !=(const SessionPathList &list1, const SessionPathList &list2)
+{
+    return list1.size() != list2.size() || list1 != list2;
+}
+
 Q_DECLARE_METATYPE(SessionPathList)
 
 void registerSessionPathListMetaType();

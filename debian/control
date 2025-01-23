@@ -5,17 +5,16 @@ Maintainer: Deepin Packages Builder <packages@deepin.com>
 Build-Depends:
  cmake,
  debhelper-compat (= 11),
- libdtkcore-dev (>=5.4.14),
- libdtkcore5-bin,
+ libdtk6core-dev,
+ libdtk6core-bin,
  libglib2.0-dev,
- libgsettings-qt-dev,
  libsecret-1-dev,
  libsystemd-dev,
  libx11-dev,
  libxcursor-dev,
  libxfixes-dev,
  pkg-config,
- qtbase5-dev,
+ qt6-base-dev,
 Standards-Version: 4.1.3
 Homepage: https://www.deepin.org
 

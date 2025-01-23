@@ -74,7 +74,16 @@ void EnvironmentsManager::init()
 
 void EnvironmentsManager::createGeneralEnvironments()
 {
-    double scaleFactor = Utils::SettingValue("com.deepin.xsettings", QByteArray(), "scale-factor", 1.0).toDouble();
+    double scaleFactor = 1.0;
+    QDBusInterface dbusInterface("org.deepin.dde.XSettings1", "/org/deepin/dde/XSettings1",
+        "org.deepin.dde.XSettings1", QDBusConnection::sessionBus());
+    if (dbusInterface.isValid()) {
+        QDBusReply<double> scaleFactorReply = dbusInterface.call("GetScaleFactor");
+        if (scaleFactorReply.isValid()) {
+            scaleFactor = scaleFactorReply.value();
+        }
+    }
+
     auto envs = QProcessEnvironment::systemEnvironment();
     auto keys = envs.keys();
 

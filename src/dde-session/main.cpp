@@ -131,6 +131,7 @@ int main(int argc, char *argv[])
         OthersManager().init();
     });
 
+#if 0 //TODO has no 'com.deepin.dde.startdde' gsetting
     // cpu iowait状态检测
     if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "iowait-enabled", false).toBool()) {
         QtConcurrent::run([] {
@@ -140,6 +141,8 @@ int main(int argc, char *argv[])
     } else {
         qInfo() << "iowait watcher disabled";
     }
+#endif
+    qInfo() << "iowait watcher disabled";
 
     QtConcurrent::run([&session](){
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
