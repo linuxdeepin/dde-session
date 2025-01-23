@@ -8,12 +8,10 @@
 #include "utils/dconf.h"
 #include "utils/utils.h"
 #include "org_deepin_dde_Audio1_Sink.h"
-#include "org_deepin_dde_SoundThemePlayer1.h"
 
 #include <QCoreApplication>
 #include <QDBusReply>
 #include <QDBusObjectPath>
-#include <QGSettings>
 #include <QStandardPaths>
 #include <QJsonDocument>
 
@@ -89,6 +87,14 @@ SessionManager::SessionManager(QObject *parent)
     if (canPlayEvent("desktop-login")) {
         playLoginSound();
     }
+
+    auto appearanceConfig = DConfig::create("org.deepin.dde.appearance", "org.deepin.dde.appearance", QString(), this);
+    m_soundTheme = appearanceConfig->value("Sound_Theme", "deepin").toString();
+    connect(appearanceConfig, &DConfig::valueChanged, this, [this, appearanceConfig] (const QString &key) {
+        if (key == "Sound_Theme") {
+            m_soundTheme = appearanceConfig->value("Sound_Theme", "deepin").toString();
+        }
+    });
 }
 
 SessionManager::~SessionManager()
@@ -667,7 +673,6 @@ void SessionManager::preparePlayShutdownSound()
 {
     const QString &soundFile = "/tmp/deepin-shutdown-sound.json";
 
-    const QString &soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
     const QString &event = "system-shutdown";
     bool canPlay = canPlayEvent(event);
     QString device; // TODO
@@ -675,7 +680,7 @@ void SessionManager::preparePlayShutdownSound()
     QJsonObject obj;
     obj["Event"] = event;
     obj["CanPlay"] = canPlay;
-    obj["Theme"] = soundTheme;
+    obj["Theme"] = m_soundTheme;
     obj["Device"] = device;
 
     QFile file(soundFile);
@@ -693,15 +698,38 @@ bool SessionManager::canPlayEvent(const QString &event)
         return false;
     }
 
-    if (!Utils::SettingValue(SOUND_EFFECT_SCHEMA, QByteArray(), SOUND_EFFECT_ENABLED_KEY, false).toBool()) {
+    const QString service = "org.deepin.dde.SoundEffect1";
+    const QString path = "/org/deepin/dde/SoundEffect1";
+    const QString interface = "org.freedesktop.DBus.Properties";
+    const QString methodInterface = "org.deepin.dde.SoundEffect1";
+
+    QDBusInterface dbusInterface(service, path, interface, QDBusConnection::sessionBus());
+    if (!dbusInterface.isValid()) {
         return false;
     }
 
-    if (!Utils::SettingValue(SOUND_EFFECT_SCHEMA, QByteArray(), event, false).toBool()) {
+    QDBusReply<bool> enabledReply = dbusInterface.call("Get", service, "Enabled");
+    if (enabledReply.isValid()) {
+        if (!enabledReply.value()) {
+            return false;
+        }
+    } else {
+        qWarning() << "Failed to call Get:" << enabledReply.error().message();
         return false;
     }
 
-    return true;
+    QDBusInterface methodInterfaceObj(service, path, methodInterface, QDBusConnection::sessionBus());
+    if (!methodInterfaceObj.isValid()) {
+        return false;
+    }
+
+    QDBusReply<bool> isSoundEnabledReply = methodInterfaceObj.call("IsSoundEnabled", event);
+    if (isSoundEnabledReply.isValid()) {
+        return isSoundEnabledReply.value();
+    }
+
+    qWarning() << "Failed to call IsSoundEnabled:" << event << isSoundEnabledReply.error().message();
+    return false;
 }
 
 void SessionManager::playLoginSound()
@@ -735,14 +763,7 @@ void SessionManager::playLoginSound()
         return;
 
     qInfo() << "play system sound: desktop-login";
-    auto soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
-    org::deepin::dde::SoundThemePlayer1 inter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1", QDBusConnection::systemBus(), this);
-    QDBusPendingReply<> reply = inter.Play(soundTheme, "desktop-login", QString());
-    if (reply.isError()) {
-        qWarning() << "failed to play login sound, error: " << reply.error().name();
-    } else {
-        qDebug() << "success to play system sound: desktop-login";
-    }
+    playSound("desktop-login");
 
     // 播放后创建文件
     QFile file(markFile);
@@ -776,13 +797,7 @@ void SessionManager::playLogoutSound()
     // 始终在注销前退出pulseaudio服务
     stopPulseAudioService();
 
-    auto soundTheme = Utils::SettingValue(APPEARANCE_SCHEMA, QByteArray(), APPEARANCE_SOUND_THEME_KEY, QString()).toString();
-    org::deepin::dde::SoundThemePlayer1 inter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1", QDBusConnection::systemBus(), this);
-    // TODO device?
-    QDBusReply<void> reply = inter.Play(soundTheme, "desktop-logout", "");
-    if (!reply.isValid()) {
-        qWarning() << "failed to play logout sound, error: " << reply.error().name();
-    }
+    playSound("desktop-logout");
 }
 
 void SessionManager::setDPMSMode(bool on)
@@ -878,6 +893,16 @@ void SessionManager::emitCurrentUidChanged(QString uid)
 {
     Q_UNUSED(uid);
      // 这个属性不会变化
+}
+
+inline void SessionManager::playSound(const QString &event)
+{
+    QDBusInterface soundPlayerInter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1",
+        "org.deepin.dde.SoundThemePlayer1", QDBusConnection::systemBus());
+    QDBusMessage reply = soundPlayerInter.call("Play", m_soundTheme, event, QString());
+    if (reply.type() == QDBusMessage::ErrorMessage) {
+        qWarning() << "Failed to call Play:" << event << reply.errorMessage();
+    }
 }
 
 void SessionManager::handleLoginSessionLocked()

@@ -15,7 +15,6 @@ extern "C" {
 
 #include <QDBusConnection>
 #include <QSettings>
-#include <QFile>
 #include <QDebug>
 #include <QStandardPaths>
 #include <QDir>
@@ -50,18 +49,33 @@ void XSettingsChecker::initQtTheme()
 
     // icon-theme
     QString iconTheme = settings.value("IconThemeName").toString();
-    if (iconTheme.isEmpty()) {
-        iconTheme = Utils::SettingValue("com.deepin.dde.appearance", QByteArray(), "icon-theme", QString()).toString();
-        settings.setValue("IconThemeName", iconTheme);
-        qDebug() << "set icon theme name in qt theme: " << iconTheme;
-    }
-
     // font size
     double fontSize = settings.value("FontSize").toDouble();
-    if (fontSize - 0 < (1e-6)) {
-        fontSize = Utils::SettingValue("com.deepin.dde.appearance", QByteArray(), "font-size", 0.0).toDouble();
-        settings.setValue("FontSize", fontSize);
-        qDebug() << "set font size in qt theme: " << fontSize;
+
+    if (iconTheme.isEmpty() || fontSize - 0 < (1e-6)) {
+        QDBusInterface dbusInterface("org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1",
+            "org.freedesktop.DBus.Properties", QDBusConnection::sessionBus());
+        if (!dbusInterface.isValid()) {
+            return;
+        }
+
+        if (iconTheme.isEmpty()) {
+            QDBusPendingReply<QString> iconThemeReply = dbusInterface.call("Get", "org.deepin.dde.Appearance1", "IconTheme");
+            if (iconThemeReply.isValid()) {
+                iconTheme = iconThemeReply.value();
+                settings.setValue("IconThemeName", iconTheme);
+                qDebug() << "set icon theme name in dbus: " << iconTheme;
+            }
+        }
+
+        if (fontSize - 0 < (1e-6)) {
+            QDBusPendingReply<double> fontSizeReply = dbusInterface.call("Get", "org.deepin.dde.Appearance1", "fontSize");;
+            if (fontSizeReply.isValid()) {
+                fontSize = fontSizeReply.value();
+                settings.setValue("FontSize", fontSize);
+                qDebug() << "set font size in dbus: " << fontSize;
+            }
+        }
     }
 }
 
