@@ -18,6 +18,31 @@ eval "$(
 		sed -r 's/^([^=]+)=(.*)$/export \1="\2"/'
 )"
 
+get_graphics_drivers() {
+    targets="$@"  # 接收所有传入的参数
+    directories="/sys/class/drm/card0/device/drm/card0/device/driver/module/drivers /sys/bus/pci/drivers/"  # 要搜索的目录列表
+    for target_to_match in $targets; do
+        for directory in $directories; do
+            # 遍历指定目录
+            for file in "$directory"/*; do
+		if [ -L "$file" ]; then
+                    # 文件为符号链接
+                    driver_name=$(basename "$(readlink "$file")")
+                else
+                    # 文件为普通文件
+                    driver_name=$(basename "$file")
+                fi
+                # 检查是否等于目标驱动程序
+                if [ "$driver_name" = "$target_to_match" ]; then
+                    echo "Match found: $driver_name"
+                    return 1
+                fi
+            done
+        done
+    done
+    return 0  # 默认返回0表示匹配失败
+}
+
 if [ "$1" = "/usr/bin/dde-session" ]; then
     if [ -f "$HOME/.dde_env" ]; then
         . "$HOME/.dde_env"
@@ -43,7 +68,7 @@ if [ "$1" = "/usr/bin/dde-session" ]; then
     # set qt qpa platform type
     export QT_QPA_PLATFORM="dxcb;xcb"
     # control qml softwarecontext in loongson-drm
-    lshw -c display | grep "driver=loongson-drm"
+    get_graphics_drivers "driver=loongson-drm"
     if [ $? -eq 0 ];then
         export QMLSCENE_DEVICE=softwarecontext
     fi
