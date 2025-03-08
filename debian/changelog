@@ -1,3 +1,9 @@
+dde-session (1.99.11) unstable; urgency=medium
+
+  * fix: return value spelling error
+
+ -- zhangkun <zhangkun2@uniontech.com>  Sat, 08 Mar 2025 13:49:35 +0800
+
 dde-session (1.99.10) unstable; urgency=medium
 
   * fix: 修复从登录页面到桌面加载时间大约需要2分钟问题.
