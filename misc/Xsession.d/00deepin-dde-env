@@ -35,12 +35,12 @@ get_graphics_drivers() {
                 # 检查是否等于目标驱动程序
                 if [ "$driver_name" = "$target_to_match" ]; then
                     echo "Match found: $driver_name"
-                    return 1
+                    return 0
                 fi
             done
         done
     done
-    return 0  # 默认返回0表示匹配失败
+    return 1  # 默认返回1表示匹配失败
 }
 
 if [ "$1" = "/usr/bin/dde-session" ]; then
