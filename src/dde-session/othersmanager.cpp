@@ -44,7 +44,7 @@ void OthersManager::launchWmChooser()
     }
 
     // kwin存在的情况
-    if (!QStandardPaths::findExecutable("deepin-kwin_x11").isEmpty() && QFile(config).exists()) {
+    if (!QStandardPaths::findExecutable("kwin_x11").isEmpty() && QFile(config).exists()) {
         QFile configFile(config);
         if (!configFile.open(QIODevice::ReadOnly)) {
             qWarning() << "failed to open file: " << config;
@@ -64,7 +64,7 @@ void OthersManager::launchWmChooser()
         bool compositingEnabled = (lastWm == "deepin-wm");
 
         // 更新kwinrc的配置文件
-        const QString &kwinRc = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first() + "/deepin-kwinrc";
+        const QString &kwinRc = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first() + "/kwinrc";
         QSettings settings(kwinRc, QSettings::IniFormat);
         settings.beginGroup("Compositing");
         settings.setValue("Enabled", compositingEnabled);
