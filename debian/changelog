@@ -1,3 +1,9 @@
+dde-session (1.99.12) unstable; urgency=medium
+
+  * rename deepin-kwin to kwin
+
+ -- rewine <luhongxu@uniontech.com>  Mon, 24 Mar 2025 10:33:39 +0800
+
 dde-session (1.99.11) unstable; urgency=medium
 
   * fix: return value spelling error
