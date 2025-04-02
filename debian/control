@@ -23,7 +23,7 @@ Architecture: any
 Depends:
  jq,
  sed (>= 4),
- startdde (>= 6.0.11),
+ dde-daemon (>= 6.1.26),
  systemd,
  ${misc:Depends},
  ${shlibs:Depends},
