@@ -1,3 +1,9 @@
+dde-session (1.99.14) unstable; urgency=medium
+
+  * fix: auto rename deepin-kwin config in kglobalshortcutsrc
+
+ -- rewine <luhongxu@deepin.org>  Wed, 09 Apr 2025 10:34:39 +0800
+
 dde-session (1.99.13) unstable; urgency=medium
 
   * chore: remove startdde dependency
