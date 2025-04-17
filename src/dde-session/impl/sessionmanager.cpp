@@ -83,11 +83,6 @@ SessionManager::SessionManager(QObject *parent)
     // 处理异常退出的情况
     handleOSSignal();
 
-    // 播放登录提示音
-    if (canPlayEvent("desktop-login")) {
-        playLoginSound();
-    }
-
     auto appearanceConfig = DConfig::create("org.deepin.dde.appearance", "org.deepin.dde.appearance", QString(), this);
     m_soundTheme = appearanceConfig->value("Sound_Theme", "deepin").toString();
     connect(appearanceConfig, &DConfig::valueChanged, this, [this, appearanceConfig] (const QString &key) {
@@ -95,6 +90,11 @@ SessionManager::SessionManager(QObject *parent)
             m_soundTheme = appearanceConfig->value("Sound_Theme", "deepin").toString();
         }
     });
+
+    // 播放登录提示音
+    if (canPlayEvent("desktop-login")) {
+        playLoginSound();
+    }
 }
 
 SessionManager::~SessionManager()
@@ -704,13 +704,10 @@ bool SessionManager::canPlayEvent(const QString &event)
     const QString methodInterface = "org.deepin.dde.SoundEffect1";
 
     QDBusInterface dbusInterface(service, path, interface, QDBusConnection::sessionBus());
-    if (!dbusInterface.isValid()) {
-        return false;
-    }
-
-    QDBusReply<bool> enabledReply = dbusInterface.call("Get", service, "Enabled");
+    QDBusReply<QDBusVariant> enabledReply = dbusInterface.call("Get", service, "Enabled");
     if (enabledReply.isValid()) {
-        if (!enabledReply.value()) {
+        QVariant result = enabledReply.value().variant();
+        if (!result.toBool()) {
             return false;
         }
     } else {
