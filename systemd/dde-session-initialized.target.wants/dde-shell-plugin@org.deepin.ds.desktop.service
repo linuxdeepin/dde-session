@@ -20,5 +20,5 @@ Type=simple
 ExecStart=/usr/bin/dde-shell -p %I
 TimeoutStartSec=infinity
 Slice=session.slice
-Restart=on-failure
+Restart=always
 RestartSec=1s
