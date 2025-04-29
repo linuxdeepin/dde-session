@@ -1,3 +1,10 @@
+dde-session (1.99.15) unstable; urgency=medium
+
+  * fix: desktop can be restart when it was killed
+  * fix: reorder login sound playback in sessionmanager
+
+ -- YeShanShan <yeshanshan@uniontech.com>  Tue, 29 Apr 2025 10:52:58 +0800
+
 dde-session (1.99.14) unstable; urgency=medium
 
   * fix: auto rename deepin-kwin config in kglobalshortcutsrc
