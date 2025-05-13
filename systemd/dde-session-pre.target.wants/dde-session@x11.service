@@ -1,8 +1,5 @@
 [Unit]
 Description=dde on X11
-# On X11, try to show the dde Session Failed screen
-OnFailure=dde-session-shutdown.target
-OnFailureJobMode=replace
 CollectMode=inactive-or-failed
 
 Requisite=dde-session-pre.target
