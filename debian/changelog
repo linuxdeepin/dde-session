@@ -1,3 +1,9 @@
+dde-session (1.99.16) unstable; urgency=medium
+
+  * fix: don't target dde-session-shutdown when kwin failure
+
+ -- luhongxu <luhongxu@deepin.org>  Thu, 15 May 2025 11:35:19 +0800
+
 dde-session (1.99.15) unstable; urgency=medium
 
   * fix: desktop can be restart when it was killed
