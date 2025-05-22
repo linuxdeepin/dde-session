@@ -760,7 +760,7 @@ void SessionManager::playLoginSound()
         return;
 
     qInfo() << "play system sound: desktop-login";
-    playSound("desktop-login");
+    playSoundAutoLogin("desktop-login");
 
     // 播放后创建文件
     QFile file(markFile);
@@ -794,7 +794,7 @@ void SessionManager::playLogoutSound()
     // 始终在注销前退出pulseaudio服务
     stopPulseAudioService();
 
-    playSound("desktop-logout");
+    playSoundLogout("desktop-logout");
 }
 
 void SessionManager::setDPMSMode(bool on)
@@ -892,7 +892,19 @@ void SessionManager::emitCurrentUidChanged(QString uid)
      // 这个属性不会变化
 }
 
-inline void SessionManager::playSound(const QString &event)
+// 自动登录时session已经启动了，不能使用alsa，会和通过pa或者pipewire抢占通道，导致音频模块异常
+inline void SessionManager::playSoundAutoLogin(const QString &event)
+{
+    QDBusInterface soundPlayerInter("org.deepin.dde.SoundEffect1", "/org/deepin/dde/SoundEffect1",
+        "org.deepin.dde.SoundEffect1", QDBusConnection::sessionBus());
+    QDBusMessage reply = soundPlayerInter.call("PlaySound", event);
+    if (reply.type() == QDBusMessage::ErrorMessage) {
+        qWarning() << "Failed to call Play:" << event << reply.errorMessage();
+    }
+}
+
+// 注销时，不能使用pa或者pipewire，因为session可能会退出，导致没有音效，应该直接使用alsa
+inline void SessionManager::playSoundLogout(const QString &event)
 {
     QDBusInterface soundPlayerInter("org.deepin.dde.SoundThemePlayer1", "/org/deepin/dde/SoundThemePlayer1",
         "org.deepin.dde.SoundThemePlayer1", QDBusConnection::systemBus());

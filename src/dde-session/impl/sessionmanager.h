@@ -112,6 +112,8 @@ private:
     void emitStageChanged(int);
     void emitCurrentSessionPathChanged(QDBusObjectPath);
     void emitCurrentUidChanged(QString);
+    void playSoundAutoLogin(const QString& event);
+    void playSoundLogout(const QString& event);
 
     void playSound(const QString &event);
 
