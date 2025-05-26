@@ -23,7 +23,6 @@
 #include "wmswitcher1adaptor.h"
 #include "org_freedesktop_systemd1_Manager.h"
 #include "utils/fifo.h"
-#include "utils/utils.h"
 #include "impl/sessionmanager.h"
 #include "impl/wmswitcher.h"
 #include "impl/iowait/iowaitwatcher.h"
@@ -101,7 +100,7 @@ int main(int argc, char *argv[])
             qApp->quit();
         });
         pid_t curPid = getpid();
-        QtConcurrent::run([curPid](){
+        QThreadPool::globalInstance()->start([curPid]() {
             qInfo()<<"leader pipe thread id: " << QThread::currentThreadId() << ", pid: " << curPid;
             Fifo *fifo = new Fifo;
             fifo->OpenWrite();
@@ -129,7 +128,7 @@ int main(int argc, char *argv[])
     QDBusConnection::sessionBus().registerObject("/org/deepin/dde/WMSwitcher1", wmSwitcher);
 
     // TODO 这部分都是一次性运行，可以拆分成不同的oneshot服务
-    QtConcurrent::run([] {
+    QThreadPool::globalInstance()->start([] {
         OthersManager().init();
     });
 
@@ -146,7 +145,7 @@ int main(int argc, char *argv[])
 #endif
     qInfo() << "iowait watcher disabled";
 
-    QtConcurrent::run([&session](){
+    QThreadPool::globalInstance()->start([&session]() {
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
         Fifo *fifo = new Fifo;
         fifo->OpenRead();
