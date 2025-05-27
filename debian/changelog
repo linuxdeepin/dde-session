@@ -1,3 +1,9 @@
+dde-session (1.99.18) unstable; urgency=medium
+
+  * fix: 解决音效服务异常的问题
+
+ -- fuleyi <fuleyi@uniontech.com>  Tue, 27 May 2025 16:53:17 +0800
+
 dde-session (1.99.17) unstable; urgency=medium
 
   * fix: unset systemd-user's DISPLAY env when system logs out
