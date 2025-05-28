@@ -23,6 +23,7 @@ install(FILES ${SERVICES} DESTINATION lib/systemd/user/)
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-pre.target.wants/)
 set(DDE_SESSION_PRE_WANTS
     dde-session-pre.target.wants/dde-session@x11.service
+    dde-session-pre.target.wants/dde-quick-login@x11.service
 )
 
 # dde-session-initialized.target.wants - TODO: 暂时先放这里，后续应该转移到对应服务
@@ -37,6 +38,7 @@ set(DDE_SESSION_INITIALIZED_WANTS
 install(FILES ${DDE_SESSION_PRE_WANTS} DESTINATION lib/systemd/user/)
 install(FILES ${DDE_SESSION_INITIALIZED_WANTS} DESTINATION lib/systemd/user/)
 install_symlink(dde-session@x11.service dde-session-pre.target.wants)
+install_symlink(dde-quick-login@x11.service dde-session-pre.target.wants)
 install_symlink(dde-shell-plugin@org.deepin.ds.desktop.service dde-session-initialized.target.wants)
 install_symlink(dde-shell@DDE.service dde-session-initialized.target.wants)
 install_symlink(dde-lock.service dde-session-initialized.target.wants)
