@@ -20,4 +20,5 @@ ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/dde-session --systemd-service
 ExecStopPost=@CMAKE_INSTALL_FULL_LIBEXECDIR@/dde-session-ctl --shutdown
 ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemctl --user unset-environment XDG_CURRENT_DESKTOP'
 ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemctl --user unset-environment DISPLAY'
+ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemctl --user unset-environment DDE_QUICKLOGIN'
 Slice=session.slice

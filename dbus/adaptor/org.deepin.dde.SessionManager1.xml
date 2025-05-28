@@ -55,6 +55,9 @@
      </method>
      <method name="Shutdown"></method>
      <method name="ToggleDebug"></method>
+     <signal name="LockedChanged">
+          <arg type="b" name="locked"></arg>
+     </signal>
      <signal name="Unlock"></signal>
      <signal name="InhibitorAdded">
         <arg name="path" type="o"></arg>

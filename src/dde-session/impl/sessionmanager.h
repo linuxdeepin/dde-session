@@ -123,6 +123,7 @@ private Q_SLOTS:
 
 signals:
     // signals on dbus
+    void LockedChanged(bool locked);
     void Unlock();
     void InhibitorAdded(const QDBusObjectPath &);
     void InhibitorRemoved(const QDBusObjectPath &);

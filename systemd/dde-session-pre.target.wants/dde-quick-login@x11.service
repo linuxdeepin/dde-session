@@ -1,0 +1,24 @@
+[Unit]
+Description=DDE Quick Login Monitor
+CollectMode=inactive-or-failed
+
+Requires=dde-session@x11.service
+After=dde-session@x11.service
+
+Requisite=dde-session-pre.target
+PartOf=dde-session-pre.target
+Before=dde-session-pre.target
+
+Wants=org.dde.session.Daemon1.service
+After=org.dde.session.Daemon1.service
+
+[Service]
+Slice=session.slice
+Type=notify
+# only in quick login mode and x11
+ExecCondition=/bin/sh -c '[ "$DDE_QUICKLOGIN" = "true" ] || exit 2'
+ExecCondition=/bin/sh -c '[ "$XDG_SESSION_TYPE" = "%I" ] || exit 3'
+ExecStart=/usr/bin/dde-quick-login
+Restart=on-failure
+RestartSec=300ms
+StartLimitBurst=3
