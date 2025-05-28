@@ -81,6 +81,8 @@ int main(int argc, char *argv[])
     parser.addOption(systemd);
     parser.process(app);
 
+    DLogManager::registerJournalAppender();
+
     if (!parser.isSet(systemd)) {
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();

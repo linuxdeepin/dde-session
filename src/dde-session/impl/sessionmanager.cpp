@@ -872,6 +872,8 @@ void SessionManager::emitLockChanged(bool locked)
    arguments.push_back(QStringList());
    msg.setArguments(arguments);
    QDBusConnection::sessionBus().send(msg);
+
+   Q_EMIT LockedChanged(locked);
 }
 
 void SessionManager::emitStageChanged(int state)
