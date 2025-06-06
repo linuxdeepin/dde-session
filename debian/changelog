@@ -1,3 +1,9 @@
+dde-session (1.99.19) unstable; urgency=medium
+
+  * chore: add dde quick login
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Fri, 06 Jun 2025 09:37:10 +0800
+
 dde-session (1.99.18) unstable; urgency=medium
 
   * fix: 解决音效服务异常的问题
