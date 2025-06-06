@@ -418,10 +418,13 @@ void SessionManager::RequestHibernate()
         qWarning() << "failed to hibernate, error: " << reply.error().name();
     }
 
+    // TODO: if has quick-black-screen config, need use dde black screen, else use dpms mode
+    setDPMSMode(false);
+
     // NOTE: do we need it anymore?
-    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", false)) {
-        setDPMSMode(false);
-    }
+    // if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", false)) {
+    //     setDPMSMode(false);
+    // }
 }
 
 void SessionManager::RequestLock()
