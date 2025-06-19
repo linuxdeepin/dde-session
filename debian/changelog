@@ -1,3 +1,10 @@
+dde-session (1.99.20) unstable; urgency=medium
+
+  * fix: start deepin-keyring-whitebox when dde-session starting
+  * fix: using DPMS to close screen when need hibernate
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 19 Jun 2025 09:52:01 +0800
+
 dde-session (1.99.19) unstable; urgency=medium
 
   * chore: add dde quick login
