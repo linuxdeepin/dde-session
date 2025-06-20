@@ -1,4 +1,4 @@
-configure_file(xsessions/dde-x11.desktop.in xsessions/dde-x11.desktop)
+configure_file(xsessions/deepin.desktop.in xsessions/deepin.desktop)
 
 set(XSESSION
     ${CMAKE_CURRENT_SOURCE_DIR}/Xsession.d/00deepin-dde-env
