@@ -1,3 +1,9 @@
+dde-session (1.99.22) unstable; urgency=medium
+
+  * feat: update session configuration for Deepin Desktop Environment
+
+ -- fuleyi <fuleyi@uniontech.com>  Fri, 20 Jun 2025 16:53:00 +0800
+
 dde-session (1.99.21) unstable; urgency=medium
 
   * feat: enable position independent code in CMake
