@@ -110,6 +110,14 @@ SessionManager::~SessionManager()
 
 void SessionManager::initConnections()
 {
+    // TODO: When the Active of login1 is changed to false,
+    // it will not cause the ActiveChanged signal to send
+    // because it is the same as the default value.
+    // This is a DTK bug and the default value is not initialized.
+    // Manually calling this interface will change the default default.
+    const bool active = m_login1SessionInter->active();
+    Q_UNUSED(active)
+
     connect(m_login1SessionInter, &org::freedesktop::login1::Session::ActiveChanged, [=](bool active) {
         qDebug() << "session active status changed to:" << active;
         if (active) {
