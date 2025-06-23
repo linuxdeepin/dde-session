@@ -1,3 +1,9 @@
+dde-session (2.0.1) unstable; urgency=medium
+
+  * fix: cannot receive ActiveChanged signal when os was restarted
+
+ -- zhangkun <zhangkun2@uniontech.com>  Mon, 23 Jun 2025 21:28:59 +0800
+
 dde-session (2.0.0) unstable; urgency=medium
 
   * feat: update session configuration for Deepin Desktop Environment
