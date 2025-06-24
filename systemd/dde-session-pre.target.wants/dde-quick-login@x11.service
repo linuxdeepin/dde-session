@@ -12,6 +12,9 @@ Before=dde-session-pre.target
 Wants=org.dde.session.Daemon1.service
 After=org.dde.session.Daemon1.service
 
+# SuccessExitStatus=0,launch dde-lock.service
+OnSuccess=dde-lock.service
+
 [Service]
 Slice=session.slice
 Type=notify
@@ -19,6 +22,7 @@ Type=notify
 ExecCondition=/bin/sh -c '[ "$DDE_QUICKLOGIN" = "true" ] || exit 2'
 ExecCondition=/bin/sh -c '[ "$XDG_SESSION_TYPE" = "%I" ] || exit 3'
 ExecStart=/usr/bin/dde-quick-login
+SuccessExitStatus=0
 Restart=on-failure
 RestartSec=300ms
 StartLimitBurst=3
