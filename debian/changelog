@@ -1,3 +1,9 @@
+dde-session (2.0.2) unstable; urgency=medium
+
+  * fix: launch dde-lock.service when lock was unlocked in quick login mode
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 24 Jun 2025 20:53:35 +0800
+
 dde-session (2.0.1) unstable; urgency=medium
 
   * fix: cannot receive ActiveChanged signal when os was restarted
