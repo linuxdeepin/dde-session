@@ -24,6 +24,8 @@ Depends:
  jq,
  sed (>= 4),
  dde-daemon (>= 6.1.26),
+ libdtkdata (>=5.7.18),
+ libdtk6core (>=6.0.38),
  systemd,
  ${misc:Depends},
  ${shlibs:Depends},
