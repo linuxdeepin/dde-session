@@ -32,5 +32,5 @@ Type=simple
 ExecStart=/usr/bin/dde-shell -C %I --serviceName=org.deepin.dde.shell -d org.deepin.ds.desktop
 TimeoutStartSec=infinity
 Slice=session.slice
-Restart=on-failure
+Restart=always
 RestartSec=1s
