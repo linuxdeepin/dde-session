@@ -7,7 +7,6 @@ find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Tools)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set (CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-W -Wall -fPIC -fstack-protector-all -z relro -z noexecstack -z now -pie")
 
 # qdbusxml2cpp-fix
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/dbusinterface/)
