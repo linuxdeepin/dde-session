@@ -10,9 +10,10 @@
 
 class Fifo : public QObject
 {
+    Q_OBJECT
 public:
-    Fifo();
-    ~Fifo();
+    Fifo(QObject *parent = nullptr);
+    virtual ~Fifo();
 
     int Read(QString &data);
     int Write(QString data);

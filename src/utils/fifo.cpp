@@ -13,8 +13,9 @@
 #include <errno.h>
 #include <QDebug>
 
-Fifo::Fifo()
-    : m_fd(-1)
+Fifo::Fifo(QObject *parent)
+    : QObject(parent)
+    , m_fd(-1)
 {
     m_fifoPath = QString(getenv("HOME")) + "/.cache/dde-session-fifo";
 }
