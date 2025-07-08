@@ -93,20 +93,20 @@ int main(int argc, char *argv[])
         org::freedesktop::systemd1::Manager systemdDBus("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
         startSystemdUnit(systemdDBus, dmService, "replace");
 
-        QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Session1", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration);
+        QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Session1", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration, &app);
         watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [&] {
             qInfo() << "dde session exit";
             startSystemdUnit(systemdDBus, "dde-session-exit-task.service", "replace");
             qApp->quit();
         });
+        
         pid_t curPid = getpid();
-        QThreadPool::globalInstance()->start([curPid]() {
+        Fifo *fifo = new Fifo(&app);
+        QThreadPool::globalInstance()->start([curPid, fifo]() {
             qInfo()<<"leader pipe thread id: " << QThread::currentThreadId() << ", pid: " << curPid;
-            Fifo *fifo = new Fifo;
             fifo->OpenWrite();
             fifo->Write(QString::number(curPid));
         });
-
         // We started the unit, open <dbus> and sleep forever.
         return app.exec();
     }
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
     // QProcess no block "/usr/bin/deepin-keyring-whitebox", "--opt-client=waitfifonotify"),BUG-255907
     QProcess::startDetached("/usr/bin/deepin-keyring-whitebox", QStringList() << "--opt-client=waitfifonotify");
 
-    auto* session = new Session;
+    auto* session = new Session(&app);
     new Session1Adaptor(session);
     QDBusConnection::sessionBus().registerService("org.deepin.dde.Session1");
     QDBusConnection::sessionBus().registerObject("/org/deepin/dde/Session1", "org.deepin.dde.Session1", session);
@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
     QDBusConnection::sessionBus().registerService("org.deepin.dde.SessionManager1");
     QDBusConnection::sessionBus().registerObject("/org/deepin/dde/SessionManager1", "org.deepin.dde.SessionManager1", SessionManager::instance());
 
-    auto *wmSwitcher = new WMSwitcher();
+    auto *wmSwitcher = new WMSwitcher(&app);
     new WMSwitcher1Adaptor(wmSwitcher);
     QDBusConnection::sessionBus().registerService("org.deepin.dde.WMSwitcher1");
     QDBusConnection::sessionBus().registerObject("/org/deepin/dde/WMSwitcher1", wmSwitcher);
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 
     QThreadPool::globalInstance()->start([&session]() {
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
-        Fifo *fifo = new Fifo;
+        Fifo *fifo = new Fifo();
         fifo->OpenRead();
         qInfo() << "pipe open read finish";
         QString CurSessionPid;
@@ -166,6 +166,7 @@ int main(int argc, char *argv[])
                 session->setSessionPath();
             }
         }
+        fifo->deleteLater();
         qInfo() << "pipe read finish, app exit.";
         qApp->quit();
     });
