@@ -1,3 +1,9 @@
+dde-session (2.0.5) unstable; urgency=medium
+
+  * fix: avoid memory leak
+
+ -- zyz <zhaoyingzhen@uniontech.com>  Fri, 11 Jul 2025 13:47:06 +0800
+
 dde-session (2.0.4) unstable; urgency=medium
 
   * fix: update build hardening flags and cmake configuration
