@@ -5,12 +5,8 @@ CollectMode=inactive-or-failed
 Requires=dde-session@x11.service
 After=dde-session@x11.service
 
-Requisite=dde-session-pre.target
 PartOf=dde-session-pre.target
 Before=dde-session-pre.target
-
-Wants=org.dde.session.Daemon1.service
-After=org.dde.session.Daemon1.service
 
 # SuccessExitStatus=0,launch dde-lock.service
 OnSuccess=dde-lock.service dde-version-checker@quick-login.service

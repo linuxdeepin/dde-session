@@ -1,0 +1,13 @@
+[Unit]
+Description=dde-session-core target, core desktop components to be run after pre-target and before initialized-target.
+OnFailure=dde-session-shutdown.target
+OnFailureJobMode=replace-irreversibly
+DefaultDependencies=no
+RefuseManualStart=yes
+RefuseManualStop=yes
+
+Requires=dde-session-pre.target
+After=dde-session-pre.target
+
+PartOf=dde-session-initialized.target
+Before=dde-session-initialized.target
