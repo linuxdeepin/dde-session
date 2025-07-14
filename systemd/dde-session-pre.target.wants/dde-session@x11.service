@@ -2,7 +2,6 @@
 Description=dde on X11
 CollectMode=inactive-or-failed
 
-Requisite=dde-session-pre.target
 PartOf=dde-session-pre.target
 Before=dde-session-pre.target
 
