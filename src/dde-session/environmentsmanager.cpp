@@ -14,7 +14,6 @@
 EnvironmentsManager::EnvironmentsManager()
 {
     createGeneralEnvironments();
-    createKeyringEnvironments();
     createDBusEnvironments();
 }
 
@@ -105,23 +104,6 @@ void EnvironmentsManager::createGeneralEnvironments()
         m_envMap.insert("XCURSOR_SIZE", "24");
     }
 
-}
-
-void EnvironmentsManager::createKeyringEnvironments()
-{
-    // man gnome-keyring-daemon:
-    // The daemon will print out various environment variables which should be set
-    // in the user's environment, in order to interact with the daemon.
-    EXEC_COMMAND("/usr/bin/gnome-keyring-daemon", QStringList() << "--start" << "--components=secrets,pkcs11,ssh");
-    const QByteArray &output = p.readAllStandardOutput();
-    QByteArrayList envList = output.split('\n');
-    for (auto env : envList) {
-        auto list = env.split('=');
-        if (list.size() != 2)
-            continue;
-
-        m_envMap.insert(list.at(0), list.at(1));
-    }
 }
 
 void EnvironmentsManager::createDBusEnvironments()

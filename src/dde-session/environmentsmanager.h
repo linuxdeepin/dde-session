@@ -19,7 +19,6 @@ public:
 
 private:
     void createGeneralEnvironments();
-    void createKeyringEnvironments();
     void createDBusEnvironments();
 
     bool unsetEnv(QString env);
