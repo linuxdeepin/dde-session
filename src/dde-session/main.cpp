@@ -113,9 +113,6 @@ int main(int argc, char *argv[])
 
     /* ---systemd-service--- */
 
-    // QProcess no block "/usr/bin/deepin-keyring-whitebox", "--opt-client=waitfifonotify"),BUG-255907
-    QProcess::startDetached("/usr/bin/deepin-keyring-whitebox", QStringList() << "--opt-client=waitfifonotify");
-
     auto* session = new Session(&app);
     new Session1Adaptor(session);
     QDBusConnection::sessionBus().registerService("org.deepin.dde.Session1");

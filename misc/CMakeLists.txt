@@ -3,6 +3,7 @@ configure_file(xsessions/deepin.desktop.in xsessions/deepin.desktop)
 set(XSESSION
     ${CMAKE_CURRENT_SOURCE_DIR}/Xsession.d/00deepin-dde-env
     ${CMAKE_CURRENT_SOURCE_DIR}/Xsession.d/01deepin-profile
+    ${CMAKE_CURRENT_SOURCE_DIR}/Xsession.d/97deepin-keyring-wb
 )
 
 set(PROFILE

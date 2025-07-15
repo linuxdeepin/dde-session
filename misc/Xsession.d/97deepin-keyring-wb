@@ -1,0 +1,12 @@
+#!/bin/sh
+# Start deepin-keyring-whitebox and gnome-keyring-daemon for DDE session
+
+if [ -x /usr/bin/deepin-keyring-whitebox ]; then
+    echo "start deepin-keyring-whitebox client"
+    /usr/bin/deepin-keyring-whitebox --opt-client=waitfifonotify || true
+fi
+
+if [ -x /usr/bin/gnome-keyring-daemon ]; then
+    echo "start gnome-keyring-daemon with components secrets,pkcs11,ssh"
+    /usr/bin/gnome-keyring-daemon --start --components=secrets,pkcs11,ssh || true
+fi 
