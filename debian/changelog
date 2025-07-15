@@ -1,3 +1,11 @@
+dde-session (2.0.6) unstable; urgency=medium
+
+  * fix: resolve keyring prompt issue during login by moving keyring
+    startup to Xsession.d
+  * chore: bump version to 2.0.5
+
+ -- fuleyi <fuleyi@uniontech.com>  Tue, 15 Jul 2025 14:54:39 +0800
+
 dde-session (2.0.5) unstable; urgency=medium
 
   * fix: avoid memory leak
