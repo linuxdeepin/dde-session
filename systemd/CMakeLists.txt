@@ -11,8 +11,8 @@ configure_file(dde-session-shutdown.service.in
 set(SERVICES
     dde-session-initialized.target
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-manager.service
-    dde-session-manager.target
     dde-session-pre.target
+    dde-session-core.target
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-exit-task.service
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-shutdown.service
     dde-session-shutdown.target
@@ -26,21 +26,27 @@ set(DDE_SESSION_PRE_WANTS
     dde-session-pre.target.wants/dde-quick-login@x11.service
 )
 
-# dde-session-initialized.target.wants - TODO: 暂时先放这里，后续应该转移到对应服务
+# dde-session-core.target.wants - core desktop components
+install(DIRECTORY DESTINATION lib/systemd/user/dde-session-core.target.wants/)
+set(DDE_SESSION_CORE_WANTS
+    dde-session-core.target.wants/dde-shell@DDE.service
+    dde-session-core.target.wants/dde-shell-plugin@org.deepin.ds.desktop.service
+)
+
+# dde-session-initialized.target.wants - other desktop services
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-initialized.target.wants/)
 set(DDE_SESSION_INITIALIZED_WANTS
-    dde-session-initialized.target.wants/dde-shell@DDE.service
-    dde-session-initialized.target.wants/dde-shell-plugin@org.deepin.ds.desktop.service
     dde-session-initialized.target.wants/dde-lock.service
     dde-session-initialized.target.wants/dde-polkit-agent.service
 )
 
 install(FILES ${DDE_SESSION_PRE_WANTS} DESTINATION lib/systemd/user/)
+install(FILES ${DDE_SESSION_CORE_WANTS} DESTINATION lib/systemd/user/)
 install(FILES ${DDE_SESSION_INITIALIZED_WANTS} DESTINATION lib/systemd/user/)
 install_symlink(dde-session@x11.service dde-session-pre.target.wants)
 install_symlink(dde-quick-login@x11.service dde-session-pre.target.wants)
-install_symlink(dde-shell-plugin@org.deepin.ds.desktop.service dde-session-initialized.target.wants)
-install_symlink(dde-shell@DDE.service dde-session-initialized.target.wants)
+install_symlink(dde-shell@DDE.service dde-session-core.target.wants)
+install_symlink(dde-shell-plugin@org.deepin.ds.desktop.service dde-session-core.target.wants)
 install_symlink(dde-lock.service dde-session-initialized.target.wants)
 install_symlink(dde-polkit-agent.service dde-session-initialized.target.wants)
 

@@ -8,9 +8,8 @@ CollectMode=inactive-or-failed
 Requisite=dde-session-pre.target
 After=dde-session-pre.target
 
-Requisite=dde-session-initialized.target
-PartOf=dde-session-initialized.target
-Before=dde-session-initialized.target
+PartOf=dde-session-core.target
+Before=dde-session-core.target
 
 Requires=dbus.socket
 After=dbus.socket
