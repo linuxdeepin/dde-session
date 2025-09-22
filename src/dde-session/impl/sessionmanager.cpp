@@ -636,15 +636,9 @@ void SessionManager::stopPulseAudioService()
     auto msg = interface.call("NoRestartPulseAudio");
     if (!msg.errorMessage().isEmpty())
         qWarning() << "error: " << msg.errorMessage();
-
-    const QString audioServer = getAudioServerBackend();
-
-    STOP_SERVICE(audioServer);
-    // pipewire also need to stop pipwire-pulse socket
-    if (audioServer == PIPEWIRE_SOCKET) {
-        STOP_SERVICE(PIPEWIRE_PULSE_SOCKET);
-    }
-    VIEW_SERVICE(audioServer);
+    msg = interface.call("StopAudioService");
+    if (!msg.errorMessage().isEmpty())
+        qWarning() << "error: " << msg.errorMessage();
 }
 
 void SessionManager::stopBAMFDaemon()
