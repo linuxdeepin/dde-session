@@ -73,4 +73,4 @@ Exec=/usr/bin/dde-session
 
 ## License
 
-dde-session 在 [LGPL-3.0-or-later](LICENSE)下发布。
+dde-session 在 [GPL-3.0-or-later](LICENSE)下发布。
