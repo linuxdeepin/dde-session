@@ -10,7 +10,6 @@
 #include <QDBusInterface>
 #include <QDBusContext>
 
-#include "org_deepin_dde_PowerManager1.h"
 #include "org_deepin_dde_Audio1.h"
 
 #include "org_freedesktop_login1_Manager.h"
@@ -80,6 +79,7 @@ private:
     void prepareLogout(bool force);
     void prepareShutdown(bool force);
     void clearCurrentTty();
+    bool detectVirtualMachine();
 
     // tiny function
     QString getAudioServerBackend();
@@ -133,10 +133,10 @@ private:
     QString m_currentUid;
     QString m_soundTheme;
     int m_stage;
+    bool m_isVM;
     QDBusObjectPath m_currentSessionPath;
 
     // dbus client
-    org::deepin::dde::PowerManager1 *m_powerInter;
     org::deepin::dde::Audio1 *m_audioInter;
     org::freedesktop::login1::Manager *m_login1ManagerInter;
     org::freedesktop::login1::User *m_login1UserInter;
