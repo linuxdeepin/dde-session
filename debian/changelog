@@ -1,3 +1,10 @@
+dde-session (2.0.8) unstable; urgency=medium
+
+  * refactor: remove PowerManager dependency from session manager
+  * docs: update license references in README files
+
+ -- lvpeilong <lvpeilong@uniontech.com>  Thu, 30 Oct 2025 20:17:43 +0800
+
 dde-session (2.0.7) unstable; urgency=medium
 
   * fix: resolve audio service stop issue during logout
