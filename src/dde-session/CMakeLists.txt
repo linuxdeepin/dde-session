@@ -38,7 +38,6 @@ qt_add_dbus_adaptor(ADAPTER_SOURCES
 )
 
 # dbus interface
-qt_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.PowerManager1.xml PowerManager org_deepin_dde_PowerManager1)
 qt_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.Bluetooth1.xml Bluetooth org_deepin_dde_Bluetooth1)
 qt_add_dbus_interface_fix(INTERFACE_SOURCES org.deepin.dde.Daemon1.xml SessionDaemon org_deepin_dde_Daemon1)
 qt_add_dbus_interface_fix(INTERFACE_SOURCES org.freedesktop.login1.Manager.xml Login1Manager org_freedesktop_login1_Manager)

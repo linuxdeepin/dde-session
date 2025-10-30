@@ -14,6 +14,8 @@
 #include <QDBusObjectPath>
 #include <QStandardPaths>
 #include <QJsonDocument>
+#include <QProcess>
+#include <QFile>
 
 #include <unistd.h>
 #include <signal.h>
@@ -70,13 +72,13 @@ SessionManager::SessionManager(QObject *parent)
     , m_currentUid(QString::number(getuid()))
     , m_stage(0)
     , m_currentSessionPath("/")
-    , m_powerInter(new org::deepin::dde::PowerManager1("org.deepin.dde.PowerManager1", "/org/deepin/dde/PowerManager1", QDBusConnection::systemBus(), this))
     , m_audioInter(new org::deepin::dde::Audio1("org.deepin.dde.Audio1", "/org/deepin/dde/Audio1", QDBusConnection::sessionBus(), this))
     , m_login1ManagerInter(new org::freedesktop::login1::Manager("org.freedesktop.login1", "/org/freedesktop/login1", QDBusConnection::systemBus(), this))
     , m_login1UserInter(new org::freedesktop::login1::User("org.freedesktop.login1", m_login1ManagerInter->GetUser(getuid()).value().path(), QDBusConnection::systemBus(), this))
     , m_login1SessionInter(new org::freedesktop::login1::Session("org.freedesktop.login1", m_login1UserInter->display().path.path(), QDBusConnection::systemBus(), this))
     , m_systemd1ManagerInter(new org::freedesktop::systemd1::Manager("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus(), this))
     , m_DBusInter(new org::freedesktop::DBus("org.freedesktop.DBus", "/org/freedesktop/DBus", QDBusConnection::sessionBus(), this))
+    , m_isVM(detectVirtualMachine())
 {
     initConnections();
 
@@ -90,7 +92,6 @@ SessionManager::SessionManager(QObject *parent)
             m_soundTheme = appearanceConfig->value("Sound_Theme", "deepin").toString();
         }
     });
-
     // 播放登录提示音
     if (canPlayEvent("desktop-login")) {
         playLoginSound();
@@ -246,12 +247,7 @@ bool SessionManager::AllowSessionDaemonRun()
 
 bool SessionManager::CanHibernate()
 {
-    if (QString(getenv("POWER_CAN_SLEEP")) == "0") {
-        return false;
-    }
-
-    // 是否支持休眠
-    if (!m_powerInter->CanHibernate()) {
+    if (QString(getenv("POWER_CAN_SLEEP")) == "0" || m_isVM) {
         return false;
     }
 
@@ -279,12 +275,12 @@ bool SessionManager::CanShutdown()
 
 bool SessionManager::CanSuspend()
 {
-    if (QString(getenv("POWER_CAN_SLEEP")) == "0") {
+    if (QString(getenv("POWER_CAN_SLEEP")) == "0" || m_isVM) {
         return false;
     }
 
-    // 是否支持待机
-    if (!m_powerInter->CanSuspend()) {
+    // 检查内存休眠支持文件是否存在
+    if (!QFile::exists("/sys/power/mem_sleep")) {
         return false;
     }
 
@@ -973,4 +969,18 @@ void SessionManager::handleLoginSessionUnlocked()
         m_locked = false;
         emitLockChanged(false);
     }
+}
+
+bool SessionManager::detectVirtualMachine() {
+    QProcess process;
+    process.start("/usr/bin/systemd-detect-virt", QStringList());
+    process.waitForFinished(-1);
+    
+    if (process.exitCode() != 0) {
+        qWarning() << "Failed to detect virtual machine, error:" << process.errorString();
+        return false;
+    }
+    
+    QString name = QString::fromUtf8(process.readAllStandardOutput()).trimmed();
+    return name != "none" && !name.isEmpty();
 }
