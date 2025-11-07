@@ -13,7 +13,7 @@ Wants=org.dde.session.Daemon1.service
 After=org.dde.session.Daemon1.service
 
 # SuccessExitStatus=0,launch dde-lock.service
-OnSuccess=dde-lock.service
+OnSuccess=dde-lock.service dde-version-checker@quick-login.service
 
 [Service]
 Slice=session.slice
