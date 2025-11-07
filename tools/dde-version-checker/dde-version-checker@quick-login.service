@@ -1,0 +1,7 @@
+[Unit]
+Description=dde-version-checker service (after quick login)
+CollectMode=inactive-or-failed
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dde-version-checker
