@@ -1,3 +1,10 @@
+dde-session (2.0.9) unstable; urgency=medium
+
+  * fix: in quick login mode, the dde-version-check is executed only
+    after the lock is unlocked
+
+ -- xionglinlin <xionglinlin@uniontech.com>  Tue, 18 Nov 2025 11:15:29 +0800
+
 dde-session (2.0.8) unstable; urgency=medium
 
   * refactor: remove PowerManager dependency from session manager
