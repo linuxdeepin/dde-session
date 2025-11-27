@@ -9,7 +9,7 @@ PartOf=dde-session-pre.target
 Before=dde-session-pre.target
 
 # SuccessExitStatus=0,launch dde-lock.service
-OnSuccess=dde-lock.service dde-version-checker@quick-login.service
+OnSuccess=dde-lock.service dde-version-checker@quick-login.service dde-autostart@quick-login.service
 
 [Service]
 Slice=session.slice
