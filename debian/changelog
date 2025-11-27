@@ -1,3 +1,11 @@
+dde-session (2.0.10) unstable; urgency=medium
+
+  * feat: exec auto start service after quick-login unlocked
+  * refactor: reorganize systemd target dependencies and introduce core
+    target
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Thu, 27 Nov 2025 17:25:38 +0800
+
 dde-session (2.0.9) unstable; urgency=medium
 
   * fix: in quick login mode, the dde-version-check is executed only
