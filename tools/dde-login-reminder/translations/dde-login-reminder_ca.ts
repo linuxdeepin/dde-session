@@ -45,7 +45,7 @@
     <message>
         <location filename="../main.cpp" line="177"/>
         <source>Your password has expired!</source>
-        <translation type="unfinished"/>
+        <translation>La contrasenya ha caducat!</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="178"/>
