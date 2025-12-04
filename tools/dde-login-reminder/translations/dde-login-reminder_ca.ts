@@ -55,7 +55,7 @@
     <message>
         <location filename="../main.cpp" line="181"/>
         <source>Your password will expire in %1 days. Please change it soon.</source>
-        <translation type="unfinished"/>
+        <translation>La contrasenya caducarà d&apos;aquí a %1 dies. Si us plau, canvieu-la aviat.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="183"/>
