@@ -50,7 +50,7 @@
     <message>
         <location filename="../main.cpp" line="178"/>
         <source>For security reasons, please change your password immediately.</source>
-        <translation type="unfinished"/>
+        <translation>Per motius de seguretat, si us plau, canvieu la contrasenya immediatament.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="181"/>
