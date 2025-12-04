@@ -4,17 +4,17 @@
     <message>
         <location filename="../main.cpp" line="86"/>
         <source>Login Reminder</source>
-        <translation type="unfinished"/>
+        <translation>Recordatori d&apos;entrada</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="94"/>
         <source>Your password will expire in %1 days</source>
-        <translation type="unfinished"/>
+        <translation>La contrasenya vencerà d&apos;aquí a %1 dies.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="98"/>
         <source>%1 login failures since the last successful login</source>
-        <translation type="unfinished"/>
+        <translation>%d errors d&apos;entrada des de la darrera obertura de sessió</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="107"/>
