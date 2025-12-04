@@ -24,18 +24,18 @@
     <message>
         <location filename="../main.cpp" line="108"/>
         <source>Last login: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viimeisin kirjautuminen: %1</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="116"/>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>Tiedot</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="170"/>
         <location filename="../main.cpp" line="182"/>
         <source>Password Expiration Warning</source>
-        <translation type="unfinished"/>
+        <translation>Salasanan vanhenemisen varoitus</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="176"/>
