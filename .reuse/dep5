@@ -19,7 +19,7 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: LGPL-3.0-or-later
 
 # systemd config file
-Files: dbus/*.service systemd/* tools/*.service
+Files: dbus/*.service systemd/* tools/*.service tools/dde-login-reminder/translations/*.ts
 Copyright: UnionTech Software Technology Co., Ltd.
 License: LGPL-3.0-or-later
 
@@ -34,7 +34,7 @@ Copyright: None
 License: CC0-1.0
 
 # xml toml json conf yaml
-Files: src/*.xml .clog.toml configs/*.json src/*conf src/*.yaml com.deepin.dde-grand-search.dde-control-center-setting.conf .tx/config com.deepin.dde.control-center.gschema.xml files/dde-control-center.conf.in
+Files: src/*.xml .clog.toml configs/*.json src/*conf *.sh src/*.yaml  .tx/config .tx/transifex.yaml tools/dde-login-reminder/dde-login-reminder.desktop
 Copyright: None
 License: CC0-1.0
 
