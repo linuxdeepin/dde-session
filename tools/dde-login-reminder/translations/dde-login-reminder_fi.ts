@@ -4,22 +4,22 @@
     <message>
         <location filename="../main.cpp" line="86"/>
         <source>Login Reminder</source>
-        <translation type="unfinished"/>
+        <translation>Kirjautumisen muistutus</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="94"/>
         <source>Your password will expire in %1 days</source>
-        <translation type="unfinished"/>
+        <translation>Salasanasi vanhenee %1 päivän kuluttua</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="98"/>
         <source>%1 login failures since the last successful login</source>
-        <translation type="unfinished"/>
+        <translation>%1 virhettä edellisen onnistuneen kirjautumisen jälkeen</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="107"/>
         <source>Login time: %1</source>
-        <translation type="unfinished"/>
+        <translation>Kirjautumisaika: %1</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="108"/>
