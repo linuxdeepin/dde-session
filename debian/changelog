@@ -1,3 +1,63 @@
+dde-session (2.0.11) unstable; urgency=medium
+
+  * [skip CI] i18n: Translate dde-login-reminder.ts in gl_ES
+  * [skip CI] i18n: Translate dde-login-reminder.ts in zh_TW
+  * [skip CI] i18n: Translate dde-login-reminder.ts in sl
+  * [skip CI] i18n: Translate dde-login-reminder.ts in th
+  * [skip CI] i18n: Translate dde-login-reminder.ts in zh_HK
+  * [skip CI] i18n: Translate dde-login-reminder.ts in nl
+  * [skip CI] i18n: Translate dde-login-reminder.ts in pa
+  * [skip CI] i18n: Translate dde-login-reminder.ts in pl
+  * [skip CI] i18n: Translate dde-login-reminder.ts in az
+  * [skip CI] i18n: Translate dde-login-reminder.ts in tzm
+  * [skip CI] i18n: Translate dde-login-reminder.ts in de
+  * [skip CI] i18n: Translate dde-login-reminder.ts in en_GB
+  * [skip CI] i18n: Translate dde-login-reminder.ts in da
+  * [skip CI] i18n: Translate dde-login-reminder.ts in sk
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ug
+  * [skip CI] i18n: Translate dde-login-reminder.ts in it
+  * [skip CI] i18n: Translate dde-login-reminder.ts in bg
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ka
+  * [skip CI] i18n: Translate dde-login-reminder.ts in pt
+  * [skip CI] i18n: Translate dde-login-reminder.ts in lt
+  * [skip CI] i18n: Translate dde-login-reminder.ts in pt_BR
+  * [skip CI] i18n: Translate dde-login-reminder.ts in si
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ne
+  * [skip CI] i18n: Translate dde-login-reminder.ts in et
+  * [skip CI] i18n: Translate dde-login-reminder.ts in uk
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ja
+  * [skip CI] i18n: Translate dde-login-reminder.ts in en_AU
+  * [skip CI] i18n: Translate dde-login-reminder.ts in hu
+  * [skip CI] i18n: Translate dde-login-reminder.ts in sr
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ca
+  * [skip CI] i18n: Translate dde-login-reminder.ts in hr
+  * [skip CI] i18n: Translate dde-login-reminder.ts in el
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ko
+  * [skip CI] i18n: Translate dde-login-reminder.ts in vi
+  * [skip CI] i18n: Translate dde-login-reminder.ts in es
+  * [skip CI] i18n: Translate dde-login-reminder.ts in hi_IN
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ar
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ru
+  * [skip CI] i18n: Translate dde-login-reminder.ts in kk
+  * [skip CI] i18n: Translate dde-login-reminder.ts in en_US
+  * [skip CI] i18n: Translate dde-login-reminder.ts in mn
+  * [skip CI] i18n: Translate dde-login-reminder.ts in fr
+  * [skip CI] i18n: Translate dde-login-reminder.ts in bo
+  * [skip CI] i18n: Translate dde-login-reminder.ts in id
+  * [skip CI] i18n: Translate dde-login-reminder.ts in tr
+  * [skip CI] i18n: Translate dde-login-reminder.ts in cs
+  * [skip CI] i18n: Translate dde-login-reminder.ts in fi
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ms
+  * [skip CI] i18n: Translate dde-login-reminder.ts in fa
+  * [skip CI] i18n: Translate dde-login-reminder.ts in ro
+  * [skip CI] i18n: Translate dde-login-reminder.ts in sq
+  * [skip CI] i18n: Translate dde-login-reminder.ts in kab
+  * [skip CI] i18n: Translate dde-login-reminder.ts in zh_CN
+  * chore: update REUSE license file patterns
+  * feat: enhance login reminder with configurable settings
+
+ -- fuleyi <fuleyi@uniontech.com>  Thu, 04 Dec 2025 19:12:07 +0800
+
 dde-session (2.0.10) unstable; urgency=medium
 
   * feat: exec auto start service after quick-login unlocked
