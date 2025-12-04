@@ -40,17 +40,17 @@
     <message>
         <location filename="../main.cpp" line="176"/>
         <source>Your password has expired. Please change it immediately.</source>
-        <translation type="unfinished"/>
+        <translation>Salasanasi on vanhentunut. Vaihda se välittömästi.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="177"/>
         <source>Your password has expired!</source>
-        <translation type="unfinished"/>
+        <translation>Salasanasi on vanhentunut!</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="178"/>
         <source>For security reasons, please change your password immediately.</source>
-        <translation type="unfinished"/>
+        <translation>Turvallisuuden takia vaihda salasanasi välittömästi.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="181"/>
