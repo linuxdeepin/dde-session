@@ -35,12 +35,12 @@
         <location filename="../main.cpp" line="170"/>
         <location filename="../main.cpp" line="182"/>
         <source>Password Expiration Warning</source>
-        <translation type="unfinished"/>
+        <translation>Avís de venciment de la contrasenya</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="176"/>
         <source>Your password has expired. Please change it immediately.</source>
-        <translation type="unfinished"/>
+        <translation>La contrasenya ha caducat. Si us plau, canvieu-la immediatament.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="177"/>
