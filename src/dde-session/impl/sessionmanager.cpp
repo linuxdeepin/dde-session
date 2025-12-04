@@ -484,7 +484,7 @@ void SessionManager::RequestSuspend()
 void SessionManager::SetLocked(bool lock)
 {
     // 仅允许dde-lock进程调用
-    QString cmdLine = QString("/proc/%1/cmdline").arg(connection().interface()->servicePid(message().service()));
+    QString cmdLine = QString("/proc/%1/cmdline").arg(connection().interface()->servicePid(message().service()).value());
     QFile file(cmdLine);
 
     // NOTE: 如果以deepin-turbo进行加速启动，这里是不准确的，可能需要判断desktop文件的全路径，不过deepin-turbo后续应该会放弃支持
