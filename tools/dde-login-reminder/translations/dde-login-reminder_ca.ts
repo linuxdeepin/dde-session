@@ -9,7 +9,7 @@
     <message>
         <location filename="../main.cpp" line="94"/>
         <source>Your password will expire in %1 days</source>
-        <translation>La contrasenya vencerà d&apos;aquí a %1 dies.</translation>
+        <translation>La contrasenya caducarà d&apos;aquí a %1 dies.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="98"/>
@@ -60,12 +60,12 @@
     <message>
         <location filename="../main.cpp" line="183"/>
         <source>Your password will expire in %1 days.</source>
-        <translation type="unfinished"/>
+        <translation>La contrasenya caducarà d&apos;aquí a %1 dies.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="184"/>
         <source>Please change your password as soon as possible.</source>
-        <translation type="unfinished"/>
+        <translation>Si us plau, canvieu la contrasenya tan aviat com sigui possible.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="206"/>
