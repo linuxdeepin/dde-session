@@ -35,17 +35,17 @@
         <location filename="../main.cpp" line="170"/>
         <location filename="../main.cpp" line="182"/>
         <source>Password Expiration Warning</source>
-        <translation type="unfinished"/>
+        <translation>Ostrzeżenie wygaśnięcia hasła</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="176"/>
         <source>Your password has expired. Please change it immediately.</source>
-        <translation type="unfinished"/>
+        <translation>Twoje hasło wygasło. Zmień je niezwłocznie.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="177"/>
         <source>Your password has expired!</source>
-        <translation type="unfinished"/>
+        <translation>Twoje hasło wygasło!</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="178"/>
