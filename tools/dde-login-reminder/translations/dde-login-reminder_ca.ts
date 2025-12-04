@@ -14,22 +14,22 @@
     <message>
         <location filename="../main.cpp" line="98"/>
         <source>%1 login failures since the last successful login</source>
-        <translation>%d errors d&apos;entrada des de la darrera obertura de sessió</translation>
+        <translation>%1 errors d&apos;entrada des de la darrera obertura de sessió</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="107"/>
         <source>Login time: %1</source>
-        <translation type="unfinished"/>
+        <translation>Hora d&apos;entrada: %1</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="108"/>
         <source>Last login: %1</source>
-        <translation type="unfinished"/>
+        <translation>Darrera entrada: %1</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="116"/>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>Detalls</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="170"/>
