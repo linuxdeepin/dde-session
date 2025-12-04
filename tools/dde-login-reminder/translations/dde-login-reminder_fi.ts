@@ -60,12 +60,12 @@
     <message>
         <location filename="../main.cpp" line="183"/>
         <source>Your password will expire in %1 days.</source>
-        <translation type="unfinished"/>
+        <translation>Salasanasi vanhenee %1 päivän kuluttua.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="184"/>
         <source>Please change your password as soon as possible.</source>
-        <translation type="unfinished"/>
+        <translation>Vaihda salasanasi mahdollisimman pian.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="206"/>
