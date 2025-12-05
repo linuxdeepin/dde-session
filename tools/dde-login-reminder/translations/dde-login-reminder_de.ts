@@ -50,17 +50,17 @@
     <message>
         <location filename="../main.cpp" line="178"/>
         <source>For security reasons, please change your password immediately.</source>
-        <translation type="unfinished"/>
+        <translation>Bitte ändern Sie aus Sicherheitsgründen ihr Passwort jetzt gleich.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="181"/>
         <source>Your password will expire in %1 days. Please change it soon.</source>
-        <translation type="unfinished"/>
+        <translation>Ihr Passwort läuft in %1 Tagen ab, bitte ändern Sie es bald.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="183"/>
         <source>Your password will expire in %1 days.</source>
-        <translation type="unfinished"/>
+        <translation>Ihr Passwort wird in %1 Tagen ablaufen.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="184"/>
