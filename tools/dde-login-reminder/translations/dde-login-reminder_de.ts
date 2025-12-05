@@ -65,7 +65,7 @@
     <message>
         <location filename="../main.cpp" line="184"/>
         <source>Please change your password as soon as possible.</source>
-        <translation type="unfinished"/>
+        <translation>Bitte ändern Sie ihr Passwort so bald wie möglich.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="206"/>
