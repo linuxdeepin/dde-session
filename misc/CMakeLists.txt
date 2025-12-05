@@ -21,9 +21,3 @@ install(
 
 install(FILES ${XSESSION} DESTINATION /etc/X11/Xsession.d/)
 install(FILES ${PROFILE} DESTINATION /etc/profile.d)
-
-# Install dconf configuration files
-dtk_add_config_meta_files(
-    APPID org.deepin.dde.session
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/dconf/org.deepin.dde.session.json
-)
