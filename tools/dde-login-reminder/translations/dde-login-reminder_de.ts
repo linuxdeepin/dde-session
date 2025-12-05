@@ -4,17 +4,17 @@
     <message>
         <location filename="../main.cpp" line="86"/>
         <source>Login Reminder</source>
-        <translation type="unfinished"/>
+        <translation>Anmeldeerinnerung</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="94"/>
         <source>Your password will expire in %1 days</source>
-        <translation type="unfinished"/>
+        <translation>Ihr Passwort wird in %1 Tagen ablaufen</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="98"/>
         <source>%1 login failures since the last successful login</source>
-        <translation type="unfinished"/>
+        <translation>%1 fehlgeschlagene Anmeldungen seit der letzten erfolgreichen Anmeldung</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="107"/>
