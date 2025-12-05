@@ -40,12 +40,12 @@
     <message>
         <location filename="../main.cpp" line="176"/>
         <source>Your password has expired. Please change it immediately.</source>
-        <translation type="unfinished"/>
+        <translation>Ihr Passwort ist abgelaufen, bitte ändern Sie es jetzt gleich.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="177"/>
         <source>Your password has expired!</source>
-        <translation type="unfinished"/>
+        <translation>Ihr Passwort ist abgelaufen!</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="178"/>
