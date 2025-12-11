@@ -1,3 +1,13 @@
+dde-session (2.0.12) unstable; urgency=medium
+
+  * feat: 移除dde-login-reminder, 迁移到dde-session-ui中
+  * chore: convert .reuse/dep5 to REUSE.toml
+  * i18n: [Transifex] Updates for project Deepin Desktop Environment
+    (#176)
+  * fix(sessionmanager): adapt QString::arg usage for Qt 6.10.1
+
+ -- YeShanShan <yeshanshan@uniontech.com>  Thu, 11 Dec 2025 20:30:48 +0800
+
 dde-session (2.0.11) unstable; urgency=medium
 
   * [skip CI] i18n: Translate dde-login-reminder.ts in gl_ES
