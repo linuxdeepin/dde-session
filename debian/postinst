@@ -1,0 +1,13 @@
+#!/bin/sh
+
+case "$1" in
+    configure)        
+        # Set CAP_SYS_RESOURCE capability on dde-oom-score-adj
+        # This allows it to adjust oom_score_adj for monitored services
+        if [ -x /usr/bin/dde-oom-score-adj ]; then
+            setcap cap_sys_resource=ep /usr/bin/dde-oom-score-adj || true
+        fi
+    ;;
+esac
+
+#DEBHELPER#

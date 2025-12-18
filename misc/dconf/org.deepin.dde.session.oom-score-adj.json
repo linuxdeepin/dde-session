@@ -1,0 +1,16 @@
+{
+  "magic": "dsg.config.meta",
+  "version": "1.0",
+  "contents": {
+    "monitorServices": {
+      "value": ["dde-session-manager.service","dde-session@x11.service"],
+      "serial": 0,
+      "flags": ["global"],
+      "name": "monitorServices",
+      "name[zh_CN]": "OOM 分数调整监控服务列表",
+      "description": "List of systemd services to monitor for OOM score adjustment",
+      "permissions": "readonly",
+      "visibility": "private"
+    }
+  }
+}
