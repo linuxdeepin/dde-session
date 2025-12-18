@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=DDE OOM Score Adjuster
+Comment=Adjust OOM score for critical DDE services
+Exec=/usr/bin/dde-oom-score-adj
+Terminal=false
+NoDisplay=true

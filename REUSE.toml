@@ -22,7 +22,7 @@ SPDX-FileCopyrightText = "UnionTech Software Technology Co., Ltd."
 SPDX-License-Identifier = "LGPL-3.0-or-later"
 
 [[annotations]]
-path = ["dbus/**.service", "systemd/**", "tools/**.service"]
+path = ["dbus/**.service", "systemd/**", "tools/**.service", "tools/**.desktop"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "UnionTech Software Technology Co., Ltd."
 SPDX-License-Identifier = "LGPL-3.0-or-later"

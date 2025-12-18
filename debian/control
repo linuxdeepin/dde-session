@@ -5,6 +5,7 @@ Maintainer: Deepin Packages Builder <packages@deepin.com>
 Build-Depends:
  cmake,
  debhelper-compat (= 11),
+ libcap-ng-dev,
  libdtk6core-dev,
  libdtk6core-bin,
  libglib2.0-dev,
