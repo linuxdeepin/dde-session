@@ -1,3 +1,9 @@
+dde-session (2.0.14) unstable; urgency=medium
+
+  * fix: Avoid autostart service being executed twice
+
+ -- zhaoyingzhen <zhaoyingzhen@uniontech.com>  Fri, 19 Dec 2025 14:24:23 +0800
+
 dde-session (2.0.13) unstable; urgency=medium
 
   * feat: add OOM score adjustment tool for critical DDE services
