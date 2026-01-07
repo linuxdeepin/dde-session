@@ -1,3 +1,9 @@
+dde-session (2.0.15) unstable; urgency=medium
+
+  * chore: add dde-session-core.target dependency to shutdown sequence
+
+ -- zhangkun <zhangkun2@uniontech.com>  Wed, 07 Jan 2026 10:00:06 +0800
+
 dde-session (2.0.14) unstable; urgency=medium
 
   * fix: Avoid autostart service being executed twice
