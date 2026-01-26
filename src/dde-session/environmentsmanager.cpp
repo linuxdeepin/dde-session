@@ -73,14 +73,21 @@ void EnvironmentsManager::init()
 
 void EnvironmentsManager::createGeneralEnvironments()
 {
+    QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
     double scaleFactor = 1.0;
-    QDBusInterface dbusInterface("org.deepin.dde.XSettings1", "/org/deepin/dde/XSettings1",
+
+    if (sessionType == "x11") {
+        QDBusInterface dbusInterface("org.deepin.dde.XSettings1", "/org/deepin/dde/XSettings1",
         "org.deepin.dde.XSettings1", QDBusConnection::sessionBus());
-    if (dbusInterface.isValid()) {
-        QDBusReply<double> scaleFactorReply = dbusInterface.call("GetScaleFactor");
-        if (scaleFactorReply.isValid()) {
-            scaleFactor = scaleFactorReply.value();
+        if (dbusInterface.isValid()) {
+            QDBusReply<double> scaleFactorReply = dbusInterface.call("GetScaleFactor");
+            if (scaleFactorReply.isValid()) {
+                scaleFactor = scaleFactorReply.value();
+            }
         }
+    } else {
+        // TODO: wayland环境下在这里通过xsettings获取是不合理的，此时xsettings服务还没有启动，并且也无法启动（没有DISPLAY，xwayland此时没有启动）
+        // 且 wayland 此时也无法连接，无法通过协议获取，后续考虑其他方式获取，这里仅影响双击时两次点击坐标的冗余量的设置
     }
 
     auto envs = QProcessEnvironment::systemEnvironment();
@@ -94,7 +101,6 @@ void EnvironmentsManager::createGeneralEnvironments()
     m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
     m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
 
-    QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
     if (sessionType == "x11") {
         m_envMap.insert("QT_QPA_PLATFORM", "dxcb;xcb");
     } else if (sessionType == "wayland") {
