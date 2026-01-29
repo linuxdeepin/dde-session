@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Tools)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set (CMAKE_CXX_STANDARD 11)

@@ -15,6 +15,7 @@ set(QT_VERSION_MAJOR 6)
 set(DTK_VERSION_MAJOR 6)
 
 find_package(DtkBuildHelper REQUIRED)
+find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Tools)
 
 macro(install_symlink filepath wantsdir)
     file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/link/${wantsdir}/)
