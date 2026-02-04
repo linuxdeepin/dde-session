@@ -2,6 +2,9 @@
 Description=dde-version-checker service (after quick login)
 CollectMode=inactive-or-failed
 
+# only in quick login mode
+ConditionEnvironment=DDE_QUICKLOGIN=true
+
 [Service]
 Type=simple
 ExecStart=/usr/bin/dde-version-checker
