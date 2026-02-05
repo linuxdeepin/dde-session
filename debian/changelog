@@ -1,3 +1,9 @@
+dde-session (2.0.17) unstable; urgency=medium
+
+  * fix: avoid error messages when service condition checks fail
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 05 Feb 2026 19:26:25 +0800
+
 dde-session (2.0.16) unstable; urgency=medium
 
   * fix: resolve dconfig installation issue
