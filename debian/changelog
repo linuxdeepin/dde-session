@@ -1,3 +1,9 @@
+dde-session (2.0.18) unstable; urgency=medium
+
+  * fix: change gnome-keyring-daemon startup order
+
+ -- zhangkun <zhangkun2@uniontech.com>  Fri, 27 Feb 2026 15:49:03 +0800
+
 dde-session (2.0.17) unstable; urgency=medium
 
   * fix: avoid error messages when service condition checks fail
