@@ -17,9 +17,6 @@
      <method name="CanSuspend">
           <arg type="b" direction="out" name="result"></arg>
      </method>
-     <method name="ForceLogout"></method>
-     <method name="ForceReboot"></method>
-     <method name="ForceShutdown"></method>
     <method name="GetInhibitors">
         <arg name="Inhibitors" type="ao" direction="out"></arg>
     </method>

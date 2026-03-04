@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2021 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -49,9 +49,6 @@ public Q_SLOTS:
     bool CanReboot();
     bool CanShutdown();
     bool CanSuspend();
-    void ForceLogout();
-    void ForceReboot();
-    void ForceShutdown();
     QList<QDBusObjectPath> GetInhibitors();
     uint Inhibit(const QString &appId, uint topLevelXid, const QString &reason, uint flags);
     bool IsInhibited (uint flags);
