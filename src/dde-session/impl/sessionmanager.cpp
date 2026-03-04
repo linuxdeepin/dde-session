@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2021 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -289,24 +289,6 @@ bool SessionManager::CanSuspend()
     return canSuspend == "yes";
 }
 
-void SessionManager::ForceLogout()
-{
-    qDebug() << "force logout";
-
-    prepareLogout(true);
-    clearCurrentTty();
-    doLogout();
-}
-
-void SessionManager::ForceReboot()
-{
-    reboot(true);
-}
-
-void SessionManager::ForceShutdown()
-{
-    shutdown(true);
-}
 /**
  * @brief SessionManager::GetInhibitors 遍历得到 Inhibitor 的路径列表，Inhibitor 是操作拦截器的意思，可以阻止一些由 flags 指定的操作。
  * @return ArrayofObjectPath: 返回一个包含 Inhibitors 路径名的数组
@@ -451,12 +433,12 @@ void SessionManager::RequestLogout()
 
 void SessionManager::RequestReboot()
 {
-    reboot(false);
+    reboot(true);
 }
 
 void SessionManager::RequestShutdown()
 {
-    shutdown(false);
+    shutdown(true);
 }
 
 void SessionManager::RequestSuspend()
@@ -517,11 +499,18 @@ void SessionManager::prepareShutdown(bool force)
 {
     stopSogouIme();
     stopBAMFDaemon();
-
-    if (!force)
-        preparePlayShutdownSound();
-
+    preparePlayShutdownSound();
     stopPulseAudioService();
+
+    if (force) {
+        // 直接停止session,默认不会等待应用程序准备完成，强制关机
+        EXEC_COMMAND("/usr/bin/dde-am"
+                 , QStringList()
+                 << "-c"
+                 << "/usr/libexec/dde-session-ctl"
+                 << "--"
+                 << "--shutdown");
+    }
 }
 
 void SessionManager::clearCurrentTty()
