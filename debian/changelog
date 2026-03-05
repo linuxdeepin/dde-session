@@ -1,3 +1,9 @@
+dde-session (2.0.19) unstable; urgency=medium
+
+  * fix: improve shutdown logic and update copyright year
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 05 Mar 2026 20:44:25 +0800
+
 dde-session (2.0.18) unstable; urgency=medium
 
   * fix: change gnome-keyring-daemon startup order
