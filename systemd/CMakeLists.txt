@@ -7,6 +7,10 @@ configure_file(dde-session-exit-task.service.in
 configure_file(dde-session-shutdown.service.in
                dde-session-shutdown.service
                @ONLY)
+configure_file(dde-keyring.service.in
+               dde-keyring.service
+               @ONLY)
+
 
 set(SERVICES
     dde-session-initialized.target
@@ -15,6 +19,7 @@ set(SERVICES
     dde-session-core.target
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-exit-task.service
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-shutdown.service
+    ${CMAKE_CURRENT_BINARY_DIR}/dde-keyring.service
     dde-session-shutdown.target
     dde-session.target
 )
@@ -25,6 +30,8 @@ set(DDE_SESSION_PRE_WANTS
     dde-session-pre.target.wants/dde-session@x11.service
     dde-session-pre.target.wants/dde-quick-login@x11.service
 )
+
+
 
 # dde-session-core.target.wants - core desktop components
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-core.target.wants/)
