@@ -1,0 +1,21 @@
+[Unit]
+Description=Deepin Keyring Service (GNOME Keyring + Whitebox Client)
+Documentation=man:gnome-keyring-daemon(1)
+# Start after D-Bus session socket is available (set up by pam_systemd.so)
+After=dbus.socket
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c '\
+    if [ -x /usr/bin/gnome-keyring-daemon ]; then \
+        echo "start gnome-keyring-daemon with components secrets,pkcs11,ssh"; \
+        /usr/bin/gnome-keyring-daemon --start --components=secrets,pkcs11,ssh; \
+    fi; \
+    if [ -x /usr/bin/deepin-keyring-whitebox ] && [ -z "$XRDP_SESSION" ]; then \
+        echo "start deepin-keyring-whitebox client"; \
+        /usr/bin/deepin-keyring-whitebox --opt-client=waitfifonotify & \
+    fi'
+Restart=no
+TimeoutStartSec=180
