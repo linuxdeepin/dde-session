@@ -1,3 +1,9 @@
+dde-session (2.0.20) unstable; urgency=medium
+
+  * fix: prevent whitebox keyring from blocking xrdp remote login
+
+ -- zhangkun <zhangkun2@uniontech.com>  Fri, 13 Mar 2026 09:38:52 +0800
+
 dde-session (2.0.19) unstable; urgency=medium
 
   * fix: improve shutdown logic and update copyright year
