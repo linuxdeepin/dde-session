@@ -142,5 +142,6 @@ private:
     org::freedesktop::DBus *m_DBusInter;
 
     QMap<uint, Inhibitor *> m_inhibitorMap;
+    bool m_inCallRequestLock;
 };
 #endif // SESSIONMANAGER_H
