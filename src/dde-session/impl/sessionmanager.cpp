@@ -16,6 +16,8 @@
 #include <QJsonDocument>
 #include <QProcess>
 #include <QFile>
+#include <QDBusPendingCall>
+#include <QDBusPendingCallWatcher>
 
 #include <unistd.h>
 #include <signal.h>
@@ -79,6 +81,7 @@ SessionManager::SessionManager(QObject *parent)
     , m_systemd1ManagerInter(new org::freedesktop::systemd1::Manager("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus(), this))
     , m_DBusInter(new org::freedesktop::DBus("org.freedesktop.DBus", "/org/freedesktop/DBus", QDBusConnection::sessionBus(), this))
     , m_isVM(detectVirtualMachine())
+    , m_inCallRequestLock(false)
 {
     initConnections();
 
@@ -415,11 +418,20 @@ void SessionManager::RequestHibernate()
 
 void SessionManager::RequestLock()
 {
-    QDBusInterface inter("org.deepin.dde.LockFront1", "/org/deepin/dde/LockFront1", "org.deepin.dde.LockFront1", QDBusConnection::sessionBus(), this);
-    const QDBusMessage &msg = inter.call("Show");
-    if (!msg.errorName().isEmpty()) {
-        qWarning() << "failed to lock, error: " << msg.errorMessage();
-    }
+    QDBusInterface inter("org.deepin.dde.LockFront1", "/org/deepin/dde/LockFront1", "org.deepin.dde.LockFront1", QDBusConnection::sessionBus());
+    
+    // 使用异步调用方式防止当前线程阻塞
+    QDBusPendingCall async = inter.asyncCall("Show");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(async, this);
+    connect(watcher, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
+        QDBusPendingReply<> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "failed to lock, async error: " << reply.error().message();
+        }
+        
+        m_inCallRequestLock = false;
+        watcher->deleteLater();
+    });
 }
 
 void SessionManager::RequestLogout()
@@ -910,7 +922,7 @@ void SessionManager::handleLoginSessionLocked()
 {
     qDebug() << "login session locked." << locked();
     // 在特殊情况下，比如用 dde-switchtogreeter 命令切换到 greeter, 即切换到其他 tty
-    // 前端(登录界面和锁屏界面)已绑定锁定信号进行了处理，此处只需更新Locked属性。
+    // 此时同步的 DBus RequestLock 方法不能立即返回，需要使用异步调用避免阻塞主线程。
 
     // 如果已经锁定，则立即返回
     if (locked()) {
@@ -918,8 +930,16 @@ void SessionManager::handleLoginSessionLocked()
         return;
     }
 
-    m_locked = true;
-    emitLockChanged(true);
+    // 防止短时间内多次同时调用 RequestLock
+    if (m_inCallRequestLock) {
+        qDebug() << "handleLoginSessionLocked inCall is true, return";
+        return;
+    }
+    
+    m_inCallRequestLock = true;
+    
+    qDebug() << "handleLoginSessionLocked call RequestLock begin (async)";
+    RequestLock();
 }
 
 void SessionManager::handleLoginSessionUnlocked()
