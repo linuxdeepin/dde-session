@@ -100,6 +100,7 @@ private:
     void setDPMSMode(bool on);
 
     void handleOSSignal();
+    void watchXConnection();
 
     void shutdown(bool force);
     void reboot(bool force);
