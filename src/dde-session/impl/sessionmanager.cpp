@@ -18,9 +18,11 @@
 #include <QFile>
 #include <QDBusPendingCall>
 #include <QDBusPendingCallWatcher>
+#include <QSocketNotifier>
 
 #include <unistd.h>
 #include <signal.h>
+#include <xcb/xcb.h>
 
 #define MASK_SERVICE(service) \
 {\
@@ -541,7 +543,38 @@ void SessionManager::init()
     startAtSpiService();
     startObexService();
 
+    if (!Utils::IS_WAYLAND_DISPLAY) {
+        watchXConnection();
+    }
+
     qInfo() << "session manager init finished";
+}
+
+void SessionManager::watchXConnection()
+{
+    xcb_connection_t *conn = xcb_connect(nullptr, nullptr);
+    if (xcb_connection_has_error(conn)) {
+        qWarning() << "watchXConnection: failed to connect to X server";
+        xcb_disconnect(conn);
+        return;
+    }
+
+    int fd = xcb_get_file_descriptor(conn);
+    auto *notifier = new QSocketNotifier(fd, QSocketNotifier::Read, this);
+    connect(notifier, &QSocketNotifier::activated, this, [=]() {
+        // 排空所有待处理事件
+        xcb_generic_event_t *ev;
+        while ((ev = xcb_poll_for_event(conn)) != nullptr) {
+            free(ev);
+        }
+        // 若连接已断开则触发登出
+        if (xcb_connection_has_error(conn)) {
+            qWarning() << "X connection closed, logging out";
+            notifier->setEnabled(false);
+            xcb_disconnect(conn);
+            doLogout();
+        }
+    });
 }
 
 void SessionManager::stopSogouIme()

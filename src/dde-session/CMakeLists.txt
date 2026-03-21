@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+# SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -14,6 +14,7 @@ pkg_check_modules(GIO2 REQUIRED IMPORTED_TARGET gio-2.0)
 pkg_check_modules(XCURSOR REQUIRED IMPORTED_TARGET xcursor)
 pkg_check_modules(XFIXES REQUIRED IMPORTED_TARGET xfixes)
 pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
+pkg_check_modules(XCB REQUIRED IMPORTED_TARGET xcb)
 
 # dbus adaptor
 qt_add_dbus_adaptor(ADAPTER_SOURCES
@@ -91,6 +92,7 @@ target_link_libraries(dde-session
     PkgConfig::XCURSOR
     PkgConfig::XFIXES
     PkgConfig::X11
+    PkgConfig::XCB
 )
 
 target_include_directories(dde-session PUBLIC
