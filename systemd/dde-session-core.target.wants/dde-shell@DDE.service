@@ -14,20 +14,12 @@ Before=dde-session-core.target
 Requires=dbus.socket
 After=dbus.socket
 
-#FIXME: maybe AM is invalid
-# old AM
-Wants=org.deepin.dde.Application1.Manager.service
-After=org.deepin.dde.Application1.Manager.service
-# new AM
+# AM
 Wants=org.desktopspec.ApplicationManager1.service
-After=org.desktopspec.ApplicationManager1.service
-
-# No longer needed. Just a dependency of some of dde-shell's plugins.
-# Wants=org.dde.session.Daemon1.service
-# After=org.dde.session.Daemon1.service
 
 [Service]
-Type=simple
+Type=dbus
+BusName=org.deepin.dde.Dock1
 ExecStart=/usr/bin/dde-shell -C %I --serviceName=org.deepin.dde.shell -d org.deepin.ds.desktop
 TimeoutStartSec=infinity
 Slice=session.slice
