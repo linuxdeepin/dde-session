@@ -1,3 +1,10 @@
+dde-session (2.0.23) unstable; urgency=medium
+
+  * perf: optimize systemd services startup and cleanup dependencies
+  * feat: add dde session boot time and memory analysis tool
+
+ -- zhangkun <zhangkun2@uniontech.com>  Fri, 24 Apr 2026 09:58:22 +0800
+
 dde-session (2.0.22) unstable; urgency=medium
 
   * fix: add X connection monitoring for session logout
