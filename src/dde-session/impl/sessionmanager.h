@@ -91,6 +91,8 @@ private:
     void stopBAMFDaemon();
     void stopRedshift();
     void stopDock();
+    bool killUnitProcesses(const QString &unit, int signal);
+    void stopAppSlice();
     void disconnectAudioDevices();
 
     void preparePlayShutdownSound();
