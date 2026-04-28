@@ -174,6 +174,7 @@ void SessionManager::prepareLogout(bool force)
     stopRedshift();
     stopObexService();
     stopDock();
+    stopAppSlice();
 
     // 防止注销时，蓝牙音频设置没有断开连接
     disconnectAudioDevices();
@@ -513,6 +514,7 @@ void SessionManager::prepareShutdown(bool force)
 {
     stopSogouIme();
     stopBAMFDaemon();
+    stopAppSlice();
     preparePlayShutdownSound();
     stopPulseAudioService();
 
@@ -687,6 +689,22 @@ void SessionManager::stopDock()
 {
     STOP_SERVICE(DDE_DOCK_SERVICE);
     VIEW_SERVICE(DDE_DOCK_SERVICE);
+}
+
+bool SessionManager::killUnitProcesses(const QString &unit, int signal)
+{
+    auto reply = m_systemd1ManagerInter->KillUnit(unit, "all", signal);
+    if (reply.isError()) {
+        qWarning() << "failed to kill unit:" << unit << ", error:" << reply.error().name();
+        return false;
+    }
+
+    return true;
+}
+
+void SessionManager::stopAppSlice()
+{
+    killUnitProcesses(APP_SLICE, SIGKILL);
 }
 
 void SessionManager::disconnectAudioDevices()
