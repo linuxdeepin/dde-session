@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2021 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +10,8 @@
 #include <QProcess>
 #include <QDebug>
 #include <QDBusInterface>
+
+#include <DConfig>
 
 EnvironmentsManager::EnvironmentsManager()
 {
@@ -77,13 +79,20 @@ void EnvironmentsManager::createGeneralEnvironments()
     double scaleFactor = 1.0;
 
     if (sessionType == "x11") {
-        QDBusInterface dbusInterface("org.deepin.dde.XSettings1", "/org/deepin/dde/XSettings1",
-        "org.deepin.dde.XSettings1", QDBusConnection::sessionBus());
-        if (dbusInterface.isValid()) {
-            QDBusReply<double> scaleFactorReply = dbusInterface.call("GetScaleFactor");
-            if (scaleFactorReply.isValid()) {
-                scaleFactor = scaleFactorReply.value();
-            }
+        // FIXME: 首次启动桌面时 Xsettings可能尚未计算出推荐缩放比例（由 xsettings 服务计算），
+        // 此时获取的值可能为默认值 1.0。但为了避免 D-Bus 同步调用阻塞启动流程（阻塞时间600ms左右），此处优先使用配置中的持久化值。
+        auto config = DTK_CORE_NAMESPACE::DConfig::create("org.deepin.dde.daemon", "org.deepin.XSettings");
+        if (config && config->isValid()) {
+            scaleFactor = config->value("scale-factor", 1.0).toDouble();
+            qInfo() << "scale factor: " << scaleFactor;
+        }
+
+        if (config) {
+            config->deleteLater();
+        }
+
+        if (scaleFactor < 1.0) {
+            scaleFactor = 1.0;
         }
     } else {
         // TODO: wayland环境下在这里通过xsettings获取是不合理的，此时xsettings服务还没有启动，并且也无法启动（没有DISPLAY，xwayland此时没有启动）
