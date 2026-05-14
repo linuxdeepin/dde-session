@@ -1,3 +1,9 @@
+dde-session (2.0.24) unstable; urgency=medium
+
+  * perf: optimize startup time by reading scale factor from config
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 14 May 2026 20:03:21 +0800
+
 dde-session (2.0.23) unstable; urgency=medium
 
   * perf: optimize systemd services startup and cleanup dependencies
