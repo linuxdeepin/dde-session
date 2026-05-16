@@ -102,6 +102,8 @@ private:
     void watchXConnection();
 
     void shutdown(bool force);
+    void setTlpMode(const QString &mode);
+    void recoverySystemPowerMode();
     void reboot(bool force);
 
     // 主动触发DBus的PropertiesChanged信息，否则调用方无法监听属性变化

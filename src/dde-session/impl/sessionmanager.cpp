@@ -19,12 +19,17 @@
 #include <QDBusPendingCallWatcher>
 #include <QSocketNotifier>
 #include <DConfig>
+#include <QTimer>
 
 #include <unistd.h>
 #include <signal.h>
 #include <xcb/xcb.h>
 
 using namespace Dtk::Core;
+
+static const QString Performance = QStringLiteral("performance");
+static const QString PowerSave = QStringLiteral("powersave");
+static const QString LowBattery = QStringLiteral("lowBattery");
 
 #define MASK_SERVICE(service) \
 {\
@@ -125,6 +130,14 @@ void SessionManager::initConnections()
     // Manually calling this interface will change the default default.
     const bool active = m_login1SessionInter->active();
     Q_UNUSED(active)
+
+    connect(m_login1ManagerInter, &org::freedesktop::login1::Manager::PrepareForSleep, [=](bool sleep) {
+        qDebug() << "system is preparing for sleep: " << sleep;
+        if (!sleep) {
+            // 唤醒后恢复之前的电源模式
+            recoverySystemPowerMode();
+        }
+    });
 
     connect(m_login1SessionInter, &org::freedesktop::login1::Session::ActiveChanged, [=](bool active) {
         qDebug() << "session active status changed to:" << active;
@@ -396,6 +409,7 @@ bool SessionManager::Register(const QString &id)
 
 void SessionManager::RequestHibernate()
 {
+    setTlpMode(Performance);
     QDBusPendingReply<> reply = m_login1ManagerInter->Hibernate(false);
     if (reply.isError()) {
         qWarning() << "failed to hibernate, error: " << reply.error().name();
@@ -439,11 +453,13 @@ void SessionManager::RequestLogout()
 
 void SessionManager::RequestReboot()
 {
+    setTlpMode(Performance);
     reboot(true);
 }
 
 void SessionManager::RequestShutdown()
 {
+    setTlpMode(Performance);
     shutdown(true);
 }
 
@@ -454,6 +470,8 @@ void SessionManager::RequestSuspend()
         setDPMSMode(false);
         return;
     }
+
+    setTlpMode(Performance);
 
     QDBusPendingReply<> reply = m_login1ManagerInter->Suspend(false);
     if (reply.isError()) {
@@ -530,6 +548,10 @@ void SessionManager::init()
     if (!Utils::IS_WAYLAND_DISPLAY) {
         watchXConnection();
     }
+    
+    QTimer::singleShot(0, this, [this] { 
+        recoverySystemPowerMode(); 
+    });
 
     qInfo() << "session manager init finished";
 }
@@ -843,6 +865,71 @@ void SessionManager::handleOSSignal()
     signal(SIGABRT, sig_crash);
     signal(SIGTERM, sig_crash);
     signal(SIGSEGV, sig_crash);
+}
+
+void SessionManager::setTlpMode(const QString &mode)
+{
+    qInfo() << "setTlpMode mode:" << mode;
+    QDBusInterface inter("org.deepin.dde.Power1", "/org/deepin/dde/Power1", "org.deepin.dde.Power1", QDBusConnection::systemBus());
+    inter.setTimeout(3000); // 3秒超时，防止关机流程被阻塞
+    QDBusMessage reply = inter.call("SetTlpMode", mode);
+    if (reply.type() == QDBusMessage::ErrorMessage) {
+        qWarning() << "SetTlpMode failed:" << reply.errorMessage();
+    }
+}
+
+void SessionManager::recoverySystemPowerMode()
+{
+    qInfo() << "recoverySystemPowerMode";
+    QDBusInterface inter("org.deepin.dde.Power1", "/org/deepin/dde/Power1",
+                         "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+
+    // 获取 TlpMode
+    QDBusMessage tlpMsg = inter.call("Get", "org.deepin.dde.Power1", "TlpMode");
+    QString tlpMode;
+    if (tlpMsg.type() == QDBusMessage::ReplyMessage) {
+        tlpMode = tlpMsg.arguments().value(0).value<QDBusVariant>().variant().toString();
+    } else {
+        qWarning() << "Get DBus property TlpMode failed:" << tlpMsg.errorMessage();
+        return;
+    }
+
+    // 获取 Mode
+    QDBusMessage modeMsg = inter.call("Get", "org.deepin.dde.Power1", "Mode");
+    QString mode;
+    if (modeMsg.type() == QDBusMessage::ReplyMessage) {
+        mode = modeMsg.arguments().value(0).value<QDBusVariant>().variant().toString();
+    } else {
+        qWarning() << "Get DBus property Mode failed:" << modeMsg.errorMessage();
+        return;
+    }
+
+    qInfo() << "DBus property of TlpMode:" << tlpMode << ", Mode:" << mode;
+
+    if (mode == tlpMode)
+        return;
+
+    // 如果目标是节能模式，检查电池状态决定是否需要切换到低电量模式
+    if (mode == PowerSave) {
+        QDBusMessage batteryMsg = inter.call("Get", "org.deepin.dde.Power1", "HasBattery");
+        if (batteryMsg.type() == QDBusMessage::ReplyMessage) {
+            bool hasBattery = batteryMsg.arguments().value(0).value<QDBusVariant>().variant().toBool();
+            if (!hasBattery) {
+                setTlpMode(mode);
+                return;
+            }
+
+            QDBusMessage capacityMsg = inter.call("Get", "org.deepin.dde.Power1", "BatteryCapacity");
+            if (capacityMsg.type() == QDBusMessage::ReplyMessage) {
+                double batteryCapacity = capacityMsg.arguments().value(0).value<QDBusVariant>().variant().toDouble();
+                if (batteryCapacity <= 20.0) {
+                    mode = LowBattery;
+                }
+            }
+        }
+    }
+
+    setTlpMode(mode);
 }
 
 void SessionManager::shutdown(bool force)
