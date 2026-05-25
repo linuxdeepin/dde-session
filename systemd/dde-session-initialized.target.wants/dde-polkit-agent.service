@@ -14,6 +14,7 @@ Before=dde-session-initialized.target
 [Service]
 Type=simple
 ExecStart=/usr/lib/polkit-1-dde/dde-polkit-agent
+ExecStartPre=-/usr/libexec/dde-thp-disable
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=on-failure
