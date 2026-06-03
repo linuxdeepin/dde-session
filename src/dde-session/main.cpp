@@ -146,14 +146,15 @@ int main(int argc, char *argv[])
             int pid = CurSessionPid.toInt(&ok);
             qInfo() << "dde-session pid: " << CurSessionPid;
             if (ok && pid > 0) {
-                // TODO session在主线程中创建，在这里直接使用是有问题的
-                session->setSessionPid(pid); // TODO: session别直接调用
-                session->setSessionPath();
+                QMetaObject::invokeMethod(session, [session, pid]() {
+                    session->setSessionPid(pid);
+                    session->setSessionPath();
+                }, Qt::QueuedConnection);
             }
         }
-        fifo->deleteLater();
+        delete fifo;
         qInfo() << "pipe read finish, app exit.";
-        qApp->quit();
+        QMetaObject::invokeMethod(qApp, &QCoreApplication::quit, Qt::QueuedConnection);
     });
     sd_notify(0, "READY=1");
 
