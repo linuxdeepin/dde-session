@@ -5,7 +5,6 @@
 #include "sessionmanager.h"
 #include "inhibitor.h"
 #include "inhibitor1adaptor.h"
-#include "utils/dconf.h"
 #include "utils/utils.h"
 #include "org_deepin_dde_Audio1_Sink.h"
 
@@ -19,10 +18,13 @@
 #include <QDBusPendingCall>
 #include <QDBusPendingCallWatcher>
 #include <QSocketNotifier>
+#include <DConfig>
 
 #include <unistd.h>
 #include <signal.h>
 #include <xcb/xcb.h>
+
+using namespace Dtk::Core;
 
 #define MASK_SERVICE(service) \
 {\
@@ -138,10 +140,6 @@ void SessionManager::initConnections()
         }
     });
 
-    if (Dconf::GetValue("com.deepin.dde.startdde", "", "swap-sched-enabled", QVariant(false)).toBool()) {
-        initSwapSched();
-    }
-
     connect(m_DBusInter, &org::freedesktop::DBus::NameOwnerChanged,
             [ = ](const QString &name, const QString &oldOwner, const QString &newOwner) {
         if (newOwner == "" && oldOwner != "" && name == oldOwner && name.startsWith(":")) {
@@ -154,12 +152,6 @@ void SessionManager::initConnections()
                                          , "Lock", this, SLOT(handleLoginSessionLocked()));
     QDBusConnection::systemBus().connect("org.freedesktop.login1", m_login1UserInter->display().path.path(), "org.freedesktop.login1.Session"
                                          , "Unlock", this, SLOT(handleLoginSessionUnlocked()));
-}
-
-void SessionManager::initSwapSched()
-{
-    qDebug() << "init swap sched";
-    // TODO
 }
 
 void SessionManager::prepareLogout(bool force)
@@ -461,14 +453,6 @@ void SessionManager::RequestSuspend()
         QThread::sleep(1);
         setDPMSMode(false);
         return;
-    }
-
-    // 使用窗管接口进行黑屏处理
-    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", QVariant(false))) {
-        QDBusInterface inter("org.kde.KWin", "/BlackScreen", "org.kde.kwin.BlackScreen", QDBusConnection::sessionBus(), this);
-        const QDBusMessage &msg = inter.call("setActive", true);
-        if (!msg.errorName().isEmpty())
-            qWarning() << "failed to create blackscreen, error: " << msg.errorName();
     }
 
     QDBusPendingReply<> reply = m_login1ManagerInter->Suspend(false);
@@ -835,7 +819,8 @@ void SessionManager::playLogoutSound()
 void SessionManager::setDPMSMode(bool on)
 {
     if (Utils::IS_WAYLAND_DISPLAY) {
-        EXEC_COMMAND("dde_wldpms", QStringList() << "-s" << (on ? "On" : "Off"));
+        // TODO
+        // EXEC_COMMAND("dde_wldpms", QStringList() << "-s" << (on ? "On" : "Off"));
     } else {
         // TODO 可通过Xlib发送对应请求实现此功能
         EXEC_COMMAND("xset", QStringList() << "dpms" << "force" << (on ? "on" : "off"));
@@ -870,11 +855,6 @@ void SessionManager::shutdown(bool force)
         qWarning() << "failed to power off, error: " << reply.error().name();
     }
 
-    //NOTE: do we need it anymore?
-    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", false)) {
-        setDPMSMode(false);
-    }
-
     qApp->quit();
 }
 
@@ -886,11 +866,6 @@ void SessionManager::reboot(bool force)
     QDBusPendingReply<> reply = m_login1ManagerInter->Reboot(false);
     if (reply.isError()) {
         qWarning() << "failed to reboot, error: " << reply.error().name();
-    }
-
-    // NOTE: do we need it anymore?
-    if (Dconf::SetValue("com.deepin.dde.startdde", "", "quick-black-screen", QVariant(false))) {
-        setDPMSMode(false);
     }
 
     qApp->quit();

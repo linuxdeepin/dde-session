@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2021 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -133,18 +133,6 @@ int main(int argc, char *argv[])
         OthersManager().init();
     });
 
-#if 0 //TODO has no 'com.deepin.dde.startdde' gsetting
-    // cpu iowait状态检测
-    if (Utils::SettingValue("com.deepin.dde.startdde", QByteArray(), "iowait-enabled", false).toBool()) {
-        QtConcurrent::run([] {
-            auto watcher = new IOWaitWatcher;
-            watcher->start();
-        });
-    } else {
-        qInfo() << "iowait watcher disabled";
-    }
-#endif
-    qInfo() << "iowait watcher disabled";
 
     QThreadPool::globalInstance()->start([&session]() {
         qInfo()<< "systemd service pipe thread id: " << QThread::currentThreadId();
