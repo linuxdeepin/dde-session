@@ -71,8 +71,6 @@ add_executable(dde-session
     impl/iowait/iowaitwatcher.cpp
     impl/iowait/xcursor_remap.h
     impl/iowait/xcursor_remap.c
-    ../utils/dconf.h
-    ../utils/dconf.cpp
     ../utils/fifo.h
     ../utils/fifo.cpp
     ../utils/utils.h

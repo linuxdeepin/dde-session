@@ -72,7 +72,6 @@ private:
     ~SessionManager();
 
     void initConnections();
-    void initSwapSched();
     void prepareLogout(bool force);
     void prepareShutdown(bool force);
     void clearCurrentTty();
