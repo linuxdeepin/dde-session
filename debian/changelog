@@ -1,3 +1,10 @@
+dde-session (2.0.25) unstable; urgency=medium
+
+  * fix(dde-session): fix thread safety in FIFO pipe handler
+  * refactor(dde-session): remove Dconf utility and dead code
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 04 Jun 2026 20:07:58 +0800
+
 dde-session (2.0.24) unstable; urgency=medium
 
   * perf: optimize startup time by reading scale factor from config
