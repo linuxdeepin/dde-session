@@ -15,7 +15,8 @@ Wants=org.dde.session.Daemon1.service
 After=org.dde.session.Daemon1.service
 
 [Service]
-Type=simple
+Type=forking
+GuessMainPID=yes
 ExecCondition=/bin/sh -c 'test "$XDG_SESSION_TYPE" != "wayland" || exit 2'
 ExecStart=/usr/bin/dde-lock
 TimeoutStartSec=infinity
