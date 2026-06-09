@@ -426,6 +426,16 @@ void SessionManager::RequestHibernate()
 
 void SessionManager::RequestLock()
 {
+    if (Utils::IS_WAYLAND_DISPLAY) {
+        // On Wayland the lock screen is owned by treeland and driven via logind.
+        // The X11-only LockFront1 (dde-lock) has no provider here, so calling it
+        // would hang on a 120s D-Bus activation timeout. Ask logind to lock.
+        qDebug() << "RequestLock on wayland: ask logind to lock";
+        m_login1SessionInter->Lock();
+        m_inCallRequestLock = false;
+        return;
+    }
+
     QDBusInterface inter("org.deepin.dde.LockFront1", "/org/deepin/dde/LockFront1", "org.deepin.dde.LockFront1", QDBusConnection::sessionBus());
     
     // 使用异步调用方式防止当前线程阻塞
@@ -1025,6 +1035,15 @@ void SessionManager::handleLoginSessionLocked()
         return;
     }
 
+    if (Utils::IS_WAYLAND_DISPLAY) {
+        // On Wayland treeland shows the lock screen on this same logind Lock
+        // signal; only sync local state here (calling RequestLock would loop).
+        qDebug() << "handleLoginSessionLocked on wayland: sync local state";
+        m_locked = true;
+        emitLockChanged(true);
+        return;
+    }
+
     // 防止短时间内多次同时调用 RequestLock
     if (m_inCallRequestLock) {
         qDebug() << "handleLoginSessionLocked inCall is true, return";
@@ -1040,6 +1059,15 @@ void SessionManager::handleLoginSessionLocked()
 void SessionManager::handleLoginSessionUnlocked()
 {
     qDebug() << "login session unlocked.";
+
+    if (Utils::IS_WAYLAND_DISPLAY) {
+        // On Wayland there is no X11 LockFront1 process to kill; only sync state.
+        qDebug() << "handleLoginSessionUnlocked on wayland: sync local state";
+        m_locked = false;
+        emitLockChanged(false);
+        Q_EMIT Unlock();
+        return;
+    }
 
     bool sessionActive = m_login1SessionInter->active();
     if (sessionActive) {
