@@ -19,6 +19,7 @@ Type=forking
 GuessMainPID=yes
 ExecCondition=/bin/sh -c 'test "$XDG_SESSION_TYPE" != "wayland" || exit 2'
 ExecStart=/usr/bin/dde-lock
+ExecStartPre=-/usr/libexec/dde-thp-disable
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=on-failure
