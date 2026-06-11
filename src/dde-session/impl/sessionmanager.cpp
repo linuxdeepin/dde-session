@@ -1080,14 +1080,14 @@ void SessionManager::handleLoginSessionUnlocked()
             org::freedesktop::DBus dbusInter("org.freedesktop.DBus", "/org/freedesktop/DBus", QDBusConnection::sessionBus());
             QDBusPendingReply<QString> ownerReply = dbusInter.GetNameOwner("org.deepin.dde.LockFront1");
             if (ownerReply.isError()) {
-                qWarning() << "failed to get lockFront service owner";
+                qWarning() << "failed to get lockFront service owner" << ", error:" << ownerReply.error();
                 return;
             }
             const QString &owner = ownerReply.value();
 
             QDBusPendingReply<uint> pidReply = dbusInter.GetConnectionUnixProcessID(owner);
             if (pidReply.isError()) {
-                qWarning() << "failed to get lockFront service pid";
+                qWarning() << "failed to get lockFront service pid" << ", error:" << pidReply.error();
                 return;
             }
             uint pid = pidReply.value();
