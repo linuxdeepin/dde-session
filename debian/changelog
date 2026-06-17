@@ -1,3 +1,9 @@
+dde-session (2.0.27) unstable; urgency=medium
+
+  * fix: check multiple paths for dde-lock caller in SetLocked
+
+ -- zhangkun <zhangkun2@uniontech.com>  Wed, 17 Jun 2026 16:37:51 +0800
+
 dde-session (2.0.26) unstable; urgency=medium
 
   * fix: change dde-lock service type from simple to forking
