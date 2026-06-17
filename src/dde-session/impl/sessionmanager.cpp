@@ -496,8 +496,13 @@ void SessionManager::SetLocked(bool lock)
     QFile file(cmdLine);
 
     // NOTE: 如果以deepin-turbo进行加速启动，这里是不准确的，可能需要判断desktop文件的全路径，不过deepin-turbo后续应该会放弃支持
-    if (!file.open(QIODevice::ReadOnly) || !file.readAll().startsWith("/usr/bin/dde-lock")) {
-        qWarning() << "failed to get caller infomation or caller is illegal.";
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "SetLocked: failed to read caller cmdline:" << cmdLine;
+        return;
+    }
+    const QString caller = QString::fromUtf8(file.readAll());
+    if (!caller.startsWith("/usr/bin/dde-lock") && !caller.startsWith("/usr/libexec/deepin/dde-lock")) {
+        qWarning() << "SetLocked: illegal caller:" << caller;
         return;
     }
 
