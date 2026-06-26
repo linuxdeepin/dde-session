@@ -18,6 +18,7 @@ After=dbus.socket
 Type=dbus
 BusName=com.deepin.dde.desktop
 ExecStart=/usr/bin/dde-shell -p %I
+ExecStartPre=-/usr/libexec/dde-thp-disable
 TimeoutStartSec=infinity
 Slice=session.slice
 Restart=always
