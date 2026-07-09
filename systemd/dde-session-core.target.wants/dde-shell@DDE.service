@@ -21,7 +21,7 @@ Wants=org.desktopspec.ApplicationManager1.service
 Type=dbus
 BusName=org.deepin.dde.Dock1
 ExecStart=/usr/bin/dde-shell -C %I --serviceName=org.deepin.dde.shell -d org.deepin.ds.desktop
-TimeoutStartSec=infinity
+TimeoutStartSec=10s
 Slice=session.slice
 Restart=always
 RestartSec=1s
