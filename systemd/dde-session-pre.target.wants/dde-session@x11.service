@@ -7,6 +7,8 @@ ConditionEnvironment=XDG_SESSION_TYPE=%I
 PartOf=dde-session-pre.target
 Before=dde-session-pre.target
 
+After=org.deepin.dde.XSettings1.service
+
 # Limit startup frequency more than the default
 StartLimitIntervalSec=15s
 StartLimitBurst=3
