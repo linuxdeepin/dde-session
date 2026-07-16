@@ -1,3 +1,9 @@
+dde-session (2.0.29) unstable; urgency=medium
+
+  * fix: add timeout for dde-shell services to prevent startup failure
+
+ -- zhangkun <zhangkun2@uniontech.com>  Thu, 16 Jul 2026 21:45:05 +0800
+
 dde-session (2.0.28) unstable; urgency=medium
 
   * chore: Sync by
