@@ -25,7 +25,8 @@ Architecture: any
 Depends:
  jq,
  sed (>= 4),
- dde-daemon (>= 6.1.26),
+ dde-daemon (>= 6.1.102),
+ deepin-security-loader,
  libdtkdata (>=5.7.18),
  libdtk6core (>=6.0.38),
  systemd,
