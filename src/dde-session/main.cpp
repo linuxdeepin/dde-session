@@ -13,7 +13,6 @@
 
 #include <DLog>
 
-#include <systemd/sd-daemon.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/prctl.h>
@@ -28,6 +27,7 @@
 #include "impl/iowait/iowaitwatcher.h"
 #include "environmentsmanager.h"
 #include "othersmanager.h"
+#include "securityloaderhelper.h"
 
 DCORE_USE_NAMESPACE
 
@@ -77,7 +77,11 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
 
     QCommandLineOption systemd(QStringList{"d", "systemd-service", "wait for systemd services"});
+    QCommandLineOption fd1(QStringLiteral("fd1"), QStringLiteral("security loader request pipe"), QStringLiteral("fd"));
+    QCommandLineOption fd2(QStringLiteral("fd2"), QStringLiteral("security loader response pipe"), QStringLiteral("fd"));
     parser.addOption(systemd);
+    parser.addOption(fd1);
+    parser.addOption(fd2);
     parser.process(app);
 
     DLogManager::registerJournalAppender();
@@ -112,6 +116,15 @@ int main(int argc, char *argv[])
     }
 
     /* ---systemd-service--- */
+    QString securityLoaderError;
+    const SecurityLoaderInfo loaderInfo = parseSecurityLoaderFds(parser.isSet(fd1), parser.value(fd1),
+                                                                 parser.isSet(fd2), parser.value(fd2),
+                                                                 &securityLoaderError);
+    const QString systemBusUniqueName = systemBusConnection().baseService();
+    if (loaderInfo.loaded && !authorizePowerCaller(loaderInfo, systemBusUniqueName, &securityLoaderError)) {
+        qCritical() << "Security loader handshake failed:" << securityLoaderError;
+        return EXIT_FAILURE;
+    }
 
     auto* session = new Session(&app);
     new Session1Adaptor(session);
@@ -156,7 +169,6 @@ int main(int argc, char *argv[])
         qInfo() << "pipe read finish, app exit.";
         QMetaObject::invokeMethod(qApp, &QCoreApplication::quit, Qt::QueuedConnection);
     });
-    sd_notify(0, "READY=1");
 
     return app.exec();
 }
