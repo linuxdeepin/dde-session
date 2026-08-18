@@ -1,3 +1,9 @@
+dde-session (2.0.31) unstable; urgency=medium
+
+  * feat: integrate security loader into session startup
+
+ -- zhangkun <zhangkun2@uniontech.com>  Tue, 18 Aug 2026 13:26:31 +0800
+
 dde-session (2.0.30) unstable; urgency=medium
 
   * fix(systemd): delay startup after XSettings1 service for xsettings
