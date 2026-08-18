@@ -110,6 +110,16 @@ void EnvironmentsManager::createGeneralEnvironments()
     m_envMap.insert("XDG_CURRENT_DESKTOP", "DDE");
     m_envMap.insert("QT_DBL_CLICK_DIST", QString::number(15 * scaleFactor));
 
+    {
+        QString xdgConfigDirs = m_envMap.value("XDG_CONFIG_DIRS");
+        if (xdgConfigDirs.isEmpty()) {
+            xdgConfigDirs = QStringLiteral("/etc/xdg:/usr/share/kwin/xdg");
+        } else {
+            xdgConfigDirs += QStringLiteral(":/usr/share/kwin/xdg");
+        }
+        m_envMap.insert("XDG_CONFIG_DIRS", xdgConfigDirs);
+    }
+
     if (sessionType == "x11") {
         m_envMap.insert("QT_QPA_PLATFORM", "dxcb;xcb");
     } else if (sessionType == "wayland") {
