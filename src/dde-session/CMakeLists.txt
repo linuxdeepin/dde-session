@@ -55,8 +55,6 @@ file(GLOB_RECURSE DBUS_TYPES ${PROJECT_SOURCE_DIR}/dbus/types/*)
 
 add_executable(dde-session
     main.cpp
-    securityloaderhelper.h
-    securityloaderhelper.cpp
     environmentsmanager.h
     environmentsmanager.cpp
     othersmanager.h
@@ -102,23 +100,3 @@ target_include_directories(dde-session PUBLIC
 )
 
 install(TARGETS dde-session DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(TARGETS dde-session DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/deepin)
-
-configure_file(${PROJECT_SOURCE_DIR}/misc/dde-session-loader-wrapper.in
-    ${PROJECT_BINARY_DIR}/misc/dde-session-loader-wrapper
-    @ONLY)
-
-install(PROGRAMS ${PROJECT_BINARY_DIR}/misc/dde-session-loader-wrapper
-    DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/deepin)
-
-if(BUILD_TESTING)
-    add_executable(securityloaderhelper_test
-        securityloaderhelper_test.cpp
-        securityloaderhelper.cpp
-    )
-    target_link_libraries(securityloaderhelper_test
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::DBus
-    )
-    add_test(NAME securityloaderhelper_test COMMAND securityloaderhelper_test)
-endif()

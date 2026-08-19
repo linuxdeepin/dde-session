@@ -17,8 +17,6 @@ set(DTK_VERSION_MAJOR 6)
 find_package(DtkBuildHelper REQUIRED)
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Tools)
 
-include(CTest)
-
 macro(install_symlink filepath wantsdir)
     file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/link/${wantsdir}/)
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_INSTALL_PREFIX}/lib/systemd/user/${filepath} ${PROJECT_BINARY_DIR}/link/${wantsdir}/${filepath})

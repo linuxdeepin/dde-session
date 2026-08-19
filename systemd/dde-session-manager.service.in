@@ -9,10 +9,9 @@ CollectMode=inactive-or-failed
 Before=dde-session-pre.target
 
 [Service]
-Type=forking
-GuessMainPID=yes
-ExecStart=@CMAKE_INSTALL_FULL_LIBEXECDIR@/deepin/dde-session-loader-wrapper --systemd-service
-ExecStartPost=-/usr/bin/gdbus wait --session --timeout=30 org.deepin.dde.Session1
+Type=notify
+NotifyAccess=main
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/dde-session --systemd-service
 ExecStopPost=@CMAKE_INSTALL_FULL_LIBEXECDIR@/dde-session-ctl --shutdown
 ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemctl --user unset-environment XDG_CURRENT_DESKTOP'
 ExecStopPost=-/bin/sh -c 'test "$SERVICE_RESULT" != "exec-condition" && systemctl --user unset-environment DISPLAY'
