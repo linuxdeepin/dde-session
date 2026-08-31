@@ -29,4 +29,5 @@ fi
 
 # Fallback: direct launch without loader (no polkit-free authorization)
 log_to_journal "Fallback: launching directly without security loader"
-exec "$REAL_BINARY" "$@"
+"$REAL_BINARY" "$@" &
+exit 0
