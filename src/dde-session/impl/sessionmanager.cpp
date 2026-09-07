@@ -947,8 +947,28 @@ void SessionManager::recoverySystemPowerMode()
     setTlpMode(mode);
 }
 
+void SessionManager::startBlackWidget()
+{
+    if (Utils::IS_WAYLAND_DISPLAY) {
+        qInfo() << "skip start blackwidget on wayland";
+        return;
+    }
+
+    qInfo() << "start dde-blackwidget nodbus for shutdown";
+    QDBusPendingReply<QDBusObjectPath> reply =
+        m_systemd1ManagerInter->StartUnit(QStringLiteral("dde-blackwidget-nodbus.service"),
+                                          QStringLiteral("replace"));
+    reply.waitForFinished();
+    if (reply.isError()) {
+        qWarning() << "failed to start dde-blackwidget-nodbus.service:"
+                   << reply.error().name()
+                   << reply.error().message();
+    }
+}
+
 void SessionManager::shutdown(bool force)
 {
+    startBlackWidget();
     prepareShutdown(force);
     clearCurrentTty();
 
@@ -962,6 +982,7 @@ void SessionManager::shutdown(bool force)
 
 void SessionManager::reboot(bool force)
 {
+    startBlackWidget();
     prepareShutdown(force);
     clearCurrentTty();
 
