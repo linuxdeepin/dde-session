@@ -98,6 +98,8 @@ private:
     void playLogoutSound();
     void setDPMSMode(bool on);
 
+    void startBlackWidget();
+
     void handleOSSignal();
     void watchXConnection();
 
