@@ -23,6 +23,7 @@
 
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
 #include <xcb/xcb.h>
 
 using namespace Dtk::Core;
@@ -630,7 +631,10 @@ void SessionManager::launchAutostopScripts()
         const QFileInfoList &fileInfos = scriptDir.entryInfoList(QDir::Files);
         for (auto info : fileInfos) {
             qDebug() << "[autostop] script will be launched: " << info.absoluteFilePath();
-            EXEC_COMMAND("/bin/bash", QStringList() << "-c" << info.absoluteFilePath());
+            int exitCode = QProcess::execute("/bin/bash", QStringList() << "-c" << info.absoluteFilePath());
+            if (exitCode != 0) {
+                qWarning() << "failed to run autostop script:" << info.absoluteFilePath();
+            }
         }
     }
 }
@@ -871,6 +875,11 @@ void SessionManager::setDPMSMode(bool on)
 [[noreturn]] void sig_crash(int sig) {
     Q_UNUSED(sig);
     SessionManager::instance()->doLogout();
+    // exit() 不会调用栈上局部对象（如 EXEC_COMMAND 宏创建的 QProcess）的析构函数，
+    // 若信号在 waitForFinished(-1) 阻塞期间到达，子进程退出后将因未被回收而成为僵尸进程。
+    // waitpid 是异步信号安全函数，WNOHANG 保证不阻塞：仅回收已退出的子进程，
+    // 仍在运行的子进程在 dde-session 退出后会被 reparent 到 init/systemd 回收。
+    while (waitpid(-1, nullptr, WNOHANG) > 0) { }
     exit(-1);
 };
 
