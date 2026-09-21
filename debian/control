@@ -33,5 +33,7 @@ Depends:
  systemd,
  ${misc:Depends},
  ${shlibs:Depends},
+Breaks:
+ dde-shell (<< 2.0.55),
 Description: dde session module
   dde-session is used for launching DDE components systemd service project.

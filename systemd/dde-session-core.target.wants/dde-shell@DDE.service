@@ -17,11 +17,19 @@ After=dbus.socket
 # AM
 Wants=org.desktopspec.ApplicationManager1.service
 
+# Tray plugin loader services (owned by dde-tray-loader). BusName is acquired
+# only after the QML DockCompositor is ready, and Before= here ensures the
+# dockplugin Wayland socket exists before the loaders start.
+Wants=dde-tray-loader.target
+Before=dde-tray-loader.target
+
 [Service]
 Type=dbus
 BusName=org.deepin.dde.Dock1
+# A new dock lifetime gets a fresh retry budget for its tray plugin groups.
+ExecStartPre=-/usr/bin/systemctl --user reset-failed dde-tray-loader@*.service
 ExecStart=/usr/bin/dde-shell -C %I --serviceName=org.deepin.dde.shell -d org.deepin.ds.desktop
-TimeoutStartSec=10s
+TimeoutStartSec=30s
 Slice=session.slice
 Restart=always
 RestartSec=1s
