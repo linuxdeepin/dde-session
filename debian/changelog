@@ -1,3 +1,9 @@
+dde-session (2.0.33) unstable; urgency=medium
+
+  * feat: order tray loader services behind the dock and reset retries
+
+ -- zhangkun <zhangkun2@uniontech.com>  Tue, 22 Sep 2026 20:47:06 +0800
+
 dde-session (2.0.32) unstable; urgency=medium
 
   * fix: keep Type=forking behavior in dde-session-loader-wrapper
