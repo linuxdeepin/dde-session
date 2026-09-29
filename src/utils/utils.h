@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2021 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,7 +15,6 @@
 #define PIPEWIRE_PULSE_SOCKET "pipewire-pulse.socket"
 #define BAMFDAEMON_SERVICE "bamfdaemon.service"
 #define REDSHIFT_SERVICE "redshift.service"
-#define DDE_DOCK_SERVICE "dde-dock.service"
 
 // sound
 #define SOUND_EFFECT_SCHEMA "com.deepin.dde.sound-effect"

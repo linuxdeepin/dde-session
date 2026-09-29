@@ -89,7 +89,6 @@ private:
     void stopPulseAudioService();
     void stopBAMFDaemon();
     void stopRedshift();
-    void stopDock();
     void disconnectAudioDevices();
 
     void preparePlayShutdownSound();
@@ -100,7 +99,6 @@ private:
 
     void startBlackWidget();
 
-    void handleOSSignal();
     void watchXConnection();
 
     void shutdown(bool force);

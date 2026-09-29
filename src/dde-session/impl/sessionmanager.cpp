@@ -22,7 +22,6 @@
 #include <QTimer>
 
 #include <unistd.h>
-#include <signal.h>
 #include <xcb/xcb.h>
 
 using namespace Dtk::Core;
@@ -93,9 +92,6 @@ SessionManager::SessionManager(QObject *parent)
     , m_inCallRequestLock(false)
 {
     initConnections();
-
-    // 处理异常退出的情况
-    handleOSSignal();
 
     auto appearanceConfig = DConfig::create("org.deepin.dde.appearance", "org.deepin.dde.appearance", QString(), this);
     m_soundTheme = appearanceConfig->value("Sound_Theme", "deepin").toString();
@@ -178,7 +174,6 @@ void SessionManager::prepareLogout(bool force)
     stopBAMFDaemon();
     stopRedshift();
     stopObexService();
-    stopDock();
 
     // 防止注销时，蓝牙音频设置没有断开连接
     disconnectAudioDevices();
@@ -704,12 +699,6 @@ void SessionManager::stopRedshift()
     VIEW_SERVICE(REDSHIFT_SERVICE);
 }
 
-void SessionManager::stopDock()
-{
-    STOP_SERVICE(DDE_DOCK_SERVICE);
-    VIEW_SERVICE(DDE_DOCK_SERVICE);
-}
-
 void SessionManager::disconnectAudioDevices()
 {
     auto msg = QDBusInterface("org.deepin.dde.Bluetooth1"
@@ -862,24 +851,6 @@ void SessionManager::setDPMSMode(bool on)
         // TODO 可通过Xlib发送对应请求实现此功能
         EXEC_COMMAND("xset", QStringList() << "dpms" << "force" << (on ? "on" : "off"));
     }
-}
-
-/**
- * @brief sig_crash 意外退出时处理一些事情
- * @param sig 收到的异常退出信号类型
- */
-[[noreturn]] void sig_crash(int sig) {
-    Q_UNUSED(sig);
-    SessionManager::instance()->doLogout();
-    exit(-1);
-};
-
-void SessionManager::handleOSSignal()
-{
-    signal(SIGINT,  sig_crash);
-    signal(SIGABRT, sig_crash);
-    signal(SIGTERM, sig_crash);
-    signal(SIGSEGV, sig_crash);
 }
 
 void SessionManager::setTlpMode(const QString &mode)
