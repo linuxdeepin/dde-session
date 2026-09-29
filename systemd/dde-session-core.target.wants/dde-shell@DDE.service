@@ -8,6 +8,9 @@ CollectMode=inactive-or-failed
 Requisite=dde-session-pre.target
 After=dde-session-pre.target
 
+# Start alongside the desktop; neither service waits for the other
+# during startup or shutdown.
+
 PartOf=dde-session-core.target
 Before=dde-session-core.target
 
@@ -17,11 +20,9 @@ After=dbus.socket
 # AM
 Wants=org.desktopspec.ApplicationManager1.service
 
-# Tray plugin loader services (owned by dde-tray-loader). BusName is acquired
-# only after the QML DockCompositor is ready, and Before= here ensures the
-# dockplugin Wayland socket exists before the loaders start.
+# The tray target orders itself after this Type=dbus service, which becomes
+# active once the dock's internal compositor is ready.
 Wants=dde-tray-loader.target
-Before=dde-tray-loader.target
 
 [Service]
 Type=dbus
