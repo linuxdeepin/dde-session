@@ -1,3 +1,9 @@
+dde-session (2.0.34) unstable; urgency=medium
+
+  * fix: avoid signal-handler deadlocks during session shutdown
+
+ -- zhangkun <zhangkun2@uniontech.com>  Mon, 12 Oct 2026 18:19:10 +0800
+
 dde-session (2.0.33) unstable; urgency=medium
 
   * feat: order tray loader services behind the dock and reset retries
