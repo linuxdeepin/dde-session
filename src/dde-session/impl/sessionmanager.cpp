@@ -130,7 +130,7 @@ void SessionManager::initConnections()
     connect(m_login1ManagerInter, &org::freedesktop::login1::Manager::PrepareForSleep, [=](bool sleep) {
         qDebug() << "system is preparing for sleep: " << sleep;
         if (!sleep) {
-            // 唤醒后恢复之前的电源模式
+            // 唤醒后恢复之前的电源模式；只有活动会话才会真正写入
             recoverySystemPowerMode();
         }
     });
@@ -138,7 +138,8 @@ void SessionManager::initConnections()
     connect(m_login1SessionInter, &org::freedesktop::login1::Session::ActiveChanged, [=](bool active) {
         qDebug() << "session active status changed to:" << active;
         if (active) {
-            // 变活跃
+            // 变为活动会话：恢复唤醒时未能处理的电源模式
+            recoverySystemPowerMode();
         } else {
             // 变不活跃
             bool isPreparingForSleep = m_login1ManagerInter->preparingForSleep();
@@ -866,6 +867,10 @@ void SessionManager::setTlpMode(const QString &mode)
 
 void SessionManager::recoverySystemPowerMode()
 {
+    // 电源模式是系统级的，只有活动会话可以恢复，否则会与活动会话冲突
+    if (!m_login1SessionInter->active())
+        return;
+
     qInfo() << "recoverySystemPowerMode";
     QDBusInterface inter("org.deepin.dde.Power1", "/org/deepin/dde/Power1",
                          "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
@@ -900,21 +905,23 @@ void SessionManager::recoverySystemPowerMode()
         QDBusMessage batteryMsg = inter.call("Get", "org.deepin.dde.Power1", "HasBattery");
         if (batteryMsg.type() == QDBusMessage::ReplyMessage) {
             bool hasBattery = batteryMsg.arguments().value(0).value<QDBusVariant>().variant().toBool();
-            if (!hasBattery) {
-                setTlpMode(mode);
-                return;
-            }
-
-            QDBusMessage capacityMsg = inter.call("Get", "org.deepin.dde.Power1", "BatteryCapacity");
-            if (capacityMsg.type() == QDBusMessage::ReplyMessage) {
-                double batteryCapacity = capacityMsg.arguments().value(0).value<QDBusVariant>().variant().toDouble();
-                if (batteryCapacity <= 20.0) {
-                    mode = LowBattery;
+            if (hasBattery) {
+                QDBusMessage capacityMsg = inter.call("Get", "org.deepin.dde.Power1", "BatteryCapacity");
+                if (capacityMsg.type() == QDBusMessage::ReplyMessage) {
+                    double batteryCapacity = capacityMsg.arguments().value(0).value<QDBusVariant>().variant().toDouble();
+                    if (batteryCapacity <= 20.0) {
+                        mode = LowBattery;
+                    }
                 }
             }
         }
     }
 
+    if (mode == tlpMode)
+        return;
+    // 读取属性期间会话可能已变为非活动，等下次激活时再恢复
+    if (!m_login1SessionInter->active())
+        return;
     setTlpMode(mode);
 }
 
