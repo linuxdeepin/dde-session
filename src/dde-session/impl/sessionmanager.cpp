@@ -610,7 +610,8 @@ void SessionManager::stopLangSelector()
                  , QStringList()
                  << "-ef"
                  << "-u"
-                 << QString::number(getuid()) << "/usr/lib/deepin-daemon/langselector"
+                 << QString::number(getuid())
+                 << "^/usr/(lib/deepin-daemon|libexec/deepin)/langselector([[:space:]]|$)"
                  );
 }
 
