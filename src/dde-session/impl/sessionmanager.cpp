@@ -606,11 +606,15 @@ void SessionManager::stopSogouIme()
 void SessionManager::stopLangSelector()
 {
     // TODO 待优化，可以跟随当前用户一同退出
+    // 匹配新旧两条路径的 langselector 进程：
+    // /usr/lib/deepin-daemon/langselector (旧兼容路径)
+    // /usr/libexec/deepin/langselector (新实际路径)
     EXEC_COMMAND("pkill"
                  , QStringList()
                  << "-ef"
                  << "-u"
-                 << QString::number(getuid()) << "/usr/lib/deepin-daemon/langselector"
+                 << QString::number(getuid())
+                 << "^/usr/(lib/deepin-daemon|libexec/deepin)/langselector([[:space:]]|$)"
                  );
 }
 
