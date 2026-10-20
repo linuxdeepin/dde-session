@@ -1,3 +1,9 @@
+dde-session (2.0.35) unstable; urgency=medium
+
+  * fix: restore the power mode from the active session only
+
+ -- zhangkun <zhangkun2@uniontech.com>  Tue, 20 Oct 2026 21:31:18 +0800
+
 dde-session (2.0.34) unstable; urgency=medium
 
   * fix: avoid signal-handler deadlocks during session shutdown
