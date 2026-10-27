@@ -947,10 +947,9 @@ void SessionManager::startBlackWidget()
 void SessionManager::shutdown(bool force)
 {
     startBlackWidget();
+    QDBusPendingReply<> reply = m_login1ManagerInter->PowerOff(false);
     prepareShutdown(force);
     clearCurrentTty();
-
-    QDBusPendingReply<> reply = m_login1ManagerInter->PowerOff(false);
     if (reply.isError()) {
         qWarning() << "failed to power off, error: " << reply.error().name();
     }
@@ -961,10 +960,9 @@ void SessionManager::shutdown(bool force)
 void SessionManager::reboot(bool force)
 {
     startBlackWidget();
+    QDBusPendingReply<> reply = m_login1ManagerInter->Reboot(false);
     prepareShutdown(force);
     clearCurrentTty();
-
-    QDBusPendingReply<> reply = m_login1ManagerInter->Reboot(false);
     if (reply.isError()) {
         qWarning() << "failed to reboot, error: " << reply.error().name();
     }
