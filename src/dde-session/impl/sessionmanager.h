@@ -120,7 +120,7 @@ private Q_SLOTS:
     void handleLoginSessionLocked();
     void handleLoginSessionUnlocked();
 
-signals:
+Q_SIGNALS:
     // signals on dbus
     void LockedChanged(bool locked);
     void Unlock();

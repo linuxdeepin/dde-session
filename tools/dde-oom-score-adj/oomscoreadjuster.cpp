@@ -50,7 +50,7 @@ void OomScoreAdjuster::loadServiceList()
     }
     if (m_watchedServices.isEmpty()) {
         qWarning() << "No services to monitor, exiting immediately";
-        emit handleExit();
+        Q_EMIT handleExit();
         return;
     }
 }
@@ -60,7 +60,7 @@ void OomScoreAdjuster::start()
     // 检查 D-Bus 连接
     if (!m_systemdBus.isConnected()) {
         qWarning() << "D-Bus connection failed, exiting immediately";
-        emit handleExit();
+        Q_EMIT handleExit();
         return;
     }
     
@@ -76,7 +76,7 @@ void OomScoreAdjuster::start()
     if (m_adjustedServices.size() == m_watchedServices.size()) {
         qInfo() << "All services have been adjusted successfully, exiting immediately";
         qInfo() << "Adjusted services:" << m_adjustedServices;
-        emit handleExit();
+        Q_EMIT handleExit();
         return;
     }
     
@@ -333,7 +333,7 @@ void OomScoreAdjuster::checkIfAllServicesAdjusted()
         m_exitTimer->stop();
         
         // 立即退出
-        emit handleExit();
+        Q_EMIT handleExit();
     } else {
         qInfo() << "Waiting for remaining services. Adjusted:" << m_adjustedServices.size() 
                 << "/ Total:" << m_watchedServices.size();
@@ -356,5 +356,5 @@ void OomScoreAdjuster::onExitTimeout()
         qWarning() << "Pending services:" << pending;
     }
     
-    emit handleExit();
+    Q_EMIT handleExit();
 }

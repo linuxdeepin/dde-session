@@ -19,10 +19,10 @@ public:
 
     void start();
 
-signals:
+Q_SIGNALS:
     void sessionLocked(bool locked);
 
-private slots:
+private Q_SLOTS:
     void onTimeout();
     void onLockStatusChanged(bool locked);
 
