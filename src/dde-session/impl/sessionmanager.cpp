@@ -22,6 +22,7 @@
 #include <QTimer>
 
 #include <unistd.h>
+#include <sys/stat.h>
 #include <xcb/xcb.h>
 
 using namespace Dtk::Core;
@@ -617,16 +618,35 @@ void SessionManager::stopLangSelector()
 
 void SessionManager::launchAutostopScripts()
 {
+    const QString userConfigPath =
+        QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first();
+
     QStringList paths;
-    paths.append(QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).first()+ QDir::separator() + "autostop");
+    paths.append(userConfigPath + QDir::separator() + "autostop");
     paths.append("/etc/xdg/autostop");
 
     for (auto path : paths) {
         QDir scriptDir(path);
         const QFileInfoList &fileInfos = scriptDir.entryInfoList(QDir::Files);
         for (auto info : fileInfos) {
+            // 跳过符号链接，防止指向非预期文件
+            if (info.isSymLink()) {
+                qWarning() << "[autostop] skip symlink:" << info.absoluteFilePath();
+                continue;
+            }
+            // 校验属主和权限：禁止 group/other 可写
+            struct stat st;
+            if (lstat(info.absoluteFilePath().toLocal8Bit().constData(), &st) != 0) {
+                qWarning() << "[autostop] lstat failed:" << info.absoluteFilePath();
+                continue;
+            }
+            const uid_t expectedUid = path.startsWith(userConfigPath) ? getuid() : 0;
+            if (st.st_uid != expectedUid || (st.st_mode & (S_IWGRP | S_IWOTH))) {
+                qWarning() << "[autostop] skip unsafe file (owner/permission):" << info.absoluteFilePath();
+                continue;
+            }
             qDebug() << "[autostop] script will be launched: " << info.absoluteFilePath();
-            EXEC_COMMAND("/bin/bash", QStringList() << "-c" << info.absoluteFilePath());
+            EXEC_COMMAND("/bin/bash", QStringList() << info.absoluteFilePath());
         }
     }
 }
