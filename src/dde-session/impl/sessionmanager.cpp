@@ -22,6 +22,7 @@
 #include <QTimer>
 
 #include <unistd.h>
+#include <climits>
 #include <xcb/xcb.h>
 
 using namespace Dtk::Core;
@@ -487,17 +488,18 @@ void SessionManager::RequestSuspend()
 
 void SessionManager::SetLocked(bool lock)
 {
-    // 仅允许dde-lock进程调用
-    QString cmdLine = QString("/proc/%1/cmdline").arg(connection().interface()->servicePid(message().service()).value());
-    QFile file(cmdLine);
-
-    // NOTE: 如果以deepin-turbo进行加速启动，这里是不准确的，可能需要判断desktop文件的全路径，不过deepin-turbo后续应该会放弃支持
-    if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "SetLocked: failed to read caller cmdline:" << cmdLine;
+    // 仅允许dde-lock进程调用，通过 /proc/PID/exe readlink 精确匹配可执行路径
+    // 修复 CWE-290：/proc/PID/cmdline 可被同用户进程伪造，改用 readlink(/proc/PID/exe) 精确匹配
+    pid_t callerPid = connection().interface()->servicePid(message().service()).value();
+    QString exePath = QString("/proc/%1/exe").arg(callerPid);
+    char buf[PATH_MAX] = {0};
+    ssize_t len = readlink(exePath.toUtf8().constData(), buf, sizeof(buf) - 1);
+    if (len <= 0) {
+        qWarning() << "SetLocked: failed to readlink caller exe:" << exePath;
         return;
     }
-    const QString caller = QString::fromUtf8(file.readAll());
-    if (!caller.startsWith("/usr/bin/dde-lock") && !caller.startsWith("/usr/libexec/deepin/dde-lock")) {
+    const QString caller = QString::fromUtf8(buf, len);
+    if (caller != "/usr/bin/dde-lock" && caller != "/usr/libexec/deepin/dde-lock") {
         qWarning() << "SetLocked: illegal caller:" << caller;
         return;
     }
