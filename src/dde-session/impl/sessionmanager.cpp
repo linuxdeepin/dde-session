@@ -488,17 +488,12 @@ void SessionManager::RequestSuspend()
 void SessionManager::SetLocked(bool lock)
 {
     // 仅允许dde-lock进程调用
-    QString cmdLine = QString("/proc/%1/cmdline").arg(connection().interface()->servicePid(message().service()).value());
-    QFile file(cmdLine);
+    uint pid = connection().interface()->servicePid(message().service()).value();
 
-    // NOTE: 如果以deepin-turbo进行加速启动，这里是不准确的，可能需要判断desktop文件的全路径，不过deepin-turbo后续应该会放弃支持
-    if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "SetLocked: failed to read caller cmdline:" << cmdLine;
-        return;
-    }
-    const QString caller = QString::fromUtf8(file.readAll());
-    if (!caller.startsWith("/usr/bin/dde-lock") && !caller.startsWith("/usr/libexec/deepin/dde-lock")) {
-        qWarning() << "SetLocked: illegal caller:" << caller;
+    // 使用 /proc/<PID>/exe 符号链接验证调用者可执行文件路径，避免 cmdline 伪造
+    QString exePath = QFile::symLinkTarget(QString("/proc/%1/exe").arg(pid));
+    if (exePath != "/usr/bin/dde-lock" && exePath != "/usr/libexec/deepin/dde-lock") {
+        qWarning() << "SetLocked: illegal caller exe:" << exePath;
         return;
     }
 
@@ -626,7 +621,11 @@ void SessionManager::launchAutostopScripts()
         const QFileInfoList &fileInfos = scriptDir.entryInfoList(QDir::Files);
         for (auto info : fileInfos) {
             qDebug() << "[autostop] script will be launched: " << info.absoluteFilePath();
-            EXEC_COMMAND("/bin/bash", QStringList() << "-c" << info.absoluteFilePath());
+            if (info.isExecutable()) {
+                EXEC_COMMAND(info.absoluteFilePath(), QStringList());
+            } else {
+                qWarning() << "[autostop] script is not executable, skipping:" << info.absoluteFilePath();
+            }
         }
     }
 }
