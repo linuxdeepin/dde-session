@@ -1,5 +1,7 @@
 project(dde-keyring-checker LANGUAGES C)
 
+add_compile_definitions(QT_NO_KEYWORDS)
+
 set(BIN_NAME dde-keyring-checker)
 
 find_package(PkgConfig REQUIRED)
