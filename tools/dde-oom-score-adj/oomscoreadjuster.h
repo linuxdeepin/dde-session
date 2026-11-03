@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2025-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,13 +25,13 @@ public:
     explicit OomScoreAdjuster(QObject *parent = nullptr);
     ~OomScoreAdjuster();
 
-signals:
+Q_SIGNALS:
     void handleExit();
 
-public slots:
+public Q_SLOTS:
     void start();
 
-private slots:
+private Q_SLOTS:
     void onExitTimeout();
     void onUnitNew(const QString &unitName, const QDBusObjectPath &unitPath);
     void onPropertiesChanged(const QString &interface, const QVariantMap &changedProperties, const QStringList &invalidatedProperties);
