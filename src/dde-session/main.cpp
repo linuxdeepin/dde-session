@@ -36,7 +36,7 @@ int startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QStrin
     QDBusPendingReply<QDBusObjectPath> reply = systemd1.StartUnit(unitName, unitType);
     reply.waitForFinished();
     if (reply.isError()) {
-        qWarning() << "start systemd unit failed:" << unitName;
+        qWarning() << "start systemd unit failed:" << unitName << ", error:" << reply.error();
         return -1;
     }
     qInfo() << "success to start systemd unit:" << unitName << ", job path:" << reply.value().path();
