@@ -3,10 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <stdio.h>
-#include <string.h>
-#include <math.h>
-
-#include <gio/gio.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xcursor/Xcursor.h>
@@ -14,12 +10,12 @@
 
 #include "xcursor_remap.h"
 
-static int xc_remap(char *theme, char *src, char *dst, int size);
+static int xc_remap(const char *src, const char *dst);
 
 static XcursorImages*
 xc_load_images(const char *theme, const char *name, int size)
 {
-    printf("Will load cursor file: %s - %s\n", theme, name);
+    printf("Will load cursor file: %s - %s\n", theme ? theme : "(default)", name);
     return XcursorLibraryLoadImages(name, theme, size);
 }
 
@@ -27,10 +23,6 @@ static void
 xc_change_cursor_by_name(Display *dpy, const char *theme,
                  const char *src, const char* dst, int size)
 {
-    if (size == -1) {
-        size = XcursorGetDefaultSize(dpy);
-    }
-
     // load cursor images
     XcursorImages *dst_images = xc_load_images(theme, dst, size);
     if (!dst_images) {
@@ -53,13 +45,16 @@ xc_change_cursor_by_name(Display *dpy, const char *theme,
 }
 
 static int
-xc_remap(char *theme, char *src, char *dst, int size)
+xc_remap(const char *src, const char *dst)
 {
     Display *dpy = XOpenDisplay(NULL);
     if (!dpy) {
         fprintf(stderr, "Failed to open display\n");
         return -1;
     }
+
+    const char *theme = XcursorGetTheme(dpy);
+    int size = XcursorGetDefaultSize(dpy);
 
     xc_change_cursor_by_name(dpy, theme, src, dst, size);
 
@@ -70,28 +65,9 @@ xc_remap(char *theme, char *src, char *dst, int size)
 int
 xc_left_ptr_to_watch(int enabled)
 {
-    char *theme = "deepin";
-    int size = 24;
-    double scale = 1.0;
-
-    GSettings *s = g_settings_new("com.deepin.xsettings");
-    if (s) {
-        theme = g_settings_get_string(s, "gtk-cursor-theme-name");
-        size = g_settings_get_int(s, "gtk-cursor-theme-size");
-        scale = g_settings_get_double(s, "scale-factor");
-        g_object_unref(s);
-    }
-
-    // if 1.7 < scale < 2, scale = 2
-    int tmp = (int)(trunc((scale+0.3)*10) / 10);
-    if (tmp < 1) {
-        tmp = 1;
-    }
-    size *= tmp;
-
     if (enabled) {
-        return xc_remap(theme, "left_ptr", "left_ptr_watch", size);
+        return xc_remap("left_ptr", "left_ptr_watch");
     } else {
-        return xc_remap(theme, "left_ptr_watch", "left_ptr", size);
+        return xc_remap("left_ptr_watch", "left_ptr");
     }
 }
