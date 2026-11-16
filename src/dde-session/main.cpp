@@ -4,7 +4,10 @@
 
 #include <QCoreApplication>
 #include <QCommandLineParser>
+#include <QDBusError>
 #include <QDBusInterface>
+#include <QEventLoop>
+#include <QScopeGuard>
 #include <QDBusServiceWatcher>
 #include <QElapsedTimer>
 #include <QTimer>
@@ -31,13 +34,16 @@
 
 DCORE_USE_NAMESPACE
 
-int startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QString &unitName, const QString &unitType, bool isWait = false)
+QDBusError startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QString &unitName, const QString &unitType, bool isWait = false)
 {
     QDBusPendingReply<QDBusObjectPath> reply = systemd1.StartUnit(unitName, unitType);
     reply.waitForFinished();
     if (reply.isError()) {
-        qWarning() << "start systemd unit failed:" << unitName;
-        return -1;
+        qWarning() << "start systemd unit failed:" << unitName
+                   << "job mode:" << unitType
+                   << "error name:" << reply.error().name()
+                   << "error message:" << reply.error().message();
+        return reply.error();
     }
     qInfo() << "success to start systemd unit:" << unitName << ", job path:" << reply.value().path();
 
@@ -62,7 +68,49 @@ int startSystemdUnit(org::freedesktop::systemd1::Manager &systemd1, const QStrin
         QObject::disconnect(conn);
     }
 
-    return 0;
+    return {};
+}
+
+static bool startDesktopSession(org::freedesktop::systemd1::Manager &systemd1)
+{
+    QEventLoop waitLoop;
+    bool jobFinished = false;
+    QObject::connect(&systemd1, &org::freedesktop::systemd1::Manager::JobRemoved,
+                     &waitLoop, [&] {
+        jobFinished = true;
+        waitLoop.quit();
+    });
+
+    QDBusPendingReply<> subscribed = systemd1.Subscribe();
+    subscribed.waitForFinished();
+    if (subscribed.isError()) {
+        qWarning() << "failed to subscribe to systemd jobs:" << subscribed.error();
+        return false;
+    }
+    const auto unsubscribe = qScopeGuard([&systemd1] { systemd1.Unsubscribe(); });
+
+    QTimer timeout;
+    timeout.setSingleShot(true);
+    QObject::connect(&timeout, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
+    timeout.start(60000);
+
+    while (timeout.isActive()) {
+        jobFinished = false;
+        // Old shutdown tasks may unset the new login's activation environment.
+        EnvironmentsManager().init();
+        const auto error = startSystemdUnit(systemd1, QStringLiteral("dde-session.target"),
+                                           QStringLiteral("replace"));
+        if (!error.isValid())
+            return true;
+        if (error.name() != QStringLiteral("org.freedesktop.systemd1.TransactionIsDestructive"))
+            return false;
+
+        if (!jobFinished && timeout.isActive())
+            waitLoop.exec();
+    }
+
+    qWarning() << "desktop startup timed out waiting for conflicting jobs";
+    return false;
 }
 
 int main(int argc, char *argv[])
@@ -90,12 +138,13 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
 
-        EnvironmentsManager().init();
-
         QString dmService = "dde-session.target";
         qInfo() << "start dm service:" << dmService;
         org::freedesktop::systemd1::Manager systemdDBus("org.freedesktop.systemd1", "/org/freedesktop/systemd1", QDBusConnection::sessionBus());
-        startSystemdUnit(systemdDBus, dmService, "replace");
+        if (!startDesktopSession(systemdDBus)) {
+            qWarning() << "desktop startup failed; exiting login session";
+            return EXIT_FAILURE;
+        }
 
         QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Session1", QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForUnregistration, &app);
         watcher->connect(watcher, &QDBusServiceWatcher::serviceUnregistered, [&] {
