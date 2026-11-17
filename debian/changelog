@@ -1,3 +1,12 @@
+dde-session (6.2.0) unstable; urgency=medium
+
+  * fix: clean up both LangSelector paths on logout
+  * chore: Sync by
+    https://github.com/linuxdeepin/.github/commit/88d36aea6c90c8d1de4d42
+    c68aebbf72bcb80b1c
+
+ -- zhangkun <zhangkun2@uniontech.com>  Tue, 17 Nov 2026 22:07:31 +0800
+
 dde-session (2.0.35) unstable; urgency=medium
 
   * fix: restore the power mode from the active session only
