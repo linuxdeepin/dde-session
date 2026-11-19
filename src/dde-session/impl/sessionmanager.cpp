@@ -553,6 +553,12 @@ void SessionManager::init()
     qInfo() << "session manager init";
     // TODO recover
 
+    // 获取 login1 Session 控制权，以便后续调用 SetLockedHint 同步锁屏状态
+    QDBusPendingReply<> takeControlReply = m_login1SessionInter->TakeControl(false);
+    if (takeControlReply.isError()) {
+        qWarning() << "failed to take control of login1 session, error:" << takeControlReply.error().name();
+    }
+
     startAtSpiService();
     startObexService();
 
@@ -987,6 +993,12 @@ void SessionManager::emitLockChanged(bool locked)
    arguments.push_back(QStringList());
    msg.setArguments(arguments);
    QDBusConnection::sessionBus().send(msg);
+
+   // 同步锁屏状态到 login1 Session
+   QDBusPendingReply<> reply = m_login1SessionInter->SetLockedHint(locked);
+   if (reply.isError()) {
+       qWarning() << "failed to set login1 LockedHint, error:" << reply.error().name();
+   }
 
    Q_EMIT LockedChanged(locked);
 }
