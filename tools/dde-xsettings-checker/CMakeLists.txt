@@ -6,8 +6,6 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core DBus REQUIRED)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
-pkg_check_modules(GIO2 REQUIRED IMPORTED_TARGET gio-2.0)
 pkg_check_modules(XCURSOR REQUIRED IMPORTED_TARGET xcursor)
 pkg_check_modules(XFIXES REQUIRED IMPORTED_TARGET xfixes)
 pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
@@ -24,8 +22,6 @@ add_executable(${BIN_NAME}
 target_link_libraries(${BIN_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::DBus
-    PkgConfig::GLIB2
-    PkgConfig::GIO2
     PkgConfig::XCURSOR
     PkgConfig::XFIXES
     PkgConfig::X11
