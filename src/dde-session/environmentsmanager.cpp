@@ -53,7 +53,7 @@ void EnvironmentsManager::init()
         QDBusPendingReply<void> replySystemd1 = systemd1.SetEnvironment(envs);
         replySystemd1.waitForFinished();
         if (replySystemd1.isError()) {
-            qWarning() << "failed to set systemd1 envs: " << envs;
+            qWarning() << "failed to set systemd1 envs: " << envs << ", error:" << replySystemd1.error();
         }
 
         // dbus
@@ -66,7 +66,7 @@ void EnvironmentsManager::init()
         QDBusPendingReply<void> replyDbus = dbus.UpdateActivationEnvironment(envInfos);
         replyDbus.waitForFinished();
         if (replyDbus.isError()) {
-            qWarning() << "failed to update dbus envs:" << envInfos;
+            qWarning() << "failed to update dbus envs:" << envInfos << ", error:" << replyDbus.error();
         }
     }
 
@@ -155,7 +155,7 @@ bool EnvironmentsManager::unsetEnv(QString env)
     QDBusPendingReply<void> replyDbus = dbus.UpdateActivationEnvironment(envs);
     replyDbus.waitForFinished();
     if (replyDbus.isError()) {
-        qWarning() << "unset dbus env failed:" << env;
+        qWarning() << "unset dbus env failed:" << env << ", error:" << replyDbus.error();
         return false;
     }
 
