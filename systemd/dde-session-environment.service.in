@@ -1,0 +1,12 @@
+[Unit]
+Description=Set DDE session environment variables early
+RefuseManualStart=yes
+RefuseManualStop=yes
+CollectMode=inactive-or-failed
+
+Before=graphical-session-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=@CMAKE_INSTALL_FULL_LIBEXECDIR@/deepin/dde-session-environment.sh
+Slice=session.slice

@@ -1,0 +1,17 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: 2026 UnionTech Software Technology Co., Ltd.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Set XDG_CURRENT_DESKTOP=DDE early in the systemd user manager and D-Bus
+# activation environments, before graphical-session-pre.target is reached.
+#
+# This ensures that xdg-desktop-portal (the front-end) can discover the DDE
+# portal backend even if it starts before dde-session's full
+# EnvironmentsManager::init() has run, preventing a race where FileChooser
+# and other portal interfaces are missing on cold boot.
+
+rc=0
+systemctl --user set-environment XDG_CURRENT_DESKTOP=DDE || rc=1
+dbus-update-activation-environment XDG_CURRENT_DESKTOP=DDE || rc=1
+exit $rc

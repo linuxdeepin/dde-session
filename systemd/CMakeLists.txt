@@ -10,6 +10,12 @@ configure_file(dde-session-shutdown.service.in
 configure_file(dde-keyring.service.in
                dde-keyring.service
                @ONLY)
+configure_file(dde-session-environment.service.in
+               dde-session-environment.service
+               @ONLY)
+configure_file(dde-session-environment.sh.in
+               dde-session-environment.sh
+               @ONLY)
 
 
 set(SERVICES
@@ -20,10 +26,19 @@ set(SERVICES
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-exit-task.service
     ${CMAKE_CURRENT_BINARY_DIR}/dde-session-shutdown.service
     ${CMAKE_CURRENT_BINARY_DIR}/dde-keyring.service
+    ${CMAKE_CURRENT_BINARY_DIR}/dde-session-environment.service
     dde-session-shutdown.target
     dde-session.target
 )
 install(FILES ${SERVICES} DESTINATION lib/systemd/user/)
+
+# Install the early environment setup script
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/dde-session-environment.sh
+        DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/deepin)
+
+# graphical-session-pre.target.wants - early environment injection
+install(DIRECTORY DESTINATION lib/systemd/user/graphical-session-pre.target.wants/)
+install_symlink(dde-session-environment.service graphical-session-pre.target.wants)
 
 install(DIRECTORY DESTINATION lib/systemd/user/dde-session-pre.target.wants/)
 set(DDE_SESSION_PRE_WANTS

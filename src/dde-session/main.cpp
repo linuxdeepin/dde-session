@@ -90,6 +90,12 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
 
+        // XDG_CURRENT_DESKTOP=DDE is also injected early by
+        // dde-session-environment.service (Before=graphical-session-pre.target)
+        // to prevent a race where xdg-desktop-portal starts before this call.
+        // EnvironmentsManager::init() still runs here to set the full set of
+        // environment variables (QT_QPA_PLATFORM, scale factors, etc.) and to
+        // call qputenv() for the current process.
         EnvironmentsManager().init();
 
         QString dmService = "dde-session.target";
