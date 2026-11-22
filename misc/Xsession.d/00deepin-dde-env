@@ -5,7 +5,7 @@
 # export systemd environment to avoid environment be replaced by dde-session
 # fix https://github.com/linuxdeepin/developer-center/issues/6225
 # the following environment variables need to be excluded, otherwise it will affect the startup of some applications
-EXCLUDED_ENV="XDG_VTNR\|XDG_SESSION_ID\|XDG_SEAT\|XDG_SESSION_TYPE\|XMODIFIERS\|GTK_IM_MODULE\|QT_IM_MODULE\|CLUTTER_IM_MODULE\|SDL_IM_MODULE"
+EXCLUDED_ENV="XDG_VTNR\|XDG_SESSION_ID\|XDG_SEAT\|XDG_SESSION_TYPE\|XDG_CURRENT_DESKTOP\|XMODIFIERS\|GTK_IM_MODULE\|QT_IM_MODULE\|CLUTTER_IM_MODULE\|SDL_IM_MODULE"
 
 eval "$(
 	busctl --json=short --user get-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager Environment |
@@ -61,6 +61,9 @@ if [ "$1" = "/usr/bin/dde-session" ]; then
     fi
     # set qt qpa platform type
     export QT_QPA_PLATFORM="dxcb;xcb"
+    if [ -z "$XDG_CURRENT_DESKTOP" ]; then
+        export XDG_CURRENT_DESKTOP="DDE"
+    fi
     # control qml softwarecontext in loongson-drm
     get_graphics_drivers "driver=loongson-drm"
     if [ $? -eq 0 ];then
