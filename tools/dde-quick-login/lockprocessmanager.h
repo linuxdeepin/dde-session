@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2021 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2021 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,10 +19,10 @@ public:
 
     void start();
 
-signals:
+Q_SIGNALS:
     void sessionLocked(bool locked);
 
-private slots:
+private Q_SLOTS:
     void onTimeout();
     void onLockStatusChanged(bool locked);
 
